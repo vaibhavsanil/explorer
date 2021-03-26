@@ -1,0 +1,4 @@
+// https://www.addsearch.com/blog/how-to-build-a-great-search-ui/
+// https://webapphuddle.com/design-advanced-search-interface-step-step/
+// https://torsaaan.medium.com/the-ui-and-ux-design-of-the-advanced-search-a5a42cfc2f6e
+// https://medium.appbase.io/searchbox-1-0-a-javascript-library-for-building-search-uis-1e93effae2d4

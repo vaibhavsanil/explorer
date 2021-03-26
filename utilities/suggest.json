@@ -1,0 +1,37 @@
+{
+  "suggest": {
+    "text": "",
+    "ocr_text_sugg": {
+      "term": {
+        "field": "ocr_schema_section.ocr_text",
+        "size": 7
+      }
+    },
+    "debate_subject_sugg": {
+      "term": {
+        "field": "debate_subject_kan",
+        "size": 6
+      }
+    },
+    "debate_particip_suggest_eng": {
+      "term": {
+        "field": "debate_participants_eng",
+        "size": 4,
+        "suggest_mode": "always"
+      }
+    },
+
+    "issue_suggest": {
+      "term": {
+        "field": "issues_section_eng",
+        "size": 4
+      }
+    },
+    "issue_suggest_kan": {
+      "term": {
+        "field": "issues_section_kan",
+        "size": 4
+      }
+    }
+  }
+}
