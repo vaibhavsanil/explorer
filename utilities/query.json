@@ -1,44 +1,86 @@
 {
-  "_source": [
-    "assemblyNumber",
-    "sessionNumber",
-    "placeSession",
-    "datesSessions",
-    "sectionType",
-    "startPage",
-    "endPage",
-    "debate_title_subject_eng",
-    "debate_title_subject_kan",
-    "debate_subject_kan",
-    "issues_section_eng",
-    "issues_section_kan",
-    "tags_array_eng",
-    "tags_array_kan",
-    "questioner_name_eng",
-    "questioner_name_kan",
-    "minister_name_eng",
-    "minister_name_kan",
-    "minister_portfolio_eng",
-    "minister_portfolio_kan",
-    "annexure_title",
-    "annexure_start_page",
-    "annexure_end_page",
-    "debate_participants_eng",
-    "debate_participants_kan",
-
-    "debate_section_date"
-  ],
-  "size": 100,
+  "size": 50,
   "min_score": 0.5,
   "query": {
     "bool": {
       "must": [],
-      "filter": {},
-      "should": [],
+      "filter": {
+        "bool": {
+          "must": []
+        }
+      },
+      "should": [
+        {
+          "multi_match": {
+            "query": "",
+            "operator": "and",
+            "fields": [
+              "debate_subject_kan.suggestion^2",
+              "annexure_title.suggestion"
+            ],
+            "fuzziness": 1,
+            "boost": 6
+          }
+        },
+        {
+          "nested": {
+            "path": "ocr_schema_section",
+            "query": {
+              "multi_match": {
+                "query": "increase the non plan expenditure",
+                "type": "best_fields",
+                "fields": ["ocr_schema_section.ocr_text.suggestion"],
+                "operator": "and",
+                "fuzziness": 1,
+                "boost": 5
+              }
+            }
+          }
+        },
+        {
+          "nested": {
+            "path": "ocr_schema_section",
+            "query": {
+              "multi_match": {
+                "query": "increase the non plan expenditure",
+                "type": "phrase",
+                "fields": ["ocr_schema_section.ocr_text"],
+                "operator": "and",
+                "slop": 2,
+                "boost": 10
+              }
+            }
+          }
+        },
+        {
+          "multi_match": {
+            "query": "",
+            "type": "best_fields",
+            "fields": [
+              "debate_participants_eng.suggestion",
+              "debate_participants_kan.suggestion"
+            ],
+            "boost": 1,
+            "operator": "and"
+          }
+        }
+      ],
       "must_not": []
     }
   },
-  "sort": [],
+
+  "sort": [
+    {
+      "_score": {
+        "order": "desc"
+      }
+    },
+    {
+      "debate_section_date": {
+        "order": "desc"
+      }
+    }
+  ],
   "aggs": {
     "debateType_bucket": {
       "terms": {
@@ -122,9 +164,47 @@
       "debate_subject_kan": {
         "fragment_size": 0
       },
+      "debate_subject_kan.suggestion": {
+        "fragment_size": 0
+      },
+      "annexure_title.suggestion": {
+        "fragment_size": 0
+      },
       "ocr_schema_section.ocr_text": {
+        "fragment_size": 1000
+      },
+      "ocr_schema_section.ocr_text.suggestion": {
         "fragment_size": 1000
       }
     }
-  }
+  },
+  "_source": [
+    "assemblyNumber",
+    "sessionNumber",
+    "placeSession",
+    "datesSessions",
+    "sectionType",
+    "startPage",
+    "endPage",
+    "debate_title_subject_eng",
+    "debate_title_subject_kan",
+    "debate_subject_kan",
+    "issues_section_eng",
+    "issues_section_kan",
+    "tags_array_eng",
+    "tags_array_kan",
+    "questioner_name_eng",
+    "questioner_name_kan",
+    "minister_name_eng",
+    "minister_name_kan",
+    "minister_portfolio_eng",
+    "minister_portfolio_kan",
+    "annexure_title",
+    "annexure_start_page",
+    "annexure_end_page",
+    "debate_participants_eng",
+    "debate_participants_kan",
+
+    "debate_section_date"
+  ]
 }

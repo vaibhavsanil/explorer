@@ -6,12 +6,21 @@ const path = require("path");
 
 const router = express.Router();
 
-// Loading Query Templates
+// Loading ES Query Templates
 const queryES = require("../../utilities/query.json");
 const suggestES = require("../../utilities/suggest.json");
 
 // Loading Search Conr
 const { suggestorTermES, esQueryBuilder } = require("../../utilities/utils");
+const { escape } = require("querystring");
+const {
+  es_user,
+  es_pass,
+  es_host_remote_new,
+  es_port,
+  kla_test_index,
+  es_host_remote_full,
+} = require("../../config/config");
 
 // @route GET /api/annexure/test
 // @desc  Tests Annexure route
@@ -23,28 +32,26 @@ router.get("/test", (req, res) => res.json({ msg: "es route test" }));
 // @desc  Suggestions from the es
 // @access Public
 
-router.get("/0", (req, res) => {});
+router.get("/0", (req, res) => {
+  let suggestParameters = req.query;
 
-// @route GET /api/sd/search
-// @desc  Search from the elasticsearch
-// @access Public
+  const { q } = suggestParameters;
 
-router.get("/searchDemo", (req, res) => {
-  // https://stackoverflow.com/questions/45291983/sending-requests-to-elasticsearch-with-axios
-  var queryParameters = req.query;
-  // res.json(queryParameters);
+  // console.log(JSON.stringify(suggestorTermES(q), null, 2));
 
   axios
-    .get(keys.es_host_remote, {
-      source_content_type: "application/json",
+    .post(
+      // `https://${es_user}:${es_pass}@${es_host_remote_new}:${es_port}/${kla_test_index}/_search`,
+      es_host_remote_full,
+      suggestorTermES(q)
+    )
+    .then(({ data }) => {
+      console.log({ data });
+      res.status(200).json({ data });
     })
-    .then(function ({ data }) {
-      res.status(200).json(data);
-      console.log(data);
-    })
-    .catch(function (err) {
-      res.status(500).json(err);
-      console.error(err);
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
     });
 });
 
@@ -53,7 +60,7 @@ router.get("/searchDemo", (req, res) => {
 // @access Public
 // Sample Query https://pastebin.com/jQ9qiV1e https://pastebin.com/9CdNxh91
 // // https://stackoverflow.com/questions/25105147/elasticsearch-highlight-how-to-get-entire-text-of-the-field-in-java-client
-router.get("/search", (req, res) => {
+router.get("/sh", (req, res) => {
   // https://stackoverflow.com/questions/316781/how-to-build-query-string-with-javascript
   var queryParameters = req.query;
   const l = {
@@ -77,7 +84,13 @@ router.get("/search", (req, res) => {
     tagfKan: "krishna,water",
     tagfEng: "",
   };
-
+  console.log(
+    `The Query is \n ${JSON.stringify(
+      esQueryBuilder(queryParameters),
+      null,
+      2
+    )}`
+  );
   // Solved no aggregations in the response
   // https://stackoverflow.com/questions/50159269/elasticsearch-aggregation-not-showing-count
   axios
@@ -97,6 +110,29 @@ router.get("/search", (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
       console.log(JSON.stringify(err, null, 2));
+    });
+});
+
+// @route GET /api/sd/search
+// @desc  Search from the elasticsearch
+// @access Public
+
+router.get("/searchDemo", (req, res) => {
+  // https://stackoverflow.com/questions/45291983/sending-requests-to-elasticsearch-with-axios
+  var queryParameters = req.query;
+  // res.json(queryParameters);
+
+  axios
+    .get(keys.es_host_remote, {
+      source_content_type: "application/json",
+    })
+    .then(function ({ data }) {
+      res.status(200).json(data);
+      console.log(data);
+    })
+    .catch(function (err) {
+      res.status(500).json(err);
+      console.error(err);
     });
 });
 

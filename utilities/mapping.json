@@ -1,0 +1,236 @@
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 1,
+    "analysis": {
+      "analyzer": {
+        "trigram": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "shingle"]
+        },
+        "reverse": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "reverse"]
+        },
+        "autocomplete_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "autocomplete_filter"]
+        }
+      },
+      "filter": {
+        "shingle": {
+          "type": "shingle",
+          "min_shingle_size": 2,
+          "max_shingle_size": 3
+        },
+        "autocomplete_filter": {
+          "type": "edge_ngram",
+          "min_gram": 4,
+          "max_gram": 12
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "bookId": { "type": "keyword" },
+      "assemblyNumber": { "type": "keyword" },
+      "sessionNumber": { "type": "keyword" },
+      "volumeNumber": { "type": "keyword" },
+      "partNumber": { "type": "integer" },
+      "numofpages": { "type": "integer" },
+      "placeSession": { "type": "keyword" },
+      "yearBook": { "type": "keyword" },
+      "datesSessions": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "status_of_books": {
+        "type": "keyword"
+      },
+      "bindingStatus": {
+        "type": "boolean"
+      },
+      "book_returned_date": {
+        "type": "date"
+      },
+      "modifiedUserStruct": {
+        "type": "keyword"
+      },
+      "last_modified_time": {
+        "type": "date"
+      },
+      "metadata_given_date": {
+        "type": "date"
+      },
+      "metadata_start_date": {
+        "type": "date"
+      },
+      "metadata_end_date": {
+        "type": "date"
+      },
+      "book_uploaded_date": {
+        "type": "date"
+      },
+      "remarksBook": {
+        "type": "text",
+        "index": false
+      },
+      "status_metadata_book": {
+        "type": "boolean"
+      },
+      "sectionType": {
+        "type": "keyword"
+      },
+      "startPage": {
+        "type": "integer"
+      },
+      "endPage": {
+        "type": "integer"
+      },
+      "debate_title_subject_eng": {
+        "type": "keyword"
+      },
+      "debate_title_subject_kan": {
+        "type": "keyword"
+      },
+      "debate_subject_kan": {
+        "type": "text",
+        "fields": {
+          "suggestion": {
+            "type": "text",
+            "analyzer": "autocomplete_analyzer"
+          }
+        }
+      },
+      "issues_section_eng": {
+        "type": "text"
+      },
+      "issues_section_kan": {
+        "type": "text"
+      },
+      "tags_array_eng": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "tags_array_kan": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "question_number": {
+        "type": "keyword"
+      },
+      "questioner_name_eng": {
+        "type": "keyword"
+      },
+      "questioner_name_kan": {
+        "type": "keyword"
+      },
+      "minister_name_eng": {
+        "type": "keyword"
+      },
+      "minister_name_kan": {
+        "type": "keyword"
+      },
+      "minister_portfolio_eng": {
+        "type": "keyword"
+      },
+      "minister_portfolio_kan": {
+        "type": "keyword"
+      },
+      "annexure_title": {
+        "type": "text",
+        "fields": {
+          "suggestion": {
+            "type": "text",
+            "analyzer": "autocomplete_analyzer"
+          }
+        }
+      },
+      "annexure_start_page": {
+        "type": "integer"
+      },
+      "annexure_end_page": {
+        "type": "integer"
+      },
+      "annexure_status": {
+        "type": "boolean"
+      },
+      "annexure_modified_user": {
+        "type": "keyword"
+      },
+      "annexure_last_modified_time": {
+        "type": "date"
+      },
+      "debate_participants_kan": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          },
+          "suggestion": {
+            "type": "text",
+            "analyzer": "autocomplete_analyzer"
+          }
+        }
+      },
+      "debate_participants_eng": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          },
+          "suggestion": {
+            "type": "text",
+            "analyzer": "autocomplete_analyzer"
+          }
+        }
+      },
+      "sectional_modified_user": {
+        "type": "keyword"
+      },
+      "sectional_modified_time": {
+        "type": "date"
+      },
+      "section_status": {
+        "type": "boolean"
+      },
+      "ocr_schema_section": {
+        "type": "nested",
+        "properties": {
+          "page_numbers": {
+            "type": "integer"
+          },
+          "ocr_text": {
+            "type": "text",
+            "fields": {
+              "suggestion": {
+                "type": "text",
+                "analyzer": "autocomplete_analyzer"
+              }
+            }
+          }
+        }
+      },
+      "debate_section_date": {
+        "type": "date",
+        "format": "yyyy-MM-dd"
+      }
+    }
+  }
+}

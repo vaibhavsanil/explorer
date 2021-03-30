@@ -39,33 +39,78 @@ function getShouldQueryParams(queryType, queryString) {
   //   The below if statement evaluates the query for Precision & recall
   //   QueryType should be queryType = "PRC" || "REC"
   let queryOperands = queryType === "PRC" ? "and" : "or";
-  let matchQuery = {
-    match: {
-      debate_subject_kan: {
-        query: queryString,
-        operator: queryOperands,
-        fuzziness: "AUTO",
-      },
+  // let matchQuery = {
+  //   match: {
+  //     debate_subject_kan: {
+  //       query: queryString,
+  //       operator: queryOperands,
+  //       fuzziness: "AUTO",
+  //     },
+  //   },
+  // };
+
+  let multiMatch_debateSubject_annexure = {
+    multi_match: {
+      query: queryString,
+      operator: queryOperands,
+      fields: ["debate_subject_kan.suggestion^2", "annexure_title.suggestion"],
+      fuzziness: 1,
+      boost: 6,
     },
   };
 
-  let nestedQuery = {
+  let nested_ocr_section_query = {
     nested: {
       path: "ocr_schema_section",
       query: {
-        match: {
-          "ocr_schema_section.ocr_text": {
-            query: queryString,
-            operator: queryOperands,
-            fuzziness: "AUTO",
-          },
+        multi_match: {
+          query: queryString,
+          type: "best_fields",
+          fields: ["ocr_schema_section.ocr_text.suggestion"],
+          operator: "and",
+          fuzziness: 1,
+          boost: 5,
+        },
+      },
+    },
+  };
+  // OCR Match Phrase suggestion
+  let nested_ocr_phrase_section_query = {
+    nested: {
+      path: "ocr_schema_section",
+      query: {
+        multi_match: {
+          query: queryString,
+          type: "phrase",
+          fields: ["ocr_schema_section.ocr_text"],
+          operator: "and",
+          slop: 2,
+          boost: 10,
         },
       },
     },
   };
 
-  returnShouldArray.push(matchQuery);
-  returnShouldArray.push(nestedQuery);
+  // Multi match of Debate Particiapants
+  let multi_match_debate_participants = {
+    multi_match: {
+      query: queryString,
+      type: "best_fields",
+      fields: [
+        "debate_participants_eng.suggestion",
+        "debate_participants_kan.suggestion",
+      ],
+      boost: 1,
+      operator: "and",
+    },
+  };
+
+  // returnShouldArray.push(matchQuery);
+  // returnShouldArray.push(nestedQuery);
+  returnShouldArray.push(multiMatch_debateSubject_annexure);
+  returnShouldArray.push(nested_ocr_section_query);
+  returnShouldArray.push(nested_ocr_phrase_section_query);
+  returnShouldArray.push(multi_match_debate_participants);
 
   return returnShouldArray;
 }
@@ -90,12 +135,16 @@ function getTermQuery(termsString, varName) {
   if (termsString !== "") {
     let termVarsName = termsString.split(",");
 
+    // terms: {
+    //   [varName]: {
+    //     value: termVarsName,
+    //   },
+    // },
+
     if (termVarsName.length > 1) {
       return {
         terms: {
-          [varName]: {
-            value: termVarsName,
-          },
+          [varName]: termVarsName,
         },
       };
     } else {
@@ -170,9 +219,9 @@ function getFilterQueryParams(queryObject) {
     var varHeader = queryObject[key];
     if (!rangeQueryVariables.includes(key)) {
       if (queryObject[key] !== "") {
-        console.log(
-          `[DEBUG] get Filter Function  ${varHeader} queryObject ${queryObject[varHeader]}  variable name   ${dictVariableName[varHeader]} `
-        );
+        // console.log(
+        //   `[DEBUG] get Filter Function  ${varHeader} queryObject ${queryObject[varHeader]}  variable name   ${dictVariableName[varHeader]} `
+        // );
         let termQuery = getTermQuery(
           // queryObject[varHeader],
           varHeader,
@@ -198,6 +247,11 @@ function getSortFilter(srtString, variableName, direction) {
     },
   };
 
+  sortArray.push({
+    _score: {
+      order: "desc",
+    },
+  });
   sortArray.push(sortObject);
 
   return sortArray;
@@ -223,6 +277,15 @@ function esQueryBuilder(queryObject) {
   if (srt !== "") {
     let sortFilter = getSortFilter(srt, "debate_section_date");
     queryES.sort = sortFilter;
+  } else {
+    let sortFilter = [
+      {
+        _score: {
+          order: "desc",
+        },
+      },
+    ];
+    queryES.sort = sortFilter;
   }
 
   //   console.log(JSON.stringify(shouldQueryParams));
@@ -231,6 +294,7 @@ function esQueryBuilder(queryObject) {
 }
 
 function suggestorTermES(query) {
+  // Build query fr suggestor
   suggestES.suggest.text = query;
 
   return suggestES;
@@ -246,32 +310,7 @@ module.exports = {
   esQueryBuilder,
 };
 
-// const queryESSchema = esQueryBuilder({
-//   qt: "REC",
-//   qp: "vaibhav",
-//   dtf: "part1,part2",
-//   anf: "13[2005-2008]",
-//   dsubfKan: "",
-//   dpfEng: "",
-//   dpfKan: "",
-//   sectionDateFrm: "2000-01-01",
-//   sectionDateTo: "1999-01-01",
-//   srt: "",
-// });
-
-// let l = {
-//   snf: "13[2007]",
-//   dsubfEng: "zero hour,rule 69",
-//   dsubfKan: "",
-//   dpfEng: "",
-//   dpfKan: "",
-//   dbf: "24",
-//   ytf: "2000,2001",
-
-//   issfEng: "cauvery,river",
-//   issfKan: "",
-//   tagfKan: "krishna,water",
-//   tagfEng: "",
-// };
-
+// console.log(
+//   `Suggestor Terms ES \n ${JSON.stringify(suggestorTermES("water"), null, 2)}`
+// );
 // console.log(JSON.stringify(queryESSchema, null, 2));
