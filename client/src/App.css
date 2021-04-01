@@ -1,38 +1,162 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,500;1,600;1,700&display=swap");
+
+:root {
+  --primaryKLA: #017143;
+  --primaryKLC: #f75151;
+  --primaryBlack: #333333;
+  --primaryBackground: #f4f4f4;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 10px;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
+}
+body {
+  /* overflow: hidden; */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+section {
+  position: relative;
+  width: 100%;
   min-height: 100vh;
+  padding: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+/* Welcome Screen CSS */
+
+.header-background {
+  /* background: rgb(152, 242, 190); */
+  background: linear-gradient(
+    164deg,
+    rgba(152, 242, 190, 0.8463760504201681) 0%,
+    rgba(20, 241, 8, 0.700717787114846) 64%
+  );
+
+  width: 100%;
+  /* height: 100%; */
+}
+
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
+}
+
+.logo-name--kla {
+  /* color: #017143; */
+  color: var(--primaryKLA);
+  font-size: 2.5rem;
+  font-weight: 800;
+  word-spacing: 1rem;
+  letter-spacing: 1.5px;
+}
+
+.logo-name--klc {
+  /* color: #017143; */
+  color: var(--primaryKLC);
+  font-size: 3.2rem;
+  font-weight: 800;
+  word-spacing: 1rem;
+  letter-spacing: 1.5px;
+}
+
+/* Styling Language Bar */
+.selectLabel {
+  padding: 10px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+select.custom-select-KLA.menu-select-KLA {
+  /* background: transparent; */
+  background-color: #fff;
+  border: 2px solid var(--primaryKLA);
+  border-radius: 7px;
+  color: #333333;
+  padding: 0px 12px;
+  height: auto;
+}
+
+select.custom-select-KLC.menu-select-KLC {
+  /* background: transparent; */
+  background-color: #fff;
+  border: 2px solid var(--primaryKLC);
+  border-radius: 7px;
+  color: #333333;
+  padding: 0px 12px;
+  height: auto;
+}
+
+select.custom-select-KLA.menu-select-KLC:active:focus {
+  /* background: transparent; */
+  background-color: #fff;
+  border: 2px solid var(--primaryKLA);
+  border-radius: 7px;
+  color: #333333;
+  padding: 0px 12px;
+  height: auto;
+}
+/* Styling Language Bar */
+
+/* Welcome Screen Container Box */
+
+.container-main {
+  background-color: red;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+}
+
+.imgContainer {
+  width: 100%;
+  height: 40%;
+  background-color: aqua;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  position: relative;
 }
 
-.App-link {
-  color: #61dafb;
+.keypersonImgContainer {
+  position: relative;
+  max-width: 294px;
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.imgBx {
+  max-width: 100%;
+  padding: 3rem;
+  background: lightskyblue;
+}
+/* https://www.w3schools.com/css/css3_images.asp */
+.imgBx img {
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  display: table;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.intro {
+  text-align: center;
+  line-height: 0.7rem;
 }
