@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 // Import Constants
 
-import { CUSTOMER, i18n } from "../../constants/index";
+import { CUSTOMER, i18n, renderCustomerName } from "../../constants/index";
 
 // Import Components
 
@@ -15,30 +15,80 @@ import SpeakerImage from "../../images/speaker-cropped.jpg";
 import ChairmanImage from "../../images/chairman.jpeg";
 
 import SecretaryKLA from "../../images/secretary-kla.jpg";
-import SecretaryKLC from "../../images/secretary-kla.jpg";
+import SecretaryKLC from "../../images/secretary-klc.jpg";
 
 const WelcomeScreen = (props) => {
   const [ln, setLn] = useState({
     language: "ENG",
   });
 
-  // Helper Functions
-  function renderCustomerName(customer, lang, varObject) {
-    // This function will conditional render the Logo Name based on customer
+  function renderSpeaker(customer, lang, varObject, type) {
+    // This function will render the secretary s Name & Designation
     if (customer === "KLA") {
-      const logoName =
-        lang === "ENG"
-          ? varObject.customerName_KLA.eng
-          : varObject.customerName_KLA.kan;
+      if (type === "name") {
+        const speakerName =
+          lang === "ENG"
+            ? varObject.speakerName_KLA.eng
+            : varObject.speakerName_KLA.kan;
+        return speakerName;
+      } else {
+        const speakerDesigination =
+          lang === "ENG"
+            ? varObject.speaker_KLA.eng
+            : varObject.speaker_KLA.kan;
 
-      return logoName;
+        return speakerDesigination;
+      }
     } else {
-      const logoName =
-        lang === "KAN"
-          ? varObject.customerName_KLC.eng
-          : varObject.customerName_KLC.kan;
+      if (type === "name") {
+        const secretaryName =
+          lang === "ENG"
+            ? varObject.chairmanName_KLC.eng
+            : varObject.chairmanName_KLC.kan;
+        return secretaryName;
+      } else {
+        const chairmanDesigination =
+          lang === "ENG"
+            ? varObject.chairman_KLC.eng
+            : varObject.chairman_KLC.kan;
 
-      return logoName;
+        return chairmanDesigination;
+      }
+    }
+  }
+
+  function renderSecretary(customer, lang, varObject, type) {
+    // This function will render the secretary s Name & Designation
+    if (customer === "KLA") {
+      if (type === "name") {
+        const secretaryName =
+          lang === "ENG"
+            ? varObject.secretaryName_KLA.eng
+            : varObject.secretaryName_KLA.kan;
+        return secretaryName;
+      } else {
+        const secretaryDesigination =
+          lang === "ENG"
+            ? varObject.secretary_KLA.eng
+            : varObject.secretary_KLA.kan;
+
+        return secretaryDesigination;
+      }
+    } else {
+      if (type === "name") {
+        const secretaryName =
+          lang === "ENG"
+            ? varObject.secretaryName_KLC.eng
+            : varObject.secretaryName_KLC.kan;
+        return secretaryName;
+      } else {
+        const secretaryDesigination =
+          lang === "ENG"
+            ? varObject.secretary_KLC.eng
+            : varObject.secretary_KLC.kan;
+
+        return secretaryDesigination;
+      }
     }
   }
 
@@ -58,23 +108,32 @@ const WelcomeScreen = (props) => {
         >
           {renderCustomerName(CUSTOMER, language, i18n)}
         </div>
-
-        <div
-          style={{
-            marginRight: "1rem",
-            verticalAlign: "middle",
-          }}
-        >
-          <SelectElement
-            customer={CUSTOMER}
-            onClick={languageChangefunc}
-            lang={language}
-          />
+        <div>
+          <SelectElement customer={CUSTOMER} onClick={languageChangefunc} />
         </div>
       </header>
       <div className="container-main">
         <div className="searchArea">
-          <input placeholder="click to search" />
+          <div className="searchInputWrapper">
+            <input
+              className={
+                CUSTOMER === "KLA" ? "searchInput--kla" : "searchInput--klc"
+              }
+              placeholder={
+                language === "ENG"
+                  ? i18n.searchPlaceHolder.eng
+                  : i18n.searchPlaceHolder.kan
+              }
+            />
+            <button
+              type="submit"
+              className={
+                CUSTOMER === "KLA" ? "searchSubmit--kla" : "searchSubmit--klc"
+              }
+            >
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
         </div>
         <div className="imgContainer">
           <div className="keypersonImgContainer">
@@ -86,8 +145,12 @@ const WelcomeScreen = (props) => {
               />
             </div>
             <div className="intro">
-              <p classNam="name">Shri Vishweshwar Hegde Kageri</p>
-              <p className="designation">Hon'ble Speaker</p>
+              <h4 className="name">
+                {renderSpeaker(CUSTOMER, language, i18n, "name")}
+              </h4>
+              <h5 className="designation">
+                {renderSpeaker(CUSTOMER, language, i18n, "desg")}
+              </h5>
             </div>
           </div>
 
@@ -96,12 +159,16 @@ const WelcomeScreen = (props) => {
               <img
                 id="secretary"
                 src={CUSTOMER == "KLA" ? SecretaryKLA : SecretaryKLC}
-                alt="Secretary Image"
+                alt="Secretary "
               />
             </div>
             <div className="intro">
-              <p className="name">Smt Vishalaskhi </p>
-              <p className="designation">Secretary(I/C)</p>
+              <h4 className="name">
+                {renderSecretary(CUSTOMER, language, i18n, "name")}
+              </h4>
+              <h5 className="designation">
+                {renderSecretary(CUSTOMER, language, i18n, "desg")}
+              </h5>
             </div>
           </div>
         </div>

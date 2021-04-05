@@ -24,7 +24,7 @@ export const i18n = {
   },
 
   chairmanName_KLC: {
-    eng: "Shri Basavaraja Shivalingappa Horatti",
+    eng: "Shri Basavaraja Horatti",
     kan: "ಶ್ರೀ ಬಸವರಾಜ ಶಿವಲಿಂಗಪ್ಪ ಹೊರಟ್ಟಿ",
     photo_location: "",
   },
@@ -92,4 +92,60 @@ export const i18n = {
     eng: "Annexure",
     kan: "ಅನುಬಂಧಗಳು",
   },
+
+  searchPlaceHolder: {
+    eng: "Click to search in Debates",
+    kan: "ಚರ್ಚೆಗಳಲ್ಲಿ ಹುಡುಕಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
+  },
+
+  explorerHeaders: {
+    debatesHeader: {
+      eng: "Debates",
+      kan: "ಚರ್ಚೆಗಳು",
+    },
+    newsHeader: {
+      eng: "News",
+      kan: "ಸುದ್ದಿ",
+    },
+    reviewHeader: {
+      eng: "Review",
+      kan: "ಪುನರ್ ವಲೋಕನ",
+    },
+    budgetHeader: {
+      eng: "Budget",
+      kan: "ಆಯವ್ಯಯ ಪತ್ರ",
+    },
+    whoswhoHeader: {
+      eng: "Who's Who",
+      kan: "ಸದ್ಯಸರ ಪರಿಚಯ",
+    },
+    vedioHeader: {
+      eng: "Vedios",
+      kan: "ವೀಡಿಯೊಗಳು",
+    },
+    advancedSearch: {
+      eng: "Advanced Search",
+      kan: "ಸಾಧನಗಳು",
+    },
+  },
 };
+
+// Helper Functions
+export function renderCustomerName(customer, lang, varObject) {
+  // This function will conditional render the Logo Name based on customer
+  if (customer === "KLA") {
+    const logoName =
+      lang === "ENG"
+        ? varObject.customerName_KLA.eng
+        : varObject.customerName_KLA.kan;
+
+    return logoName;
+  } else {
+    const logoName =
+      lang === "ENG"
+        ? varObject.customerName_KLC.eng
+        : varObject.customerName_KLC.kan;
+
+    return logoName;
+  }
+}

@@ -2,7 +2,9 @@
 
 :root {
   --primaryKLA: #017143;
-  --primaryKLC: #f75151;
+  --primaryKLAButton: #44ab42;
+  /* --primaryKLC: #f75151; */
+  --primaryKLC: #c53330;
   --primaryBlack: #333333;
   --primaryBackground: #f4f4f4;
 }
@@ -20,14 +22,13 @@ body {
 }
 
 section {
-  position: relative;
   width: 100%;
-  min-height: 100vh;
-  padding: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #fff;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 /* Welcome Screen CSS */
@@ -59,18 +60,18 @@ header {
 .logo-name--kla {
   /* color: #017143; */
   color: var(--primaryKLA);
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
-  word-spacing: 1rem;
+  word-spacing: 0.7rem;
   letter-spacing: 1.5px;
 }
 
 .logo-name--klc {
   /* color: #017143; */
   color: var(--primaryKLC);
-  font-size: 3.2rem;
+  font-size: 2rem;
   font-weight: 800;
-  word-spacing: 1rem;
+  word-spacing: 0.7rem;
   letter-spacing: 1.5px;
 }
 
@@ -100,6 +101,7 @@ select.custom-select-KLC.menu-select-KLC {
   color: #333333;
   padding: 0px 12px;
   height: auto;
+  outline-style: none;
 }
 
 select.custom-select-KLA.menu-select-KLC:active:focus {
@@ -110,27 +112,25 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
   color: #333333;
   padding: 0px 12px;
   height: auto;
+  outline-style: none;
 }
 /* Styling Language Bar */
 
 /* Welcome Screen Container Box */
 
 .container-main {
-  background-color: red;
-  height: 100vh;
+  justify-content: start;
   width: 100%;
   display: flex;
-  justify-content: start;
+  margin-top: 81px;
+  padding: 10px 100px;
 }
 
 .imgContainer {
-  width: 100%;
-  height: 40%;
-  background-color: aqua;
+  justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 }
 
 .keypersonImgContainer {
@@ -138,12 +138,12 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
   max-width: 294px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .imgBx {
   max-width: 100%;
   padding: 3rem;
-  background: lightskyblue;
 }
 /* https://www.w3schools.com/css/css3_images.asp */
 .imgBx img {
@@ -154,9 +154,399 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
+  box-shadow: 0 0 9px rgb(0 0 0 / 20%);
 }
 
 .intro {
   text-align: center;
   line-height: 0.7rem;
+  margin-top: -2.1rem;
 }
+
+.name {
+  letter-spacing: 1.4px;
+  font-weight: 3rem;
+}
+
+.intro .designation {
+  letter-spacing: 1px;
+}
+
+/* Search Area */
+.searchArea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  padding: 150px;
+  background-image: url(images/vs1.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.searchInputWrapper {
+  display: flex;
+}
+
+.searchInput--kla {
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border: 1px solid grey;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 80%;
+  border-right: none;
+  border-radius: 2px;
+  transition: 0.2s all;
+  font-size: 2rem;
+  outline-style: none;
+}
+/* KLA */
+.searchInput--kla:hover,
+.searchInput--kla:active,
+.searchInput--kla:focus {
+  border: 2px solid var(--primaryKLA);
+  outline-style: none;
+}
+
+/* KLC */
+.searchInput--klc {
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border: 1px solid grey;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 80%;
+  border-right: none;
+  border-radius: 2px;
+  transition: 0.2s all;
+  font-size: 2rem;
+  outline-style: none;
+}
+
+.searchInput--klc:hover,
+.searchInput--klc:active,
+.searchInput--klc:focus {
+  border: 2px solid var(--primaryKLC);
+  outline-style: none;
+}
+
+/* Welcome Screen KLA */
+.searchSubmit--kla {
+  width: 20%;
+  background-color: rgba(68, 171, 66, 0.5);
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+  padding: 10px;
+  color: var(--primaryKLA);
+  font-size: 1.6rem;
+  border-radius: 2px;
+  max-width: 15rem;
+
+  border: 1px solid var(--primaryKLA);
+  transition: 0.3s all;
+}
+
+.searchSubmit--kla:hover {
+  background-color: #017143;
+  color: white;
+}
+
+/* Welcome Screen KLC */
+.searchSubmit--klc {
+  width: 20%;
+  background-color: rgb(249, 104, 104, 0.5);
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+  padding: 10px;
+  color: var(--primaryKLC);
+  font-size: 1.6rem;
+  border-radius: 2px;
+
+  border: 1px solid var(--primaryKLC);
+  transition: 0.3s all;
+}
+
+.searchSubmit--klc:hover {
+  background-color: var(--primaryKLC);
+  color: white;
+}
+
+/* Style */
+
+/* Explorer CSS */
+
+.container-main-explorer {
+}
+
+.gradient-ribbon--KLA {
+  width: 100%;
+  /* background-color: var(--primaryKLA); */
+  background-image: linear-gradient(to right, #006346, #0f914c);
+  background-position: center 0px;
+  height: 1.3rem;
+}
+
+.gradient-ribbon--KLC {
+  width: 100%;
+  background-image: linear-gradient(89.81deg, #c52626 30%, #db4343 90%);
+  background-position: center 0px;
+  height: 1.3rem;
+}
+
+/* Explorer CSS Header */
+.header-main {
+  width: 100%;
+  margin-left: -7rem;
+}
+.header--level1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+}
+/* Search Container KLA  */
+.searchContainer-explorer--kla {
+  box-shadow: 0 0 9px rgb(0 0 0 / 20%);
+  border: 1px solid #fff;
+  border-radius: 1rem;
+  width: 47rem;
+  height: 3rem;
+  margin-left: 5rem;
+  display: flex;
+  transition: 0.3s all;
+}
+
+.searchContainer-explorer--kla:hover,
+.searchContainer-explorer--kla:active,
+.searchContainer-explorer--kla:focus-within {
+  border: 1px solid var(--primaryKLA);
+  height: 3.5rem;
+  width: 48rem;
+  margin-left: 3rem;
+}
+
+.searchContainer-explorer--kla:hover .searchIcon,
+.searchContainer-explorer--kla:active .searchIcon,
+.searchContainer-explorer--kla:focus-within .searchIcon {
+  margin: 7px;
+  font-size: 1.3rem;
+}
+
+.searchContainer-explorer--klc {
+  box-shadow: 0 0 9px rgb(0 0 0 / 20%);
+  border: 1px solid #fff;
+  border-radius: 1rem;
+  width: 47rem;
+  height: 3rem;
+  margin-left: 5rem;
+  display: flex;
+  transition: 0.3s all;
+}
+
+.searchContainer-explorer--klc:hover,
+.searchContainer-explorer--klc:active,
+.searchContainer-explorer--klc:focus-within {
+  border: 1px solid var(--primaryKLC);
+  height: 3.5rem;
+  width: 48rem;
+  margin-left: 3rem;
+}
+
+.searchContainer-explorer--klc:hover .searchIcon,
+.searchContainer-explorer--klc:active .searchIcon,
+.searchContainer-explorer--klc:focus-within .searchIcon {
+  margin: 7px;
+  font-size: 1.3rem;
+}
+
+.searchIcon {
+  width: 10%;
+  text-align: center;
+  margin: 5px;
+  color: grey;
+  font-size: 1rem;
+  transition: 0.3s all;
+}
+
+.searchIcon:hover,
+.searchIcon:active {
+  margin: 7px;
+  font-size: 1.3rem;
+}
+
+.searchInput-explorer {
+  width: 100%;
+  border-style: none;
+  /* border-color: red; */
+  padding: 2px 8px;
+  font-size: 1.5rem;
+}
+
+.searchInput-explorer:active,
+.searchInput-explorer:focus {
+  border-style: none;
+  outline-style: none;
+  /* border-color: red; */
+}
+
+/* Search Submit Explorer */
+.searchSubmit-explorer--kla {
+  width: 10%;
+  /* background-color: rgba(68, 171, 66, 0.5); */
+  background-color: #fff;
+  border-left: none;
+  cursor: pointer;
+  padding: 3px;
+  color: var(--primaryKLA);
+  font-size: 1.6rem;
+  border-radius: 62px;
+  max-width: 15rem;
+  border: 1px solid var(--primaryKLA);
+  transition: 0.3s all;
+  margin-left: 1rem;
+}
+
+.searchSubmit-explorer--kla:hover {
+  background-color: #017143;
+  color: white;
+}
+
+/* Welcome Screen KLC */
+.searchSubmit-explorer--klc {
+  width: 10%;
+  /* background-color: rgba(68, 171, 66, 0.5); */
+  background-color: #fff;
+  border-left: none;
+  cursor: pointer;
+  padding: 3px;
+  color: var(--primaryKLC);
+  font-size: 1.6rem;
+  border-radius: 62px;
+  max-width: 15rem;
+  border: 1px solid var(--primaryKLC);
+  transition: 0.3s all;
+  margin-left: 1rem;
+}
+
+.searchSubmit-explorer--klc:hover {
+  background-color: var(--primaryKLC);
+  color: white;
+}
+
+/* Header Level2  KLA */
+
+.header--level2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 4rem;
+}
+.header-navigation--kla {
+  position: relative;
+  display: flex;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.header-navigation--kla li {
+  list-style: none;
+  margin-left: 30px;
+  vertical-align: bottom;
+  font-size: 1.4rem;
+  /* transition: 0.1s all; */
+}
+
+.header-navigation--kla li:hover,
+.header-navigation--kla li:active {
+  /* background-color: var(--primaryKLA); */
+  border-bottom: 2px solid var(--primaryKLA);
+}
+
+.header-navigation--kla li:last-child {
+  /* background-color: var(--primaryKLA); */
+  border: none;
+  padding: 0 3px;
+}
+
+.header-navigation--kla li:last-child :hover {
+  /* background-color: var(--primaryKLA); */
+  color: #fff;
+  background-color: var(--primaryKLA);
+  border-radius: 2px;
+}
+
+.header-navigation--kla li i {
+  color: var(--primaryKLA);
+}
+
+.header-navigation--kla li a {
+  text-decoration: none;
+  color: var(--primaryKLA);
+  font-weight: 500;
+  font-size: inherit;
+  padding: 0 5px;
+}
+
+/* Header Level2  KLA -- End */
+
+/* Header Level2  KLC --Start */
+
+.header--level2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 4rem;
+}
+.header-navigation--klc {
+  position: relative;
+  display: flex;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.header-navigation--klc li {
+  list-style: none;
+  margin-left: 30px;
+  vertical-align: bottom;
+  font-size: 1.4rem;
+  /* transition: 0.1s all; */
+}
+
+.header-navigation--klc li:hover,
+.header-navigation--klc li:active {
+  /* background-color: var(--primaryKLA); */
+  border-bottom: 2px solid var(--primaryKLC);
+}
+
+.header-navigation--klc li:last-child {
+  /* background-color: var(--primaryKLA); */
+  border: none;
+  padding: 0 3px;
+}
+
+.header-navigation--klc li:last-child :hover {
+  /* background-color: var(--primaryKLA); */
+  color: #fff;
+  background-color: var(--primaryKLC);
+  border-radius: 2px;
+}
+
+.header-navigation--klc li i {
+  color: var(--primaryKLC);
+}
+
+.header-navigation--klc li a {
+  text-decoration: none;
+  color: var(--primaryKLC);
+  font-weight: 500;
+  font-size: inherit;
+  padding: 0 5px;
+}
+
+/* Header Level2  KLC -- End */

@@ -3,9 +3,9 @@ import React, { Fragment } from "react";
 function selectElement({ onClick, lang, customer }) {
   return (
     <>
-      <label for="lang" className="selectLabel">
+      {/* <label for="lang" className="selectLabel">
         {lang === "ENG" ? "Select Language" : "ಭಾಷೆ"}{" "}
-      </label>
+      </label> */}
       <select
         for="lang"
         className={
