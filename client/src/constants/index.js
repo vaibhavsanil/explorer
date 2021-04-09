@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // GLOBAL CONSTANTS
 export const CUSTOMER = "KLA";
 
@@ -129,6 +131,71 @@ export const i18n = {
     },
   },
 };
+// Global Constants of the Request Headers
+export const urlHeaders = {
+  requestHeadersKLA: {
+    searchQuery: "http://localhost:9201/api/sd/sh",
+    suggestQuery: "http://localhost:9201/api/sd/0",
+  },
+  requestHeadersKLC: {
+    searchQuery: "http://localhost:9101/api/sd/sh",
+    suggestQuery: "http://localhost:9101/api/sd/0",
+  },
+
+  requestpublicDir: {
+    requestURlLink: [
+      "https://spin.atomicobject.com/2015/10/03/remote-pfs-node-js-express/",
+      "https://gist.github.com/adamgibbons/af2de54c011e68a7b85a",
+    ],
+    serverPublicFilesKLA: "",
+    serverPublicFilesKLC: "",
+  },
+};
+
+// Search Request  Constants
+export const searchQueryConst = {
+  srt: "",
+  qt: "PRC",
+  qp: "",
+  dtf: "",
+  anf: "",
+  snf: "",
+  dsubfEng: "",
+  dsubfKan: "",
+  dpfEng: "",
+  dpfKan: "",
+  dbf: "",
+  ytf: "",
+  sectionDateFrm: "",
+  sectionDateTo: "",
+  issfEng: "",
+  issfKan: "",
+  tagfKan: "",
+  tagfEng: "",
+};
+
+// Search Request Constants Exmaple
+export const searchObject = {
+  ln: "kn",
+  srt: "",
+  qt: "PRC",
+  qp: "world bank",
+  dtf: "part1,part2",
+  anf: "13[2005-2008]",
+  snf: "13[2007]",
+  dsubfEng: "zero hour,rule 69",
+  dsubfKan: "",
+  dpfEng: "",
+  dpfKan: "",
+  dbf: "24",
+  ytf: "2000,2001",
+  sectionDateFrm: "2000-01-01",
+  sectionDateTo: "1999-01-01",
+  issfEng: "cauvery,river",
+  issfKan: "",
+  tagfKan: "krishna,water",
+  tagfEng: "",
+};
 
 // Helper Functions
 export function renderCustomerName(customer, lang, varObject) {
@@ -149,3 +216,30 @@ export function renderCustomerName(customer, lang, varObject) {
     return logoName;
   }
 }
+
+// Cancel Token
+
+// export function cancelToken() {
+//   useEffect(() => {
+//     let cancel;
+
+//     axios({
+//       method: "GET",
+//       url: "http://openlibrary.org/search.json",
+//       params: { q: query, page: pageNumber },
+//       cancelToken: new axios.CancelToken((c) => (cancel = c)),
+//     })
+//       .then((res) => {
+//         console.log(res.data);
+//       })
+//       .catch((e) => {
+//         if (axios.isCancel(e)) return;
+//       });
+
+//     return () => {
+//       cancel();
+//     };
+//   }, [input]);
+
+//   return null;
+// }

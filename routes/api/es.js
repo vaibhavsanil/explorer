@@ -61,6 +61,7 @@ router.get("/0", (req, res) => {
 // Sample Query https://pastebin.com/jQ9qiV1e https://pastebin.com/9CdNxh91
 // // https://stackoverflow.com/questions/25105147/elasticsearch-highlight-how-to-get-entire-text-of-the-field-in-java-client
 router.get("/sh", (req, res) => {
+  // https://spin.atomicobject.com/2015/10/03/remote-pfs-node-js-express/
   // https://stackoverflow.com/questions/316781/how-to-build-query-string-with-javascript
   var queryParameters = req.query;
   const l = {
@@ -84,13 +85,15 @@ router.get("/sh", (req, res) => {
     tagfKan: "krishna,water",
     tagfEng: "",
   };
-  console.log(
-    `The Query is \n ${JSON.stringify(
-      esQueryBuilder(queryParameters),
-      null,
-      2
-    )}`
-  );
+  // console.log(
+  //   `The Query is \n ${JSON.stringify(
+  //     esQueryBuilder(queryParameters),
+  //     null,
+  //     2
+  //   )}`
+  // );
+
+  console.log(`The Query is \n ${JSON.stringify(queryParameters, null, 2)}`);
   // Solved no aggregations in the response
   // https://stackoverflow.com/questions/50159269/elasticsearch-aggregation-not-showing-count
   axios
@@ -105,7 +108,16 @@ router.get("/sh", (req, res) => {
     )
     .then(({ data }) => {
       // console.log(data);
-      res.status(200).json(data);
+      let responseSearchResults = {};
+
+      const { took, hits, aggregations } = data;
+
+      responseSearchResults.timeTaken = took;
+      responseSearchResults.numberResults = hits.total.value;
+      responseSearchResults.debateResults = hits.hits;
+      responseSearchResults.analysis = aggregations;
+
+      res.status(200).json(responseSearchResults);
     })
     .catch((err) => {
       res.status(400).json(err);

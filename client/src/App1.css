@@ -420,14 +420,37 @@ footer {
   margin-left: 3rem;
 }
 
-.searchContainer-explorer--klc:hover .searchIcon,
-.searchContainer-explorer--klc:active .searchIcon,
-.searchContainer-explorer--klc:focus-within .searchIcon {
+.searchContainer-explorer--klc:hover .searchIcon--kla,
+.searchContainer-explorer--klc:active .searchIcon--kla,
+.searchContainer-explorer--klc:focus-within .searchIcon--kla {
   margin: 7px;
+  color: green;
   font-size: 1.3rem;
 }
 
-.searchIcon {
+.searchContainer-explorer--klc:hover .searchIcon--klc,
+.searchContainer-explorer--klc:active .searchIcon--klc,
+.searchContainer-explorer--klc:focus-within .searchIcon--klc {
+  margin: 7px;
+  color: red;
+  font-size: 1.3rem;
+}
+
+.searchIcon--kla {
+  width: 10%;
+  text-align: center;
+  margin: 5px;
+  color: grey;
+  font-size: 1rem;
+  transition: 0.3s all;
+}
+/* .searchIcon--kla:hover,
+.searchIcon--kla:active {
+  margin: 7px;
+  font-size: 1.3rem;
+} */
+
+.searchIcon--klc {
   width: 10%;
   text-align: center;
   margin: 5px;
@@ -436,11 +459,11 @@ footer {
   transition: 0.3s all;
 }
 
-.searchIcon:hover,
-.searchIcon:active {
+/* .searchIcon--klc:hover,
+.searchIcon--klc:active {
   margin: 7px;
   font-size: 1.3rem;
-}
+} */
 
 .searchInput-explorer {
   width: 100%;
@@ -449,7 +472,7 @@ footer {
   padding: 2px 8px;
   font-size: 1.5rem;
   height: 3rem;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.8px;
 }
 
 .searchInput-explorer:active,

@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { ReactTransliterate } from "react-transliterate";
+import "react-transliterate/dist/index.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// Import Contexts
+import DebateContext from "../../context/Debates/debateContext";
 
 // Import Constants
 
@@ -8,6 +15,8 @@ import { CUSTOMER, i18n, renderCustomerName } from "../../constants/index";
 // Import Components
 
 import SelectElement from "../common/selectElementLanguage";
+
+import InputElement from "../../utils/InputElement";
 
 // Import Images
 
@@ -18,9 +27,91 @@ import SecretaryKLA from "../../images/secretary-kla.jpg";
 import SecretaryKLC from "../../images/secretary-klc.jpg";
 
 const WelcomeScreen = (props) => {
+  const debateContext = useContext(DebateContext);
+
+  const {
+    addSearchQuery,
+    removeSearchQuery,
+    searchQuery,
+    searchRequestBackend,
+    searchRequestBackendProm,
+  } = debateContext;
+
+  const history = useHistory();
+
+  useEffect(() => {
+    addClassInputElement(CUSTOMER);
+
+    // Clear Global State
+    removeSearchQuery();
+  }, []);
+
+  // Local State
   const [ln, setLn] = useState({
     language: "ENG",
+    loading: false,
   });
+  // Local Loading State
+  // const [loading, setLoading] = useState(false);
+
+  const [query, setQuery] = useState("");
+
+  function addClassInputElement(customer) {
+    // https://stackoverflow.com/questions/6856871/getting-the-parent-div-of-element
+    var element = document.getElementsByTagName("input")[0];
+
+    element.classList.add(
+      customer === "KLA" ? "searchInput--kla" : "searchInput--klc"
+    );
+
+    var parentElement = element.parentNode;
+    parentElement.style.width = "80%";
+  }
+
+  function onChangeQuery(e) {
+    setQuery(e.target.value);
+  }
+
+  // Handle Search Submit
+
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    if (query.length === 0) {
+      toast.error("Please enter a search Query .");
+      return;
+    }
+    // Setting Loading True
+    // setLoading(true);
+    setLn({ ...ln, loading: true });
+    // Pass the query to the gobal state
+    addSearchQuery(query.trim());
+    // alert("you have searched for - " + query);
+
+    searchRequestBackendProm(query.trim())
+      .then((res) => {
+        // setLoading(false);
+        setLn({ ...ln, loading: false });
+        history.push("/explorer/debates");
+      })
+      .catch((error) => {
+        toast.error(
+          "Connection to the Server Failed !!! Please Contact System Administrator"
+        );
+        setLn({ ...ln, loading: false });
+      });
+
+    // history.push("/explorer");
+  }
+
+  // // Handle Keyboard Submit
+
+  // function keyboardSubmit(e) {
+  //   //it triggers by pressing the enter key
+  //   if (e.keyCode === 13) {
+  //     handleSearchSubmit();
+  //     // this.btn.click();
+  //   }
+  // }
 
   function renderSpeaker(customer, lang, varObject, type) {
     // This function will render the secretary s Name & Designation
@@ -114,8 +205,9 @@ const WelcomeScreen = (props) => {
       </header>
       <div className="container-main">
         <div className="searchArea">
-          <div className="searchInputWrapper">
-            <input
+          <form action="">
+            <div className="searchInputWrapper">
+              {/* <input
               className={
                 CUSTOMER === "KLA" ? "searchInput--kla" : "searchInput--klc"
               }
@@ -124,16 +216,35 @@ const WelcomeScreen = (props) => {
                   ? i18n.searchPlaceHolder.eng
                   : i18n.searchPlaceHolder.kan
               }
-            />
-            <button
-              type="submit"
-              className={
-                CUSTOMER === "KLA" ? "searchSubmit--kla" : "searchSubmit--klc"
-              }
-            >
-              <i class="fa fa-search"></i>
-            </button>
-          </div>
+              onChange={onChangeQuery}
+              id="transliteration"
+            /> */}
+              <ReactTransliterate
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                lang="kn"
+              />
+              {/* <InputElement language={language} onChangeQuery={onChangeQuery} /> */}
+              <button
+                type="submit"
+                disabled={ln.loading ? true : false}
+                className={
+                  CUSTOMER === "KLA" ? "searchSubmit--kla" : "searchSubmit--klc"
+                }
+                onClick={handleSearchSubmit}
+              >
+                {ln.loading ? (
+                  <i
+                    class="fa fa-spinner fa-2x animateLoader"
+                    aria-hidden="true"
+                  ></i>
+                ) : (
+                  <i class="fa fa-search"></i>
+                )}
+                {/* <i class="fa fa-search"></i> */}
+              </button>
+            </div>
+          </form>
         </div>
         <div className="imgContainer">
           <div className="keypersonImgContainer">
@@ -158,7 +269,7 @@ const WelcomeScreen = (props) => {
             <div className="imgBx">
               <img
                 id="secretary"
-                src={CUSTOMER == "KLA" ? SecretaryKLA : SecretaryKLC}
+                src={CUSTOMER === "KLA" ? SecretaryKLA : SecretaryKLC}
                 alt="Secretary "
               />
             </div>
@@ -173,6 +284,17 @@ const WelcomeScreen = (props) => {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </section>
   );
 };
