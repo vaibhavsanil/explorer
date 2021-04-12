@@ -9,6 +9,7 @@ import {
   Link,
   useParams,
   useRouteMatch,
+  useHistory,
 } from "react-router-dom";
 
 import SelectElement from "../common/selectElementLanguage";
@@ -27,10 +28,16 @@ import NewsResults from "./tabs/NewsResults--component";
 
 function Explorer(props) {
   const debateContext = useContext(DebateContext);
-  const { searchquery, removeSearchQuery } = debateContext;
+  const {
+    searchquery,
+    removeSearchQuery,
+    debatesearchResult,
+    removeSearchQueryResults,
+  } = debateContext;
   let { path, url } = useRouteMatch();
 
   // Debug
+  const history = useHistory();
 
   // console.info(`[DEBUG] Path is ${path}  url is ${url}`);
 
@@ -41,14 +48,48 @@ function Explorer(props) {
   const [searchState, setSearch] = useState({
     searchTerm: "",
   });
-
+  // REF  https://dev.to/otamnitram/react-useeffect-cleanup-how-and-when-to-use-it-2hbm
   useEffect(() => {
+    // Push to Welcome if the result state is zero
+    pushToWelcome();
     // Sett Search Query to Local State
     setSearch({ ...searchTerm, searchTerm: searchquery });
     addClassInputElement(CUSTOMER);
     // Remove Query to Local State
     removeSearchQuery();
+
+    // Add Event Listener to Enter Key Press
+    keyBoardEnterPress();
+
+    return function cleanUp() {
+      removeSearchQueryResults();
+    };
   }, []);
+
+  //
+  function pushToWelcome() {
+    var sizeObject = Object.keys(debatesearchResult).length;
+    if (sizeObject === 0) {
+      history.push("/");
+    }
+  }
+
+  // Function detect Keyboard Enter
+  function keyBoardEnterPress() {
+    // Get the input field
+    var input = document.getElementsByTagName("input")[0];
+
+    // Execute a function when the user releases a key on the keyboard
+    input.addEventListener("keyup", function (event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("searchButton").click();
+      }
+    });
+  }
 
   // Change the atribute of the element
   function addClassInputElement(customer) {
@@ -71,6 +112,11 @@ function Explorer(props) {
 
   function changeSearchState(e) {
     setSearch({ ...searchState, searchTerm: e.target.value });
+  }
+
+  // On Submit of Button
+  function onSubmitAction(e) {
+    alert("Button Submmitted!!!");
   }
 
   const { language } = ln;
@@ -137,11 +183,13 @@ function Explorer(props) {
               </div>
               <button
                 type="submit"
+                id="searchButton"
                 className={
                   CUSTOMER === "KLA"
                     ? "searchSubmit-explorer--kla"
                     : "searchSubmit-explorer--klc"
                 }
+                onClick={onSubmitAction}
               >
                 <i class="fa fa-search"></i>
               </button>

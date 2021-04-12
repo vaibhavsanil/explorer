@@ -11,6 +11,7 @@ import {
   REMOVE_LOADING_LOCAL_STATE,
   SEARCH_REQUEST_SUCCESS,
   SEARCH_REQUEST_ERROR,
+  REMOVE_SEARCH_REQUEST,
 } from "../types";
 
 // Import the constants
@@ -64,6 +65,14 @@ const DebateState = (props) => {
     dispatch({
       type: REMOVE_SEARCH_LOCAL_STATE,
       payload: "",
+    });
+  };
+
+  // Remove Search Results from the local state
+
+  const removeSearchQueryResults = () => {
+    dispatch({
+      type: REMOVE_SEARCH_REQUEST,
     });
   };
 
@@ -175,6 +184,7 @@ const DebateState = (props) => {
         removeLoading,
         searchRequestBackend,
         searchRequestBackendProm,
+        removeSearchQueryResults,
 
         errors: {},
       }}

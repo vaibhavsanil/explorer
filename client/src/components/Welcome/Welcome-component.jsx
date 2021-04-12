@@ -33,14 +33,26 @@ const WelcomeScreen = (props) => {
     addSearchQuery,
     removeSearchQuery,
     searchQuery,
+    debatesearchResult,
     searchRequestBackend,
     searchRequestBackendProm,
   } = debateContext;
 
   const history = useHistory();
 
+  // function to push to explorer page if results exists in the state
+  function pushToExplorer() {
+    var sizeObject = Object.keys(debatesearchResult).length;
+    if (sizeObject > 0) {
+      history.push("/explorer/debates");
+    }
+  }
+
   useEffect(() => {
     addClassInputElement(CUSTOMER);
+
+    // On Load Push to Explorer If Result Exist
+    // pushToExplorer();
 
     // Clear Global State
     removeSearchQuery();
