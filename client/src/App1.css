@@ -641,3 +641,44 @@ footer {
 }
 
 /* Header Level2  KLC -- End */
+
+/* Card Hover */
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+  /* background-color: #eee; */
+  /* color: #444; */
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  border-radius: 5rem 0.5rem 0 0;
+  box-shadow: 0 0 6px rgb(0 0 0 / 20%);
+
+  background: #56ab2f; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #a8e063,
+    #56ab2f
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #a8e063,
+    #56ab2f
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  transition: 0.5s all ease;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+/* .active, */
+.collapsible:hover {
+  /* background-color: #ccc; */
+  background: linear-gradient(to right, #56ab2f, #56ab2f);
+  background: -webkit-linear-gradient(
+    to right,
+    #56ab2f,
+    #56ab2f
+  ); /* Chrome 10-25, Safari 5.1-6 */
+}

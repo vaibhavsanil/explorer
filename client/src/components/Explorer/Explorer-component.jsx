@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ReactTransliterate } from "react-transliterate";
 import "react-transliterate/dist/index.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   BrowserRouter as Router,
@@ -14,6 +16,9 @@ import {
 
 import SelectElement from "../common/selectElementLanguage";
 
+// Import Loading
+import LoadingButton from "../../utils/Loading";
+
 // Import Debate Context
 import DebateContext from "../../context/Debates/debateContext";
 
@@ -25,6 +30,7 @@ import { CUSTOMER, i18n, renderCustomerName } from "../../constants/index";
 
 import DebateResults from "./tabs/DebatesResults--component";
 import NewsResults from "./tabs/NewsResults--component";
+import NotFound from "./tabs/NotFound--component";
 
 function Explorer(props) {
   const debateContext = useContext(DebateContext);
@@ -33,6 +39,7 @@ function Explorer(props) {
     removeSearchQuery,
     debatesearchResult,
     removeSearchQueryResults,
+    searchRequestBackendProm,
   } = debateContext;
   let { path, url } = useRouteMatch();
 
@@ -48,6 +55,10 @@ function Explorer(props) {
   const [searchState, setSearch] = useState({
     searchTerm: "",
   });
+
+  const searchTermQuery = searchState.searchTerm;
+
+  const [loading, setLoading] = useState(false);
   // REF  https://dev.to/otamnitram/react-useeffect-cleanup-how-and-when-to-use-it-2hbm
   useEffect(() => {
     // Push to Welcome if the result state is zero
@@ -59,7 +70,7 @@ function Explorer(props) {
     removeSearchQuery();
 
     // Add Event Listener to Enter Key Press
-    keyBoardEnterPress();
+    // keyBoardEnterPress();
 
     return function cleanUp() {
       removeSearchQueryResults();
@@ -107,7 +118,7 @@ function Explorer(props) {
   // Change Language Function
   function languageChangefunc(e) {
     // console.info(e.target.value);
-    setLn({ ...ln, language: e.target.value });
+    setLn({ language: e.target.value });
   }
 
   function changeSearchState(e) {
@@ -116,7 +127,26 @@ function Explorer(props) {
 
   // On Submit of Button
   function onSubmitAction(e) {
-    alert("Button Submmitted!!!");
+    e.preventDefault();
+    setLoading(true);
+    if (searchTermQuery.length === 0) {
+      toast.error("Please enter a search Query .");
+      setLoading(false);
+      return;
+    }
+    searchRequestBackendProm(searchState.searchTerm.trim())
+      .then((res) => {
+        // setLoading(false);
+        // setLn({ ...ln, loading: false });
+        setLoading(false);
+        // history.push("/explorer/debates");
+      })
+      .catch((error) => {
+        toast.error(
+          "Connection to the Server Failed !!! Please Contact System Administrator"
+        );
+        setLoading(false);
+      });
   }
 
   const { language } = ln;
@@ -145,26 +175,38 @@ function Explorer(props) {
                 {renderCustomerName(CUSTOMER, language, i18n)}
               </Link>
 
-              <div
-                className={
-                  CUSTOMER === "KLA"
-                    ? "searchContainer-explorer--kla"
-                    : "searchContainer-explorer--klc"
-                }
-              >
-                <div className="searchInputWrapper">
+              <div>
+                <form
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                  }}
+                  action=""
+                >
                   <div
-                    className={CUSTOMER === "KLA" ? "searchIcon" : "searchIcon"}
+                    className={
+                      CUSTOMER === "KLA"
+                        ? "searchContainer-explorer--kla"
+                        : "searchContainer-explorer--klc"
+                    }
                   >
-                    <i class="fa fa-search"></i>
+                    {/* <div className="searchInputWrapper"> */}
+                    <div
+                      className={
+                        CUSTOMER === "KLA" ? "searchIcon" : "searchIcon"
+                      }
+                    >
+                      <i class="fa fa-search"></i>
+                    </div>
+
+                    <ReactTransliterate
+                      value={searchState.searchTerm}
+                      onChange={(e) =>
+                        setSearch({ searchTerm: e.target.value })
+                      }
+                      lang="kn"
+                    />
                   </div>
-
-                  <ReactTransliterate
-                    value={searchState.searchTerm}
-                    onChange={(e) => setSearch({ searchTerm: e.target.value })}
-                    lang="kn"
-                  />
-
                   {/* <input
                     className={
                       CUSTOMER === "KLA"
@@ -179,20 +221,22 @@ function Explorer(props) {
                     value={searchState.searchTerm}
                     onChange={changeSearchState}
                   /> */}
-                </div>
+                  {/* </div> */}
+                  <button
+                    type="submit"
+                    id="searchButton"
+                    disabled={loading ? true : false}
+                    className={
+                      CUSTOMER === "KLA"
+                        ? "searchSubmit-explorer--kla"
+                        : "searchSubmit-explorer--klc"
+                    }
+                    onClick={onSubmitAction}
+                  >
+                    {loading ? <LoadingButton /> : <i class="fa fa-search"></i>}
+                  </button>
+                </form>
               </div>
-              <button
-                type="submit"
-                id="searchButton"
-                className={
-                  CUSTOMER === "KLA"
-                    ? "searchSubmit-explorer--kla"
-                    : "searchSubmit-explorer--klc"
-                }
-                onClick={onSubmitAction}
-              >
-                <i class="fa fa-search"></i>
-              </button>
 
               <div
                 style={{
@@ -215,7 +259,7 @@ function Explorer(props) {
                     : "header-navigation--klc"
                 }
               >
-                <li>
+                <li id="debatesTab">
                   <i class="fa fa-users" aria-hidden="true"></i>
                   <Link to={`${url}/debates`}>
                     {language === "ENG"
@@ -223,7 +267,7 @@ function Explorer(props) {
                       : explorerHeaders.debatesHeader.kan}
                   </Link>
                 </li>
-                <li>
+                <li id="newsTab">
                   <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                   <Link to={`${url}/news`}>
                     {" "}
@@ -232,7 +276,7 @@ function Explorer(props) {
                       : explorerHeaders.newsHeader.kan}
                   </Link>
                 </li>
-                <li>
+                <li id="reviewTab">
                   <i class="fa fa-address-book-o" aria-hidden="true"></i>
                   <Link to={`${url}/review`}>
                     {" "}
@@ -241,7 +285,7 @@ function Explorer(props) {
                       : explorerHeaders.reviewHeader.kan}
                   </Link>
                 </li>
-                <li>
+                <li id="budgetTab">
                   <i class="fa fa-inr" aria-hidden="true"></i>
                   <Link to={`${url}/budget`}>
                     {" "}
@@ -250,7 +294,7 @@ function Explorer(props) {
                       : explorerHeaders.budgetHeader.kan}
                   </Link>
                 </li>
-                <li>
+                <li id="whowhoTab">
                   <i class="fa fa-user" aria-hidden="true"></i>
 
                   <Link to={`${url}/whoswho`}>
@@ -260,7 +304,7 @@ function Explorer(props) {
                       : explorerHeaders.whoswhoHeader.kan}
                   </Link>
                 </li>
-                <li>
+                <li id="vedioTab">
                   <i class="fa fa-video-camera" aria-hidden="true"></i>
                   <Link to={`${url}/vedio`}>
                     {" "}
@@ -287,9 +331,25 @@ function Explorer(props) {
               <DebateResults />
             </Route>
 
-            <Route exact path={`${path}/debates`} component={DebateResults} />
+            <Route
+              exact
+              path={`${path}/debates`}
+              component={() => <DebateResults lang={language} />}
+            />
             <Route exact path={`${path}/news`} component={NewsResults} />
+            <Route component={NotFound} />
           </Switch>
+          <ToastContainer
+            position="bottom-left"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </section>
 
         <footer>

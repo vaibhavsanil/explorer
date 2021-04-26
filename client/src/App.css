@@ -352,8 +352,9 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
 
 .section-results-main {
   margin-top: 12rem;
-  background-color: aqua;
+  background-color: var(--primaryBackground);
   height: 98vh;
+  padding: 2rem 2rem;
 }
 
 footer {
@@ -474,11 +475,18 @@ footer {
   border: 1px solid var(--primaryKLA);
   transition: 0.3s all;
   margin-left: 1rem;
+  min-width: 9rem;
+  max-height: 32px;
 }
 
 .searchSubmit-explorer--kla:hover {
   background-color: #017143;
   color: white;
+}
+
+.searchSubmit-explorer--kla:hover .lds-dual-ring:after {
+  border: 4px solid #fff;
+  border-color: #fff transparent #fff transparent;
 }
 
 /* Welcome Screen KLC */
@@ -496,6 +504,8 @@ footer {
   border: 1px solid var(--primaryKLC);
   transition: 0.3s all;
   margin-left: 1rem;
+  min-width: 9rem;
+  max-height: 32px;
 }
 
 .searchSubmit-explorer--klc:hover {
@@ -618,3 +628,234 @@ footer {
 }
 
 /* Header Level2  KLC -- End */
+
+/* Loading CSS */
+
+.button:disabled {
+  opacity: 0.5;
+}
+.lds-dual-ring {
+  display: inline-block;
+  width: 0x;
+  height: 0px;
+}
+.lds-dual-ring:after {
+  /* position: absolute; */
+  /* top: 16px;
+  right: 328px; */
+  content: " ";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  /* margin: 8px; */
+  border-radius: 50%;
+  /* border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent; */
+  border: 4px solid var(--primaryKLA);
+  border-color: var(--primaryKLA) transparent var(--primaryKLA) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+.lds-dual-ring:hover:after {
+  border: 4px solid #fff;
+  border-color: #fff transparent #fff transparent;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Laoding CSS End */
+
+/* Higlight Tab */
+
+.active_tab--kla {
+  border-bottom: 2px solid var(--primaryKLA);
+}
+
+.active_tab--klc {
+  border-bottom: 2px solid var(--primaryKLC);
+}
+
+/* Highlight Tab end */
+
+/* Debate Result Styles  */
+
+/* /////////// Collapsible Styles ////// */
+.collapsibleContainer {
+  padding: 2rem 1rem;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+/* KLA */
+.collapsible--kla {
+  /* background-color: #eee; */
+  color: var(--primaryKLA);
+  cursor: pointer;
+
+  font-weight: 500;
+  padding: 12px;
+  padding-left: 2rem;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 1.4rem;
+  border-radius: 4.5rem 0.5rem 0 0;
+  box-shadow: 0 0 6px rgb(0 0 0 / 20%);
+  vertical-align: middle;
+  /* background: #56ab2f; fallback for old browsers */
+  background-color: var(--primaryLottie);
+  letter-spacing: 1.3px;
+  border-bottom: 4px solid var(--primaryKLA);
+}
+.collapsible--kla:hover {
+}
+
+.collapsible--kla::after {
+  content: "\002B";
+  color: var(--primaryKLA);
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.collapsible--kla.active::after {
+  content: "\2212";
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+/* .active, */
+
+/* KLC */
+/* KLA */
+.collapsible--klc {
+  /* background-color: #eee; */
+  color: var(--primaryKLA);
+  cursor: pointer;
+  font-weight: 400;
+  padding: 12px;
+  padding-left: 2rem;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  border-radius: 4.5rem 0.5rem 0 0;
+  box-shadow: 0 0 6px rgb(0 0 0 / 20%);
+  vertical-align: middle;
+  /* background: #56ab2f; fallback for old browsers */
+  background-color: var(--primaryLottie);
+  border-bottom: 4px solid var(--primaryKLA);
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+/* .active, */
+.collapsible--klc:hover {
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+  padding: 0.5rem 1.3rem;
+  visibility: visible;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #fff;
+  transition: 0.5s display;
+  vertical-align: middle;
+}
+
+.collapsibleInput {
+  width: 100%;
+  padding: 5px;
+  font-weight: 400;
+  outline: none;
+  font-size: 1.2rem;
+}
+
+.facetContainer {
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.facetItem label {
+  display: flex;
+  vertical-align: middle;
+  cursor: pointer;
+  line-height: 1.5rem;
+}
+
+.facetItem span {
+  font-size: 1.2rem;
+  padding-left: 0.5rem;
+  padding-bottom: 0.5rem;
+  vertical-align: middle;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* /////////// Collapsible End ////// */
+
+.debate-result--container {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+.debate-result-facet--container {
+  /* background-color: red; */
+  width: 20%;
+}
+
+.debate-result-resultPage--container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  background-color: blue;
+  width: 80%;
+}
+
+.debate-result-filterView--container {
+  background-color: cadetblue;
+  height: 10%;
+}
+
+.debate-result-resultPage-displayResults--container {
+  background-color: aqua;
+  height: 90%;
+}
+
+/* Debate Result Styles End  */
+
+/* ////////////////////////////////////////////////////////// */
+/* /////////////////Media Queries /////////////////////////// */
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
+
+/* /////////////////Media Queries End/////////////////////// */
+/* ////////////////////// /////////////////////////// */

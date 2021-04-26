@@ -41,12 +41,6 @@ const WelcomeScreen = (props) => {
   const history = useHistory();
 
   // function to push to explorer page if results exists in the state
-  function pushToExplorer() {
-    var sizeObject = Object.keys(debatesearchResult).length;
-    if (sizeObject > 0) {
-      history.push("/explorer/debates");
-    }
-  }
 
   useEffect(() => {
     addClassInputElement(CUSTOMER);

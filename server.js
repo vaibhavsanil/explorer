@@ -40,7 +40,7 @@ mongoose
 const client = new Client7({
   //   node: `https://${config.es_user}:${config.es_pass}@${config.es_host}:${config.es_port}`,
   node:
-    "https://elastic:AoW7tfyGSx2Vhsd7JGFspnvN@283e4281e6fc4d77bb892cff3e77f8ec.us-west1.gcp.cloud.es.io:9243",
+    "https://elastic:pQoXAqllveTLKzaPvv9NVYnO@enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243",
   //https://283e4281e6fc4d77bb892cff3e77f8ec.us-west1.gcp.cloud.es.io:9243
 });
 

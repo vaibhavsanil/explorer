@@ -98,7 +98,7 @@ router.get("/sh", (req, res) => {
   // https://stackoverflow.com/questions/50159269/elasticsearch-aggregation-not-showing-count
   axios
     .post(
-      "https://elastic:AoW7tfyGSx2Vhsd7JGFspnvN@283e4281e6fc4d77bb892cff3e77f8ec.us-west1.gcp.cloud.es.io:9243/klatest/_search",
+      "https://elastic:pQoXAqllveTLKzaPvv9NVYnO@enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243/klatest/_search",
       // path.join(
       //   keys.es_host_remote_new,
       //   keys.kla_test_index,

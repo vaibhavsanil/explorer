@@ -217,6 +217,33 @@ export function renderCustomerName(customer, lang, varObject) {
   }
 }
 
+// Add the Highlight To Tab
+export function addHiglightToTab(tabType) {
+  function nodeType(type) {
+    if (type === "debate") {
+      return "debatesTab";
+    } else if (type === "news") {
+      return "newsTab";
+    } else if (type === "review") {
+      return "reviewTab";
+    } else if (type === "budget") {
+      return "budgetTab";
+    } else if ("vedio") {
+      return "vedioTab";
+    } else if (type === "whoswho") {
+      return "whowhotab";
+    }
+  }
+  const node = document.getElementById(nodeType(tabType));
+  if (node === null) {
+    return;
+  }
+
+  node.classList.toggle(
+    CUSTOMER === "KLA" ? "active_tab--kla" : "active_tab--klc"
+  );
+}
+
 // Cancel Token
 
 // export function cancelToken() {
