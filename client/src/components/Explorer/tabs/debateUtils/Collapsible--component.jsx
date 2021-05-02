@@ -4,37 +4,67 @@ import FacetItem from "./FacetItem--component";
 
 function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
   const [inputSearch, setInput] = useState("");
-  const [facetValue, setFacetValue] = useState();
+  const [facetValue, setFacetValue] = useState([]);
+
   useEffect(() => {
+    // console.info(`[DEBUG] the use Effect Called for ${type} `);
     dontrenderFacet();
     addEventListenerCard();
-  }, []);
-  // console.info(`[DEBUG] The Header is ${header}`);
+    var facetData = lang === "ENG" ? dataFacetEng : dataFacetKan;
 
-  useEffect(() => {
+    setFacetValue(facetData);
+  }, []);
+
+  // useEffect(() => {
+  //   if (type === "debateType") {
+  //     let dataFacet = lang === "ENG" ? dataFacetEng : dataFacetEng;
+  //     console.info(`In use Effect the value of dataFacet ${dataFacet}`);
+  //     let filteredValue = dataFacet.filter((item) => {
+  //       return item.key.includes(inputSearch);
+  //     });
+  //     console.info(
+  //       `In use Effect the value of filtered value fr debateType ${JSON.stringify(
+  //         filteredValue
+  //       )}`
+  //     );
+  //     setFacetValue(filteredValue);
+  //   } else {
+  //     renderSearchFacet();
+  //   }
+  // }, [inputSearch]);
+
+  function handleSearch(e) {
     if (type === "debateType") {
       let dataFacet = lang === "ENG" ? dataFacetEng : dataFacetEng;
-      console.info(`In use Effect the value of dataFacet ${dataFacet}`);
+      // console.info(
+      //   `In use Effect the value of dataFacet ${JSON.stringify(dataFacet)}`
+      // );
       let filteredValue = dataFacet.filter((item) => {
-        return item.key.includes(inputSearch);
+        return item.key.includes(e.target.value);
       });
-      console.info(
-        `In use Effect the value of filtered value fr debateType ${JSON.stringify(
-          filteredValue
-        )}`
-      );
+      // console.info(
+      //   `In use Effect the value of filtered value fr debateType ${JSON.stringify(
+      //     filteredValue
+      //   )}`
+      // );
       setFacetValue(filteredValue);
     } else {
-      renderSearchFacet();
+      renderSearchFacet(e);
     }
-  }, [type, inputSearch]);
+  }
 
-  function renderSearchFacet() {
+  function renderSearchFacet(e) {
     let dataFacet = lang === "ENG" ? dataFacetEng : dataFacetKan;
-    console.info(`In use Effect the value of dataFacet ${dataFacet}`);
+    // console.info(`In use Effect the value of dataFacet ${dataFacet}`);
     let filteredValue = dataFacet.filter((item) => {
-      return item.key.includes(inputSearch);
+      return item.key.includes(e.target.value);
     });
+
+    // console.info(
+    //   `In use Effect the value of filtered value fr debateType ${JSON.stringify(
+    //     filteredValue
+    //   )}`
+    // );
     setFacetValue(filteredValue);
   }
 
@@ -81,6 +111,7 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
     // );
 
     return facetValue.map((item) => {
+      // console.info(`[DEBUG] from ${type} the item is ${item}`);
       const { key, doc_count } = item;
 
       if (doc_count === "0") {
@@ -158,7 +189,7 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
           <input
             className="collapsibleInput"
             type="text"
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => handleSearch(e)}
           />
         </form>
         <div className="facetContainer">

@@ -25,17 +25,24 @@ function DebatesResults({ lang }) {
 
   const { analysis } = debatesearchResult;
 
+  // console.info(
+  //   `[DEBUG] from the Debate Results compoent ${JSON.stringify(analysis)}`
+  // );
+
   return (
     <>
       <div className="debate-result--container">
         <div className="debate-result-facet--container">
-          <CollapsibleCard
-            type="debateType"
-            lang={lang}
-            header={i18n.debateType}
-            dataFacetEng={analysis ? analysis.debateType_bucket.buckets : []}
-            dataFacetKan={analysis ? analysis.debateType_bucket.buckets : []}
-          />
+          {analysis && (
+            <CollapsibleCard
+              type="debateType"
+              lang={lang}
+              header={i18n.debateType}
+              dataFacetEng={analysis ? analysis.debateType_bucket.buckets : []}
+              dataFacetKan={analysis ? analysis.debateType_bucket.buckets : []}
+            />
+          )}
+
           <CollapsibleCard
             type="assemblyNumber"
             lang={lang}
