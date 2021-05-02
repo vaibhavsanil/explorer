@@ -1,7 +1,7 @@
 import React from "react";
 
 function FacetItem({ itemHeader, docCount, value }) {
-  console.info(`[DEBUG] from Facet Item is ${itemHeader} ${docCount} ${value}`);
+  // console.info(`[DEBUG] from Facet Item is ${itemHeader} ${docCount} ${value}`);
 
   return (
     <div className="facetItem">

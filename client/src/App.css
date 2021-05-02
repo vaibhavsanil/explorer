@@ -355,6 +355,8 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
   background-color: var(--primaryBackground);
   height: 98vh;
   padding: 2rem 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 footer {
@@ -761,7 +763,7 @@ footer {
 /* Style the collapsible content. Note: hidden by default */
 .content {
   padding: 0.5rem 1.3rem;
-  visibility: visible;
+  /* visibility: visible; */
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -810,6 +812,7 @@ footer {
 .debate-result-facet--container {
   /* background-color: red; */
   width: 20%;
+  overflow-y: auto;
 }
 
 .debate-result-resultPage--container {

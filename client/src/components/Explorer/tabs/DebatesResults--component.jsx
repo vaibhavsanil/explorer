@@ -34,8 +34,10 @@ function DebatesResults({ lang }) {
             lang={lang}
             header={i18n.debateType}
             dataFacetEng={analysis ? analysis.debateType_bucket.buckets : []}
+            dataFacetKan={analysis ? analysis.debateType_bucket.buckets : []}
           />
           <CollapsibleCard
+            type="assemblyNumber"
             lang={lang}
             header={i18n.assemblyNumber}
             dataFacetEng={
@@ -44,6 +46,49 @@ function DebatesResults({ lang }) {
             dataFacetKan={
               analysis ? analysis.assemblyNumber_bucket.buckets : []
             }
+          />
+          <CollapsibleCard
+            type="sessionNumber"
+            lang={lang}
+            header={i18n.sessionNumber}
+            dataFacetEng={analysis ? analysis.sessionNumber_bucket.buckets : []}
+            dataFacetKan={analysis ? analysis.sessionNumber_bucket.buckets : []}
+          />
+          <CollapsibleCard
+            type="debateTitle"
+            lang={lang}
+            header={i18n.debateTitle}
+            dataFacetEng={
+              analysis ? analysis.debateTitleEng_bucket.buckets : []
+            }
+            dataFacetKan={
+              analysis ? analysis.debateTitleKan_bucket.buckets : []
+            }
+          />
+          <CollapsibleCard
+            type="debatePart"
+            lang={lang}
+            header={i18n.debateParticipants}
+            dataFacetEng={
+              analysis ? analysis.debateParticiapantsEng_bucket.buckets : []
+            }
+            dataFacetKan={
+              analysis ? analysis.debateParticiapantsKan_bucket.buckets : []
+            }
+          />
+          <CollapsibleCard
+            type="year"
+            lang={lang}
+            header={i18n.year}
+            dataFacetEng={analysis ? analysis.yearFilter_bucket.buckets : []}
+            dataFacetKan={analysis ? analysis.yearFilter_bucket.buckets : []}
+          />
+          <CollapsibleCard
+            type="bookId"
+            lang={lang}
+            header={i18n.bookId}
+            dataFacetEng={analysis ? analysis.bookId_bucket.buckets : []}
+            dataFacetKan={analysis ? analysis.bookId_bucket.buckets : []}
           />
         </div>
         <div className="debate-result-resultPage--container">

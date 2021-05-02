@@ -3,28 +3,51 @@ import { CUSTOMER, i18n } from "../../../../constants/index";
 import FacetItem from "./FacetItem--component";
 
 function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
+  const [inputSearch, setInput] = useState("");
+  const [facetValue, setFacetValue] = useState();
   useEffect(() => {
+    dontrenderFacet();
     addEventListenerCard();
   }, []);
   // console.info(`[DEBUG] The Header is ${header}`);
-  const [inputSearch, setInput] = useState("");
-  const [facetValue, setFacetValue] = useState();
 
   useEffect(() => {
     if (type === "debateType") {
       let dataFacet = lang === "ENG" ? dataFacetEng : dataFacetEng;
-      let filteredValue = dataFacetEng.filter((item) => {
+      console.info(`In use Effect the value of dataFacet ${dataFacet}`);
+      let filteredValue = dataFacet.filter((item) => {
         return item.key.includes(inputSearch);
       });
+      console.info(
+        `In use Effect the value of filtered value fr debateType ${JSON.stringify(
+          filteredValue
+        )}`
+      );
       setFacetValue(filteredValue);
     } else {
-      let dataFacet = lang === "ENG" ? dataFacetEng : dataFacetKan;
-      let filteredValue = dataFacetEng.filter((item) => {
-        return item.key.includes(inputSearch);
-      });
-      setFacetValue(filteredValue);
+      renderSearchFacet();
     }
-  }, [inputSearch]);
+  }, [type, inputSearch]);
+
+  function renderSearchFacet() {
+    let dataFacet = lang === "ENG" ? dataFacetEng : dataFacetKan;
+    console.info(`In use Effect the value of dataFacet ${dataFacet}`);
+    let filteredValue = dataFacet.filter((item) => {
+      return item.key.includes(inputSearch);
+    });
+    setFacetValue(filteredValue);
+  }
+
+  function dontrenderFacet() {
+    // console.log(`The data facet length of ${type} is ${dataFacetKan}`);
+    if (dataFacetEng.length === 0 || dataFacetKan.length === 0) {
+      const facetContainer = document.getElementById(type + "_container");
+      facetContainer.style.display = "none";
+    } else {
+      const facetContainer = document.getElementById(type + "_container");
+      facetContainer.style.display = "block";
+    }
+  }
 
   // console.info(
   //   `[DEBUG] The value of the filetered value is \n ${JSON.stringify(
@@ -52,15 +75,15 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
       }
     }
     // console.info(
-    //   `[DEBUG] The value of the debate facet is \n ${JSON.stringify(
-    //     debateFacet
+    //   `[DEBUG] The value of facet value for type ${type} is \n ${JSON.stringify(
+    //     facetValue
     //   )}`
     // );
 
     return facetValue.map((item) => {
       const { key, doc_count } = item;
 
-      if (doc_count === 0) {
+      if (doc_count === "0") {
         return;
       }
       return (
@@ -83,7 +106,7 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
     let debateFacet = lang === "ENG" ? debateFacetEng : debateFacetKan;
     return facetValue.map((item) => {
       const { key, doc_count } = item;
-      if (doc_count === 0) {
+      if (doc_count === 0 || key === "N/A") {
         return;
       }
       return <ItemJsx itemHeader={key} docCount={doc_count} value={key} />;
@@ -91,35 +114,41 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
   }
 
   function addEventListenerCard() {
-    var coll = document.getElementsByClassName(
-      CUSTOMER === "KLA" ? "collapsible--kla" : "collapsible--klc"
-    );
-    var i;
+    // var coll = document.getElementsByClassName(
+    //   CUSTOMER === "KLA" ? "collapsible--kla" : "collapsible--klc"
+    // );
+    var coll = document.getElementById(type + "_button");
+    // console.info(`[DEBUG] The value of coll is ${coll} `);
+    // for (let i = 0; i < coll.length; i++) {
+    // coll.classList.toggle("active");
+    coll.addEventListener("click", function () {
+      // console.error(`The click function is called !!!`);
+      this.classList.toggle("active");
+      // console.info(`The value of type is ${type} `);
+      const content = document.getElementById(type);
 
-    for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.visibility === "visible") {
-          // content.style.display = "none";
-          content.style.visibility = "hidden";
-        } else {
-          // content.style.display = "block";
-          content.style.visibility = "visible";
-        }
-      });
-    }
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else if (content.style.display === "none") {
+        content.style.display = "block";
+      } else {
+        content.style.display = "block";
+      }
+      // console.info("The value of content is ", content.style.visibility);
+    });
+    // }
   }
 
   return (
-    <div className="collapsibleContainer">
+    <div id={type + "_container"} className="collapsibleContainer">
       <button
+        id={type + "_button"}
         type="button"
         className={CUSTOMER === "KLA" ? "collapsible--kla" : "collapsible--klc"}
       >
         {lang === "ENG" ? header.eng : header.kan}
       </button>
-      <div class="content">
+      <div id={type} className="content">
         <form
           action=""
           style={{

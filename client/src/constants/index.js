@@ -64,6 +64,14 @@ export const i18n = {
     eng: "Debate Type",
     kan: "ಚರ್ಚೆಯ ವಿಧಾ ",
   },
+  year: {
+    eng: "Year",
+    kan: "ವರ್ಷ",
+  },
+  bookId: {
+    eng: "Book Id",
+    kan: "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
+  },
 
   assemblyNumber: {
     eng: "Assembly Number",
