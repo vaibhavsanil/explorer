@@ -205,6 +205,29 @@ export const searchObject = {
   tagfEng: "",
 };
 
+// Search Query Request Constants Exmaple
+export const searchConstQueryObject = {
+  ln: "",
+  srt: "",
+  qt: "PRC",
+  qp: "",
+  dtf: [],
+  anf: "",
+  snf: "",
+  dsubfEng: [],
+  dsubfKan: [],
+  dpfEng: [],
+  dpfKan: [],
+  dbf: [],
+  ytf: [],
+  sectionDateFrm: "",
+  sectionDateTo: "",
+  issfEng: [],
+  issfKan: [],
+  tagfKan: [],
+  tagfEng: [],
+};
+
 // Helper Functions
 export function renderCustomerName(customer, lang, varObject) {
   // This function will conditional render the Logo Name based on customer

@@ -766,7 +766,8 @@ footer {
   /* visibility: visible; */
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: auto;
   background-color: #fff;
   transition: 0.5s display;
   vertical-align: middle;

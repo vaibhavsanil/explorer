@@ -334,7 +334,9 @@ function Explorer(props) {
             <Route
               exact
               path={`${path}/debates`}
-              component={() => <DebateResults lang={language} />}
+              component={() => (
+                <DebateResults lang={language} searchTerm={searchTermQuery} />
+              )}
             />
             <Route exact path={`${path}/news`} component={NewsResults} />
             <Route component={NotFound} />

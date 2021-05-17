@@ -15,7 +15,12 @@ import {
 } from "../types";
 
 // Import the constants
-import { searchQueryConst, urlHeaders, CUSTOMER } from "../../constants/index";
+import {
+  searchQueryConst,
+  urlHeaders,
+  CUSTOMER,
+  searchConstQueryObject,
+} from "../../constants/index";
 
 const DebateState = (props) => {
   const initialState = {
@@ -23,6 +28,7 @@ const DebateState = (props) => {
     loading: false,
     debatesearchResult: {},
     currentDebateSection: {},
+    debateQueryObj: {},
 
     errors: {},
   };
@@ -177,6 +183,7 @@ const DebateState = (props) => {
         debatesearchResult: state.debatesearchResult,
         newssearchResult: state.newssearchResult,
         currentDebateSection: state.currentDebateSection,
+        debateQueryObj: state.debateQueryObj,
 
         addSearchQuery,
         removeSearchQuery,

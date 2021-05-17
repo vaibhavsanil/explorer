@@ -1,20 +1,29 @@
 import React, { useEffect, Fragment, useState, useContext } from "react";
 import CollapsibleCard from "./debateUtils/Collapsible--component";
 
-import { CUSTOMER, addHiglightToTab, i18n } from "../../../constants/index";
+import {
+  CUSTOMER,
+  addHiglightToTab,
+  i18n,
+  searchQueryConst,
+} from "../../../constants/index";
 
 // Import Context
 import DebateContext from "../../../context/Debates/debateContext";
 
-function DebatesResults({ lang }) {
+function DebatesResults({ lang, searchTerm }) {
   const tabType = "debate";
   const debateContext = useContext(DebateContext);
+  const [searchState, setSearch] = useState(searchQueryConst);
 
   const { debatesearchResult } = debateContext;
 
   useEffect(() => {
     addHiglightToTab(tabType);
-
+    // setSearch(...searchState, (searchState["qp"] = searchTerm));
+    console.info(
+      `[DEBUG] the value of search State is ${JSON.stringify(searchState)} `
+    );
     return function cleanup() {
       //removeHiglightToTab();
       addHiglightToTab(tabType);
@@ -22,12 +31,15 @@ function DebatesResults({ lang }) {
   }, []);
 
   useEffect(() => {}, [debatesearchResult]);
+  // useEffect(() => {
+  //   setSearch((searchState.qp = searchTerm));
+  // }, [searchTerm]);
 
   const { analysis } = debatesearchResult;
 
-  // console.info(
-  //   `[DEBUG] from the Debate Results compoent ${JSON.stringify(analysis)}`
-  // );
+  console.info(
+    `[DEBUG] from the Debate Results compoent ${JSON.stringify(searchState)}`
+  );
 
   return (
     <>

@@ -15,24 +15,6 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
     setFacetValue(facetData);
   }, []);
 
-  // useEffect(() => {
-  //   if (type === "debateType") {
-  //     let dataFacet = lang === "ENG" ? dataFacetEng : dataFacetEng;
-  //     console.info(`In use Effect the value of dataFacet ${dataFacet}`);
-  //     let filteredValue = dataFacet.filter((item) => {
-  //       return item.key.includes(inputSearch);
-  //     });
-  //     console.info(
-  //       `In use Effect the value of filtered value fr debateType ${JSON.stringify(
-  //         filteredValue
-  //       )}`
-  //     );
-  //     setFacetValue(filteredValue);
-  //   } else {
-  //     renderSearchFacet();
-  //   }
-  // }, [inputSearch]);
-
   function handleSearch(e) {
     if (type === "debateType") {
       let dataFacet = lang === "ENG" ? dataFacetEng : dataFacetEng;
@@ -68,6 +50,14 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
     setFacetValue(filteredValue);
   }
 
+  const itemCheckFunc = (e, type) => {
+    // This function will carry the checked from the facet item to the global state
+    console.info(`Item Check Function is called !!!`);
+    console.info(
+      `The item ${e.target.value} is called ${e.target.checked} for ${type}`
+    );
+  };
+
   function dontrenderFacet() {
     // console.log(`The data facet length of ${type} is ${dataFacetKan}`);
     if (dataFacetEng.length === 0 || dataFacetKan.length === 0) {
@@ -88,7 +78,7 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
     setInput(e.target.value);
   }
 
-  function renderDebateType(debateFacet, ItemJsx, lang) {
+  function renderDebateType(debateFacet, ItemJsx, lang, type, itemCheckFunc) {
     function renderDebateHeader(headerType, lang) {
       if (lang === "ENG") {
         let headerEng =
@@ -104,16 +94,11 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
         return headerKan;
       }
     }
-    // console.info(
-    //   `[DEBUG] The value of facet value for type ${type} is \n ${JSON.stringify(
-    //     facetValue
-    //   )}`
-    // );
 
     return facetValue.map((item) => {
       // console.info(`[DEBUG] from ${type} the item is ${item}`);
       const { key, doc_count } = item;
-
+      // console.info(`The itemCheck function for ${type} is ${itemCheckFunc}`);
       if (doc_count === "0") {
         return;
       }
@@ -121,13 +106,22 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
         <ItemJsx
           itemHeader={renderDebateHeader(key, lang)}
           docCount={doc_count}
+          facetType={type}
           value={key}
+          itemCheckFunction={itemCheckFunc}
         />
       );
     });
   }
 
-  function renderOtherType(debateFacetEng, debateFacetKan, ItemJsx, lang) {
+  function renderOtherType(
+    debateFacetEng,
+    debateFacetKan,
+    ItemJsx,
+    lang,
+    type,
+    itemCheckFunc
+  ) {
     // console.info(
     //   `[DEBUG] The value of the other debate facet is \n ${JSON.stringify(
     //     debateFacet
@@ -137,10 +131,19 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
     let debateFacet = lang === "ENG" ? debateFacetEng : debateFacetKan;
     return facetValue.map((item) => {
       const { key, doc_count } = item;
+      // console.info(`from Collapse componenet ${type}`);
       if (doc_count === 0 || key === "N/A") {
         return;
       }
-      return <ItemJsx itemHeader={key} docCount={doc_count} value={key} />;
+      return (
+        <ItemJsx
+          itemHeader={key}
+          facetType={type}
+          docCount={doc_count}
+          value={key}
+          itemCheckFunction={itemCheckFunc}
+        />
+      );
     });
   }
 
@@ -194,8 +197,21 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
         </form>
         <div className="facetContainer">
           {type === "debateType"
-            ? renderDebateType(dataFacetEng, FacetItem, lang)
-            : renderOtherType(dataFacetEng, dataFacetKan, FacetItem, lang)}
+            ? renderDebateType(
+                dataFacetEng,
+                FacetItem,
+                lang,
+                type,
+                itemCheckFunc
+              )
+            : renderOtherType(
+                dataFacetEng,
+                dataFacetKan,
+                FacetItem,
+                lang,
+                type,
+                itemCheckFunc
+              )}
         </div>
       </div>
     </div>
