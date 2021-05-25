@@ -52,15 +52,23 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
 
   const itemCheckFunc = (e, type) => {
     // This function will carry the checked from the facet item to the global state
-    console.info(`Item Check Function is called !!!`);
-    console.info(
-      `The item ${e.target.value} is called ${e.target.checked} for ${type}`
-    );
+    // console.info(`Item Check Function is called !!!`);
+    // console.info(
+    //   `The item ${e.target.value} is called ${e.target.checked} for ${type}`
+    // );
   };
 
   function dontrenderFacet() {
-    // console.log(`The data facet length of ${type} is ${dataFacetKan}`);
-    if (dataFacetEng.length === 0 || dataFacetKan.length === 0) {
+    // console.log(
+    //   `[DEBUG] Don Render The data facet length of ${type} is ${JSON.stringify(
+    //     dataFacetEng
+    //   )}`
+    // );
+    if (
+      dataFacetEng.length === 0 ||
+      dataFacetKan.length === 0 ||
+      dataFacetEng[0].key === "N/A"
+    ) {
       const facetContainer = document.getElementById(type + "_container");
       facetContainer.style.display = "none";
     } else {
@@ -99,11 +107,13 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
       // console.info(`[DEBUG] from ${type} the item is ${item}`);
       const { key, doc_count } = item;
       // console.info(`The itemCheck function for ${type} is ${itemCheckFunc}`);
+
       if (doc_count === "0") {
         return;
       }
       return (
         <ItemJsx
+          language={lang}
           itemHeader={renderDebateHeader(key, lang)}
           docCount={doc_count}
           facetType={type}
@@ -142,6 +152,7 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
           docCount={doc_count}
           value={key}
           itemCheckFunction={itemCheckFunc}
+          language={lang}
         />
       );
     });

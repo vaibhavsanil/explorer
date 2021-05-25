@@ -40,6 +40,9 @@ function Explorer(props) {
     debatesearchResult,
     removeSearchQueryResults,
     searchRequestBackendProm,
+    searchRequestExplorerProm,
+    debateQueryObj,
+    addSearchQueryFormat,
   } = debateContext;
   let { path, url } = useRouteMatch();
 
@@ -64,7 +67,7 @@ function Explorer(props) {
     // Push to Welcome if the result state is zero
     pushToWelcome();
     // Sett Search Query to Local State
-    setSearch({ ...searchTerm, searchTerm: searchquery });
+    setSearch({ ...searchTerm, searchTerm: debateQueryObj["qp"] });
     addClassInputElement(CUSTOMER);
     // Remove Query to Local State
     removeSearchQuery();
@@ -130,11 +133,16 @@ function Explorer(props) {
     e.preventDefault();
     setLoading(true);
     if (searchTermQuery.length === 0) {
-      toast.error("Please enter a search Query .");
+      toast.error("Please enter a Search Query .");
       setLoading(false);
       return;
     }
-    searchRequestBackendProm(searchState.searchTerm.trim())
+
+    let globalSearchQuery = debateQueryObj;
+    // Storing the query phrase
+    globalSearchQuery["qp"] = searchState.searchTerm.trim();
+    addSearchQueryFormat(globalSearchQuery);
+    searchRequestExplorerProm(debateContext)
       .then((res) => {
         // setLoading(false);
         // setLn({ ...ln, loading: false });

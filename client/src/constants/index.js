@@ -98,6 +98,11 @@ export const i18n = {
     kan: "ನಡವಳಿ ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
   },
 
+  issues: {
+    eng: "Issues",
+    kan: "ಸಮಸ್ಯೆಗಳು",
+  },
+
   annexure: {
     eng: "Annexure",
     kan: "ಅನುಬಂಧಗಳು",
@@ -222,6 +227,7 @@ export const searchConstQueryObject = {
   ytf: [],
   sectionDateFrm: "",
   sectionDateTo: "",
+  bookId: [],
   issfEng: [],
   issfKan: [],
   tagfKan: [],
@@ -245,6 +251,89 @@ export function renderCustomerName(customer, lang, varObject) {
         : varObject.customerName_KLC.kan;
 
     return logoName;
+  }
+}
+
+export function returnQueryVariableFilter(debatetype) {
+  const mappingField = {
+    debateType: ["dtf", "array"],
+    assemblyNumber: ["anf", "string"],
+    sessionNumber: ["snf", "string"],
+    debateTitle: ["dsubfEng", "array", "dsubfKan"],
+    debatePart: ["dpfEng", "array", "dpfKan"],
+    year: ["ytf", "array"],
+    dateFrom: ["sectionDateFrm", "string"],
+    dateTo: ["sectionDateTo", "string"],
+    bookId: ["bookId", "array"],
+    issue: ["issfEng", "array", "issfKan"],
+  };
+  return mappingField[debatetype];
+}
+
+// Export return the query object after manipulating it
+
+export function returnObjQuery(eventObj, lang, arrayObject, queryObject) {
+  let queryParameter = queryObject;
+
+  var parameterVariable;
+
+  if (arrayObject.length === 2) {
+    parameterVariable = [arrayObject[0]];
+  } else {
+    parameterVariable = lang === "ENG" ? arrayObject[0] : arrayObject[2];
+  }
+
+  // let queryObject = {...queryParameter,parameterVariable:eventObj.target.value}
+  // console.info(
+  //   `[DEBUG] The value of the paramerter variable is ${parameterVariable}`
+  // );
+  if (arrayObject[1] === "string") {
+    // Checking if the string value is checked or not
+    if (eventObj.target.checked) {
+      // let queryObject = {
+      //   ...queryParameter,
+      //   parameterVariable: eventObj.target.value,
+      // };
+      queryObject[parameterVariable] = eventObj.target.value;
+      return queryObject;
+    } else {
+      // let queryObject = {
+      //   ...queryParameter,
+      //   parameterVariable: eventObj.target.value,
+      // };
+      queryObject[parameterVariable] = "";
+      return queryObject;
+    }
+    //  let queryParameter = (eventObj.target.checked) ? {...queryParameter,parameterVariable:eventObj.target.value}:{...queryParameter,queryParameter[arrayObject[0]]:""}
+    //  return queryParameter
+  } else {
+    // Checking if the array value is checked or not
+    if (eventObj.target.checked) {
+      // let queryObject = {
+      //   ...queryParameter,
+      //   parameterVariable: [...parameterVariable, eventObj.target.value],
+      // };
+      // queryObject[parameterVariable] = queryObject[parameterVariable].push(
+      //   eventObj.target.value
+      // );
+      queryObject[parameterVariable] = [
+        ...queryObject[parameterVariable],
+        eventObj.target.value,
+      ];
+      return queryObject;
+    } else {
+      let arrayVar = queryObject[parameterVariable];
+      arrayVar = arrayVar.filter(function (item) {
+        return item !== eventObj.target.value;
+      });
+
+      // let queryObject = {
+      //   ...queryParameter,
+      //   parameterVariable: arrayVar,
+      // };
+      queryObject[parameterVariable] = arrayVar;
+      return queryObject;
+    }
   }
 }
 

@@ -21,9 +21,9 @@ function DebatesResults({ lang, searchTerm }) {
   useEffect(() => {
     addHiglightToTab(tabType);
     // setSearch(...searchState, (searchState["qp"] = searchTerm));
-    console.info(
-      `[DEBUG] the value of search State is ${JSON.stringify(searchState)} `
-    );
+    // console.info(
+    //   `[DEBUG] the value of search State is ${JSON.stringify(searchState)} `
+    // );
     return function cleanup() {
       //removeHiglightToTab();
       addHiglightToTab(tabType);
@@ -37,9 +37,9 @@ function DebatesResults({ lang, searchTerm }) {
 
   const { analysis } = debatesearchResult;
 
-  console.info(
-    `[DEBUG] from the Debate Results compoent ${JSON.stringify(searchState)}`
-  );
+  // console.info(
+  //   `[DEBUG] from the Debate Results compoent ${JSON.stringify(searchState)}`
+  // );
 
   return (
     <>
@@ -101,6 +101,17 @@ function DebatesResults({ lang, searchTerm }) {
             header={i18n.year}
             dataFacetEng={analysis ? analysis.yearFilter_bucket.buckets : []}
             dataFacetKan={analysis ? analysis.yearFilter_bucket.buckets : []}
+          />
+          <CollapsibleCard
+            type="issue"
+            lang={lang}
+            header={i18n.issues}
+            dataFacetEng={
+              analysis ? analysis.issuesSection_eng_bucket.buckets : []
+            }
+            dataFacetKan={
+              analysis ? analysis.issuesSection_kan_bucket.buckets : []
+            }
           />
           <CollapsibleCard
             type="bookId"

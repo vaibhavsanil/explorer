@@ -7,6 +7,9 @@ import {
   SEARCH_REQUEST_ERROR,
   REMOVE_SEARCH_REQUEST,
   REMOVE_SEARCH_REQUEST_ERROR,
+  ADD_SEARCH_QUERY_LOCAL_STATE,
+  REMOVE_SEARCH_QUERY_LOCAL_STATE,
+  ERROR_REMOVE_SEARCH_QUERY_LOCAL_STATE,
 } from "../types";
 
 export default (state, action) => {
@@ -59,6 +62,23 @@ export default (state, action) => {
         errors: {},
       };
 
+    case ADD_SEARCH_QUERY_LOCAL_STATE:
+      return {
+        ...state,
+        debateQueryObj: action.payload,
+      };
+
+    case REMOVE_SEARCH_QUERY_LOCAL_STATE:
+      return {
+        ...state,
+        debateQueryObj: {},
+      };
+
+    case ERROR_REMOVE_SEARCH_QUERY_LOCAL_STATE:
+      return {
+        ...state,
+        errors: action.payload,
+      };
     default:
       return state;
   }

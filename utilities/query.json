@@ -153,6 +153,22 @@
           "_count": "desc"
         }
       }
+    },
+    "issuesSection_eng_bucket": {
+      "terms": {
+        "field": "issues_section_eng.keyword",
+        "order": {
+          "_count": "desc"
+        }
+      }
+    },
+    "issuesSection_kan_bucket": {
+      "terms": {
+        "field": "issues_section_kan.keyword",
+        "order": {
+          "_count": "desc"
+        }
+      }
     }
   },
   "highlight": {

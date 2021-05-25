@@ -36,6 +36,9 @@ const WelcomeScreen = (props) => {
     debatesearchResult,
     searchRequestBackend,
     searchRequestBackendProm,
+    addSearchQueryFormat,
+    removeSearchQueryFormat,
+    debateQueryObj,
   } = debateContext;
 
   const history = useHistory();
@@ -90,10 +93,10 @@ const WelcomeScreen = (props) => {
     // setLoading(true);
     setLn({ ...ln, loading: true });
     // Pass the query to the gobal state
-    addSearchQuery(query.trim());
+    addSearchQuery(query.trim(), debateQueryObj);
     // alert("you have searched for - " + query);
 
-    searchRequestBackendProm(query.trim())
+    searchRequestBackendProm(debateQueryObj)
       .then((res) => {
         // setLoading(false);
         setLn({ ...ln, loading: false });
