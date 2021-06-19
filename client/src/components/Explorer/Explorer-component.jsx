@@ -24,7 +24,12 @@ import DebateContext from "../../context/Debates/debateContext";
 
 // Import Constants
 
-import { CUSTOMER, i18n, renderCustomerName } from "../../constants/index";
+import {
+  CUSTOMER,
+  i18n,
+  renderCustomerName,
+  searchConstQueryObject,
+} from "../../constants/index";
 
 // Import Components
 
@@ -43,6 +48,9 @@ function Explorer(props) {
     searchRequestExplorerProm,
     debateQueryObj,
     addSearchQueryFormat,
+    loading,
+    addLoading,
+    removeLoading,
   } = debateContext;
   let { path, url } = useRouteMatch();
 
@@ -61,7 +69,7 @@ function Explorer(props) {
 
   const searchTermQuery = searchState.searchTerm;
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   // REF  https://dev.to/otamnitram/react-useeffect-cleanup-how-and-when-to-use-it-2hbm
   useEffect(() => {
     // Push to Welcome if the result state is zero
@@ -77,6 +85,7 @@ function Explorer(props) {
 
     return function cleanUp() {
       removeSearchQueryResults();
+      addSearchQueryFormat(searchConstQueryObject);
     };
   }, []);
 
@@ -131,10 +140,10 @@ function Explorer(props) {
   // On Submit of Button
   function onSubmitAction(e) {
     e.preventDefault();
-    setLoading(true);
+    addLoading();
     if (searchTermQuery.length === 0) {
       toast.error("Please enter a Search Query .");
-      setLoading(false);
+      removeLoading();
       return;
     }
 
@@ -142,19 +151,20 @@ function Explorer(props) {
     // Storing the query phrase
     globalSearchQuery["qp"] = searchState.searchTerm.trim();
     addSearchQueryFormat(globalSearchQuery);
-    searchRequestExplorerProm(debateContext)
-      .then((res) => {
-        // setLoading(false);
-        // setLn({ ...ln, loading: false });
-        setLoading(false);
-        // history.push("/explorer/debates");
-      })
-      .catch((error) => {
-        toast.error(
-          "Connection to the Server Failed !!! Please Contact System Administrator"
-        );
-        setLoading(false);
-      });
+    debateQueryObj &&
+      searchRequestExplorerProm(debateQueryObj)
+        .then((res) => {
+          // setLoading(false);
+          // setLn({ ...ln, loading: false });
+          removeLoading();
+          // history.push("/explorer/debates");
+        })
+        .catch((error) => {
+          toast.error(
+            "Connection to the Server Failed !!! Please Contact System Administrator"
+          );
+          removeLoading();
+        });
   }
 
   const { language } = ln;

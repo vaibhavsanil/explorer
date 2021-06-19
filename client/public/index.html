@@ -45,6 +45,36 @@
       integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
       crossorigin="anonymous"
     ></script>
+    <script>
+      window.addEventListener("mouseup", function (event) {
+        if (event.target.tagName === "INPUT") {
+          return;
+        }
+        var box = document.getElementById("dateBox");
+        var dateBox = document.getElementsByClassName("rdrDateDisplayWrapper");
+        var dateBox1 = document.getElementsByClassName("rdrDateInput");
+        var dateBoxInputContainer = document.getElementsByClassName(
+          "rdrDateDisplay"
+        );
+        // console.info(
+        //   `[DEBUG] The event object of mouse up ${event.target.className} `
+        // );
+        if (
+          event.target != box &&
+          event.target.parentNode != box &&
+          event.target.parentNode !== dateBox[0] &&
+          event.target.parentNode !== dateBox1[1] &&
+          event.target !== dateBox1[0] &&
+          event.target.parentNode !== dateBoxInputContainer[0] &&
+          event.target.tageName !== "INPUT"
+        ) {
+          // box.style.display = "none";
+
+          box.style.opacity = 0;
+          box.style.height = "0px";
+        }
+      });
+    </script>
     <!-- <script
       type="text/javascript"
       src="./transliteration-input.bundle.js"
@@ -68,6 +98,6 @@
       let transliterationInput = document.getElementById("transliteration");
 
       enableTransliteration(transliterationInput, "kn");
-    </script> -->
+    </scrip> -->
   </body>
 </html>

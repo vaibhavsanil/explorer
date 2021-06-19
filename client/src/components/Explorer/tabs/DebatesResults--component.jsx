@@ -1,6 +1,8 @@
 import React, { useEffect, Fragment, useState, useContext } from "react";
 import CollapsibleCard from "./debateUtils/Collapsible--component";
-
+import FacetFilterContainer from "./DebateResults/FacetFilterContainer";
+import SearchInfo from "./DebateResults/SearchInfo--component";
+import CalenderDebate from "./DebateResults/Calender-Debate--component";
 import {
   CUSTOMER,
   addHiglightToTab,
@@ -10,13 +12,13 @@ import {
 
 // Import Context
 import DebateContext from "../../../context/Debates/debateContext";
-
+import FacetLoading from "./DebateResults/FacetLoading--component";
 function DebatesResults({ lang, searchTerm }) {
   const tabType = "debate";
   const debateContext = useContext(DebateContext);
   const [searchState, setSearch] = useState(searchQueryConst);
 
-  const { debatesearchResult } = debateContext;
+  const { debatesearchResult, loading } = debateContext;
 
   useEffect(() => {
     addHiglightToTab(tabType);
@@ -123,7 +125,15 @@ function DebatesResults({ lang, searchTerm }) {
         </div>
         <div className="debate-result-resultPage--container">
           <div className="debate-result-filterView--container">
-            This is Filter View Container
+            <FacetFilterContainer lang={lang} />
+            <div className="filterInfoContainer">
+              <div className="loadingResultsInfo">
+                {loading ? <FacetLoading lang={lang} /> : <SearchInfo />}
+              </div>
+              <div className="dateSelector">
+                <CalenderDebate />
+              </div>
+            </div>
           </div>
           <div className="debate-result-resultPage-displayResults--container">
             This is Results View Container

@@ -8,6 +8,25 @@
   --primaryBlack: #333333;
   --primaryBackground: #f4f4f4;
   --primaryLottie: #fafafa;
+  /* Chips */
+  --md-chip-heigth: 32px;
+  --md-chip-color: #e0e0e0;
+  --md-chipKLA-color: linear-gradient(
+    to right top,
+    #26b111,
+    #4ec00f,
+    #6ece0f,
+    #8bdd0f,
+    #a8eb12
+  );
+  --md-chipKLC-color: linear-gradient(
+    to right top,
+    #9f4811,
+    #a0420b,
+    #a03b06,
+    #a13303,
+    #a12a00
+  );
 }
 
 * {
@@ -822,13 +841,23 @@ footer {
   width: 100%;
   height: 100%;
   justify-content: center;
-  background-color: blue;
+  background-color: none;
   width: 80%;
 }
 
 .debate-result-filterView--container {
-  background-color: cadetblue;
+  background-color: none;
   height: 10%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.7rem;
+}
+
+.filterInfoContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  padding: 0.5rem;
 }
 
 .debate-result-resultPage-displayResults--container {
@@ -837,6 +866,327 @@ footer {
 }
 
 /* Debate Result Styles End  */
+
+.facet-filter-view {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Chips  */
+.md-chip--kla {
+  display: inline-block;
+  background: var(--primaryKLAButton);
+  color: #fff;
+  padding: 0 12px;
+  border-radius: 32px;
+  font-size: 13px;
+  margin: 0 5px 3px 0;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 2px 0 rgba(134, 128, 128, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.md-chip--klc {
+  display: inline-block;
+  background: var(--primaryKLCButton);
+  color: #fff;
+  padding: 0 12px;
+  border-radius: 32px;
+  font-size: 13px;
+  margin: 0 5px 3px 0;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 2px 0 rgba(134, 128, 128, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.md-chip-remove--KLA {
+  display: inline-block;
+  background: var(--primaryKLA);
+  border: 0;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0 -4px 0 4px;
+  cursor: pointer;
+  font: inherit;
+  line-height: 15px;
+}
+
+.md-chip-remove--KLA:after {
+  color: #fff;
+  font-weight: 1rem;
+  content: "x";
+}
+.md-chip-remove--KLA:hover {
+  background: #348d4b;
+}
+.md-chip-remove--KLA:active {
+  background: #348d4b;
+}
+
+.md-chip-remove--KLC {
+  display: inline-block;
+  background: var(--primaryKLC);
+  border: 0;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0 -4px 0 4px;
+  cursor: pointer;
+  font: inherit;
+  line-height: 15px;
+}
+
+.md-chip-remove--KLC:after {
+  color: #fff;
+  font-weight: 1rem;
+  content: "x";
+}
+.md-chip-remove--KLC:hover {
+  background: #9a2624;
+}
+.md-chip-remove--KLC:active {
+  background: #9a2624;
+}
+
+.facet--loading {
+  display: flex;
+  width: 23%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+  /* vertical-align: middle; */
+  box-shadow: 11px 8px 42px -9px rgba(39, 36, 36, 0.56);
+  -webkit-box-shadow: 11px 8px 42px -9px rgba(39, 36, 36, 0.56);
+  -moz-box-shadow: 11px 8px 42px -9px rgba(39, 36, 36, 0.56);
+}
+
+.facet--loading-text {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Chips End */
+
+/* Loading Buttons for Facets */
+.loadingResultsInfo {
+  width: 50%;
+}
+
+.lds-ring--kla {
+  display: inline-block;
+  position: relative;
+  width: 25px;
+  height: 25px;
+}
+.lds-ring--kla div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  margin: 8px;
+  border: 2px solid rgb(11, 212, 22);
+  border-radius: 50%;
+  animation: lds-ring--kla 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: rgba(11, 212, 21, 0.979) transparent transparent transparent;
+  top: -3px;
+  bottom: -10px;
+}
+.lds-ring--kla div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring--kla div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring--kla div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring--kla {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.lds-ring--klc {
+  display: inline-block;
+  position: relative;
+  width: 25px;
+  height: 25px;
+}
+.lds-ring--klc div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  margin: 8px;
+  border: 2px solid rgba(219, 61, 9, 0.979);
+  border-radius: 50%;
+  animation: lds-ring--klc 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: rgba(219, 61, 9, 0.979) transparent transparent transparent;
+  top: -3px;
+  bottom: -10px;
+}
+.lds-ring--klc div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring--klc div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring--klc div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring--klc {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Loading Buttons for Facets End */
+
+/* Search Info */
+.search--info {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  line-height: 1rem;
+  padding: 1rem;
+}
+
+/* Search Info End */
+
+/* Debate Result Calander */
+.dateSelector {
+  display: flex;
+  flex-direction: column;
+  /* text-align: center; */
+  padding: 1rem;
+  z-index: 1;
+  margin-left: 16rem;
+}
+
+.calenderButton--kla {
+  border-radius: 4rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  color: var(--primaryKLA);
+  font-size: 1.2rem;
+  border: 2px solid var(--primaryKLA);
+  min-width: 27.66rem;
+}
+
+.calenderButton--kla::after {
+  content: "";
+}
+
+.calenderButton--kla:hover {
+  background-color: var(--primaryKLA);
+  color: #fff;
+  font-size: 1.2rem;
+  border: 2px solid var(--primaryKLA);
+}
+
+.calenderButton--klc {
+  border-radius: 4rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  color: var(--primaryKLC);
+  font-size: 1.2rem;
+  border: 2px solid var(--primaryKLC);
+  transition: all 0.3s;
+  min-width: 27rem;
+}
+
+.calenderButton--klc:hover {
+  background-color: var(--primaryKLC);
+  color: #fff;
+  font-size: 1.2rem;
+  border: 2px solid var(--primaryKLC);
+}
+
+.dateRange {
+  display: block;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.55s ease-out;
+}
+
+.calender-date--container {
+  display: flex;
+  padding: 0.5rem;
+  justify-content: space-between;
+  background-color: #eff2f7;
+}
+
+.calender-date--applyButton-kla {
+  border-radius: 0.7rem;
+  padding: 0.5rem 0.8rem 0.5rem 0.8rem;
+  background-color: #fff;
+  color: var(--primaryKLA);
+  font-size: 1rem;
+  border: 2px solid var(--primaryKLA);
+  min-width: 3.66rem;
+  transition: all 0.3s ease-out;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+}
+
+.calender-date--applyButton-kla:hover {
+  background-color: var(--primaryKLA);
+  color: #fff;
+}
+
+.calender-date--applyButton-klc {
+  border-radius: 0.7rem;
+  padding: 0.5rem 0.8rem 0.5rem 0.8rem;
+  background-color: #fff;
+  color: var(--primaryKLC);
+  font-size: 1rem;
+  border: 2px solid var(--primaryKLC);
+  min-width: 3.66rem;
+  transition: all 0.3s ease-out;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.calender-date--applyButton-klc:hover {
+  background-color: var(--primaryKLC);
+  color: #fff;
+}
+
+.calender-date--cancelButton {
+  color: #333333;
+  background-color: #ffffff;
+  /* border-color: #cccccc; */
+  border-color: #ffff;
+  padding: 5px 10px;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 5px;
+  font-weight: 400;
+  transition: all 0.3s ease-out;
+}
+
+.calender-date--cancelButton:hover {
+  color: #333333;
+  background-color: #ebebeb;
+  /* border-color: #cccccc; */
+  border-color: #adadad;
+}
+
+/* Debate Result Calander End */
 
 /* ////////////////////////////////////////////////////////// */
 /* /////////////////Media Queries /////////////////////////// */

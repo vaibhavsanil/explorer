@@ -16,10 +16,9 @@ const { escape } = require("querystring");
 const {
   es_user,
   es_pass,
-  es_host_remote_new,
-  es_port,
+  es_host_remote,
+  es_local,
   kla_test_index,
-  es_host_remote_full,
 } = require("../../config/config");
 
 // @route GET /api/annexure/test
@@ -96,9 +95,19 @@ router.get("/sh", (req, res) => {
   console.log(`The Query is \n ${JSON.stringify(queryParameters, null, 2)}`);
   // Solved no aggregations in the response
   // https://stackoverflow.com/questions/50159269/elasticsearch-aggregation-not-showing-count
+
+  console.log(
+    `The Query Builder is \n ${JSON.stringify(
+      esQueryBuilder(queryParameters),
+      null,
+      2
+    )}`
+  );
+
   axios
     .post(
-      "https://elastic:pQoXAqllveTLKzaPvv9NVYnO@enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243/klatest/_search",
+      `https://${es_user}:${es_pass}@${es_host_remote}/${kla_test_index}/_search`,
+
       // path.join(
       //   keys.es_host_remote_new,
       //   keys.kla_test_index,
@@ -117,11 +126,16 @@ router.get("/sh", (req, res) => {
       responseSearchResults.debateResults = hits.hits;
       responseSearchResults.analysis = aggregations;
 
+      // console.log(
+      //   `[DEBUG] From server.js the value of response header is \n ${JSON.stringify(
+      //     responseSearchResults
+      //   )}`
+      // );
       res.status(200).json(responseSearchResults);
     })
     .catch((err) => {
       res.status(400).json(err);
-      console.log(JSON.stringify(err, null, 2));
+      // console.log(JSON.stringify(err, null, 2));
     });
 });
 

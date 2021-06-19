@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { Redirect } from "react-router-dom";
+
 import axios from "axios";
 import DebateContext from "./debateContext";
 import debateReducer from "./debateReducer";
@@ -25,6 +25,7 @@ import {
   CUSTOMER,
   searchConstQueryObject,
   returnObjQuery,
+  arrayToString,
 } from "../../constants/index";
 
 const DebateState = (props) => {
@@ -91,6 +92,7 @@ const DebateState = (props) => {
     });
 
     // addLoading();
+    return queryObj;
   };
 
   // Add Search Query to Local State
@@ -110,11 +112,9 @@ const DebateState = (props) => {
   };
 
   // Request the server for Search Results
-  const searchRequestBackendProm = (reqParams, reqObj) => {
+  const searchRequestBackendProm = (reqObj) => {
     return new Promise(async function (resolve, reject) {
-      // let searchTemplate = searchQueryConst;
-
-      // searchTemplate.qp = reqParams;
+      // https://stackoverflow.com/questions/49944387/how-to-correctly-use-axios-params-with-arrays
 
       console.info(
         `[DEBUG] from promise function The value of search Template ${JSON.stringify(
@@ -132,13 +132,7 @@ const DebateState = (props) => {
             params: reqObj,
           }
         );
-        // console.info(
-        //   `[DEBUG] The Search Request Header is \n ${JSON.stringify(
-        //     response.data,
-        //     null,
-        //     2
-        //   )}`
-        // );
+
         dispatch({ type: SEARCH_REQUEST_SUCCESS, payload: response.data });
         resolve(response.data);
       } catch (error) {
@@ -147,7 +141,9 @@ const DebateState = (props) => {
           payload: error.response.data,
         });
         console.info(
-          `[DEBUG] ERROR The Search Request Header is \n ${error.response.data}`
+          `[DEBUG] ERROR The Search Request Header is \n ${JSON.stringify(
+            error.response.data
+          )}`
         );
         reject(error.response.data);
       }
@@ -156,24 +152,21 @@ const DebateState = (props) => {
   // Request the server for Search Results
   const searchRequestExplorerProm = (reqObj) => {
     return new Promise(async function (resolve, reject) {
-      // let searchTemplate = searchQueryConst;
-
-      // searchTemplate.qp = reqParams;
-
-      console.info(
-        `[DEBUG] from promise function Explorer Search The value of search Template ${JSON.stringify(
-          reqObj,
-          null,
-          2
-        )}`
-      );
+      let urlObj = arrayToString(reqObj);
+      // console.info(
+      //   `[DEBUG][DEBATE-STATE] from promise function Explorer Search The value of search Template ${JSON.stringify(
+      //     urlObj,
+      //     null,
+      //     2
+      //   )}`
+      // );
 
       try {
         const response = await axios.get(
           "/api/sd/sh",
 
           {
-            params: reqObj,
+            params: urlObj,
           }
         );
         // console.info(
@@ -191,7 +184,9 @@ const DebateState = (props) => {
           payload: error.response.data,
         });
         console.info(
-          `[DEBUG] ERROR The Search Request Header is \n ${error.response.data}`
+          `[DEBUG] ERROR The Search Request Header is \n ${JSON.stringify(
+            error.response.data
+          )}`
         );
         reject(error.response.data);
       }
@@ -201,25 +196,23 @@ const DebateState = (props) => {
   // Manipulate the query state
 
   const manipulateQuery = (event, lang, arrayObject, queryObj) => {
+    let queryToDispatch = returnObjQuery(event, lang, arrayObject, queryObj);
     // console.info(
-    //   `[DEBUG] the value of ${event.target.value} is ${
-    //     event.target.checked
-    //   } and lang is ${lang} with arrayObject ${arrayObject} \n ${JSON.stringify(
-    //     queryObj
+    //   `[DEBUG] from Debate State Manipulate Query the query is \n ${JSON.stringify(
+    //     queryToDispatch
     //   )}`
     // );
-    // dispatch({ type: SEARCH_REQUEST_SUCCESS, payload: response.data });
-    let queryToDispatch = returnObjQuery(event, lang, arrayObject, queryObj);
-
     // Adding query to the local state
     addSearchQueryFormat(queryToDispatch);
     // [TODO] Whether to keep the request in state or client
     // searchRequestExplorerProm(state.debateQueryObj).then().catch();
-    console.info(
-      `[DEBUG] The manipulateQuery is called from \n ${JSON.stringify(
-        state.debateQueryObj
-      )} `
-    );
+    // console.info(
+    //   `[DEBUG] The manipulateQuery is called from \n ${JSON.stringify(
+    //     state.debateQueryObj
+    //   )} `
+    // );
+
+    return queryToDispatch;
   };
 
   // Request The server for Search Results
@@ -273,6 +266,11 @@ const DebateState = (props) => {
   // Actions Search Query
 
   const addSearchQueryFormat = (queryload) => {
+    console.log(
+      `[DEBUG][ADD SEARCH QUERY] called with query load ${JSON.stringify(
+        queryload
+      )}`
+    );
     dispatch({
       type: ADD_SEARCH_QUERY_LOCAL_STATE,
       payload: queryload,

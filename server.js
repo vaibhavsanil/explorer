@@ -14,6 +14,9 @@ const app = express();
 // Body Parser Middleware
 app.use(express.json({ extended: false }));
 
+// Config
+const { es_pass, es_user, es_host_remote, kla_test_index } = config;
+
 // Implement Global promise for Mongoose
 mongoose.Promise = global.Promise;
 
@@ -39,9 +42,8 @@ mongoose
 // );
 const client = new Client7({
   //   node: `https://${config.es_user}:${config.es_pass}@${config.es_host}:${config.es_port}`,
-  node:
-    "https://elastic:pQoXAqllveTLKzaPvv9NVYnO@enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243",
-  //https://283e4281e6fc4d77bb892cff3e77f8ec.us-west1.gcp.cloud.es.io:9243
+  node: `https://${es_user}:${es_pass}@${es_host_remote}`,
+  //"https://elastic:pQoXAqllveTLKzaPvv9NVYnO@enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243",
 });
 
 // Routing

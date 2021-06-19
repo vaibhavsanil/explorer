@@ -10,7 +10,12 @@ import DebateContext from "../../context/Debates/debateContext";
 
 // Import Constants
 
-import { CUSTOMER, i18n, renderCustomerName } from "../../constants/index";
+import {
+  CUSTOMER,
+  i18n,
+  renderCustomerName,
+  searchConstQueryObject,
+} from "../../constants/index";
 
 // Import Components
 
@@ -53,6 +58,8 @@ const WelcomeScreen = (props) => {
 
     // Clear Global State
     removeSearchQuery();
+
+    addSearchQueryFormat(searchConstQueryObject);
   }, []);
 
   // Local State
@@ -93,10 +100,10 @@ const WelcomeScreen = (props) => {
     // setLoading(true);
     setLn({ ...ln, loading: true });
     // Pass the query to the gobal state
-    addSearchQuery(query.trim(), debateQueryObj);
+    let queryObject = addSearchQuery(query.trim(), debateQueryObj);
     // alert("you have searched for - " + query);
 
-    searchRequestBackendProm(debateQueryObj)
+    searchRequestBackendProm(queryObject)
       .then((res) => {
         // setLoading(false);
         setLn({ ...ln, loading: false });

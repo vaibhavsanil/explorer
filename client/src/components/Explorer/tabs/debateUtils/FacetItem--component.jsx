@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import DebateContext from "../../../../context/Debates/debateContext";
 import { returnQueryVariableFilter } from "../../../../constants";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function FacetItem({
   itemHeader,
   docCount,
@@ -18,21 +19,14 @@ function FacetItem({
 
   // https://stackoverflow.com/questions/32174317/how-to-set-default-checked-in-checkbox-reactjs
 
-  // console.info(
-  //   `[DEBUG] Check the value of lang from the facet item ${language}  `
-  // );
-
   const {
     debateQueryObj,
-    addSearchQueryFormat,
-    removeSearchQueryFormat,
-    errorSearchQueryFormat,
+
     manipulateQuery,
     searchRequestExplorerProm,
     addLoading,
     removeLoading,
     addError,
-    removeError,
   } = debateContext;
 
   useState(() => {
@@ -40,32 +34,32 @@ function FacetItem({
   }, []);
 
   function itemCheck(e, type, lang) {
-    // Calling the props function to handle on Change
-    // console.info(
-    //   `The itemCheck function for ${facetType} is called for ${e.target.value} & it is ${e.target.checked}`
-    // );
-    // console.info(`The itemCheck function for ${type} is ${itemCheckFunction}`);
-    // console.info(
-    //   `[DEBUG] The itemCheck function for ${type} is ${itemCheckFunction}`
-    // );
-    // itemCheckFunction(e, type);
-
     const itemCheckArray = returnQueryVariableFilter(type);
     setChecked(!checked);
     // Add Loading
     addLoading();
-    manipulateQuery(e, lang, itemCheckArray, debateQueryObj);
-    searchRequestExplorerProm(debateQueryObj)
+    const queryObject = manipulateQuery(
+      e,
+      lang,
+      itemCheckArray,
+      debateQueryObj
+    );
+    searchRequestExplorerProm(queryObject)
       .then((res) => {
         removeLoading();
       })
       .catch((err) => {
         addError(err);
+        removeLoading();
+        toast.error(
+          "Connection to the Server Failed !!! Please Contact System Administrator"
+        );
       });
   }
 
   function isChecked(stateglobal, lang, type) {
     // This function is to check whether the user has clicked the item
+
     const itemCheckArray = returnQueryVariableFilter(type);
 
     if (itemCheckArray[1] === "string") {
@@ -74,13 +68,16 @@ function FacetItem({
       }
     } else {
       if (itemCheckArray[1] === "array" && itemCheckArray.length === 2) {
+        // console.info(
+        //   `[DEBUG] from Facet Chips state global ${stateglobal} && ${itemCheckArray[0]} && value ${value} `
+        // );
         if (stateglobal[itemCheckArray[0]].includes(value)) {
           setChecked(true);
         }
       } else {
         const setBool =
           lang === "ENG"
-            ? stateglobal[itemCheckArray[1]].includes(value)
+            ? stateglobal[itemCheckArray[0]].includes(value)
             : stateglobal[itemCheckArray[2]].includes(value);
 
         if (setBool) {

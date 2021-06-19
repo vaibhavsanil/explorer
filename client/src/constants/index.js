@@ -187,6 +187,20 @@ export const searchQueryConst = {
   tagfEng: "",
 };
 
+// Function to convert array keys which has arrays  to string
+export function arrayToString(obj) {
+  let replicaObj = {
+    ...obj,
+  };
+  for (const i in replicaObj) {
+    if (replicaObj[i] instanceof Array) {
+      replicaObj[i] = replicaObj[i].toString();
+    }
+  }
+
+  return replicaObj;
+}
+
 // Search Request Constants Exmaple
 export const searchObject = {
   ln: "kn",
@@ -210,6 +224,19 @@ export const searchObject = {
   tagfEng: "",
 };
 
+// Elasticsearch Contansts
+export const elasticSearchConst = {
+  userName: "elastic",
+  password: "7pD3s7WlEBZXCr5F3oKdGn2S",
+  webAddr:
+    "enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243",
+  local: "",
+  collection_test_kla: "klatest",
+  collection_test_klc: "klctest",
+  collection_prod_kla: "klaprod",
+  collection_prod_klc: "klcprod",
+};
+
 // Search Query Request Constants Exmaple
 export const searchConstQueryObject = {
   ln: "",
@@ -223,16 +250,76 @@ export const searchConstQueryObject = {
   dsubfKan: [],
   dpfEng: [],
   dpfKan: [],
-  dbf: [],
+  dbf: "",
   ytf: [],
   sectionDateFrm: "",
   sectionDateTo: "",
-  bookId: [],
+  //bookId: [],
   issfEng: [],
   issfKan: [],
   tagfKan: [],
   tagfEng: [],
 };
+
+// Filter Mapping to Tag Name
+export function filterMappingObject(lang, itemType) {
+  const queryObj = {
+    dtf: "ENG" ? "Debate Type" : "ಚರ್ಚೆಯ ವಿಧಾ",
+    anf: "ENG" ? "Assembly Number" : "ವಿಧಾನ ಸಭೆಯ ಸಂಖ್ಯೆ",
+    snf: "ENG" ? "Session Number" : "ಅಧಿವೇಶನ ಸಂಖ್ಯೆ",
+    dsubfEng: "Debate Title",
+    dsubfKan: "ಚರ್ಚೆಯ ಶೀರ್ಷಿಕೆ",
+    dpfEng: "Debate Participants",
+    dpfKan: "ಚರ್ಚೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿದ ಸದಸ್ಯರು/ಸಚಿವರು",
+    dbf: lang === "ENG" ? "Book Id" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
+    ytf: lang === "ENG" ? "Year" : "ವರ್ಷ",
+    sectionDateFrm: "ENG" ? "Date" : "ದಿನಾಂಕ ",
+    sectionDateTo: "ENG" ? "Date" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
+    bookId: lang === "ENG" ? "Book Id" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
+    issfEng: "Issues",
+    issfKan: "ಸಮಸ್ಯೆಗಳು",
+    tagfKan: "Tags",
+    tagfEng: "Tags",
+  };
+  return queryObj[itemType];
+}
+
+// Date Formats
+
+export function dateFormat(dateString) {
+  const dateSplit = dateString.split("-");
+  // Changing the date to dd/MM/yyyy
+  const newDate = `${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}`;
+  return newDate;
+}
+
+// Filter Mapping to Tag Name
+export function filterMappingObjectForKey(lang, itemValue) {
+  const queryObj = {
+    dtf: "ENG" ? "Debate Type" : "ಚರ್ಚೆಯ ವಿಧಾ",
+    anf: "ENG" ? "Assembly Number" : "ವಿಧಾನ ಸಭೆಯ ಸಂಖ್ಯೆ",
+    snf: "ENG" ? "Session Number" : "ಅಧಿವೇಶನ ಸಂಖ್ಯೆ",
+    dsubfEng: "Debate Title",
+    dsubfKan: "ಚರ್ಚೆಯ ಶೀರ್ಷಿಕೆ",
+    dpfEng: "Debate Participants",
+    dpfKan: "ಚರ್ಚೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿದ ಸದಸ್ಯರು/ಸಚಿವರು",
+    dbf: lang === "ENG" ? "Book Id" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
+    ytf: lang === "ENG" ? "Year" : "ವರ್ಷ",
+    sectionDateFrm: "Date-From",
+    sectionDateTo: "Date-To",
+    bookId: lang === "ENG" ? "Book Id" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
+    issfEng: "Issues",
+    issfKan: "ಸಮಸ್ಯೆಗಳು",
+    tagfKan: "Tags",
+    tagfEng: "Tags",
+  };
+
+  for (let key in queryObj) {
+    if (queryObj[key] === itemValue) {
+      return key;
+    }
+  }
+}
 
 // Helper Functions
 export function renderCustomerName(customer, lang, varObject) {
@@ -264,7 +351,7 @@ export function returnQueryVariableFilter(debatetype) {
     year: ["ytf", "array"],
     dateFrom: ["sectionDateFrm", "string"],
     dateTo: ["sectionDateTo", "string"],
-    bookId: ["bookId", "array"],
+    bookId: ["dbf", "string"],
     issue: ["issfEng", "array", "issfKan"],
   };
   return mappingField[debatetype];
@@ -336,6 +423,32 @@ export function returnObjQuery(eventObj, lang, arrayObject, queryObject) {
     }
   }
 }
+// return Date Query Obj
+export function returnDateObjQuery(arrayName, queryObject, startdate, enddate) {
+  let queryParameter = queryObject;
+
+  queryParameter[arrayName[0]] = startdate;
+  queryParameter[arrayName[1]] = enddate;
+
+  return queryParameter;
+}
+
+export function returnObjRemoveQuery(eventKey, queryObject, value) {
+  // This function is to remove the Query Key if its array or string
+
+  let query = queryObject;
+
+  if (query[eventKey] instanceof Array) {
+    let filteredAry = query[eventKey].filter(function (item) {
+      return item !== value;
+    });
+    query[eventKey] = filteredAry;
+    return query;
+  } else {
+    query[eventKey] = "";
+    return query;
+  }
+}
 
 // Add the Highlight To Tab
 export function addHiglightToTab(tabType) {
@@ -362,6 +475,21 @@ export function addHiglightToTab(tabType) {
   node.classList.toggle(
     CUSTOMER === "KLA" ? "active_tab--kla" : "active_tab--klc"
   );
+}
+
+// Filter Keys in Object
+
+export function filterRemoveKeysObject(queryObj, filterArray) {
+  // This function filters the keys names present in the keys array
+
+  const filteredObj = Object.keys(queryObj)
+    .filter((key) => !filterArray.includes(key))
+    .reduce((obj, key) => {
+      obj[key] = queryObj[key];
+      return obj;
+    }, {});
+
+  return filteredObj;
 }
 
 // Cancel Token

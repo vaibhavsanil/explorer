@@ -8,7 +8,7 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
 
   useEffect(() => {
     // console.info(`[DEBUG] the use Effect Called for ${type} `);
-    dontrenderFacet();
+    dontrenderFacet(type);
     addEventListenerCard();
     var facetData = lang === "ENG" ? dataFacetEng : dataFacetKan;
 
@@ -58,22 +58,26 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
     // );
   };
 
-  function dontrenderFacet() {
+  function dontrenderFacet(type) {
     // console.log(
     //   `[DEBUG] Don Render The data facet length of ${type} is ${JSON.stringify(
     //     dataFacetEng
     //   )}`
     // );
-    if (
-      dataFacetEng.length === 0 ||
-      dataFacetKan.length === 0 ||
-      dataFacetEng[0].key === "N/A"
-    ) {
-      const facetContainer = document.getElementById(type + "_container");
-      facetContainer.style.display = "none";
+    if (type === "debatePart") {
+      return;
     } else {
-      const facetContainer = document.getElementById(type + "_container");
-      facetContainer.style.display = "block";
+      if (
+        dataFacetEng.length === 0 ||
+        dataFacetKan.length === 0 ||
+        dataFacetEng[0].key === "N/A"
+      ) {
+        const facetContainer = document.getElementById(type + "_container");
+        facetContainer.style.display = "none";
+      } else {
+        const facetContainer = document.getElementById(type + "_container");
+        facetContainer.style.display = "block";
+      }
     }
   }
 
