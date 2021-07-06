@@ -13,6 +13,10 @@ const app = express();
 
 // Body Parser Middleware
 app.use(express.json({ extended: false }));
+app.use(
+  "/pdf",
+  express.static("/home/vaibhav/Documents/VidhanDocsTracker/public/debates")
+);
 
 // Config
 const { es_pass, es_user, es_host_remote, kla_test_index } = config;

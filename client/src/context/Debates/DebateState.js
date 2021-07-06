@@ -256,9 +256,9 @@ const DebateState = (props) => {
         type: SEARCH_REQUEST_ERROR,
         payload: error.response.data,
       });
-      console.info(
-        `[DEBUG] ERROR The Search Request Header is \n ${error.response.data}`
-      );
+      // console.info(
+      //   `[DEBUG] ERROR The Search Request Header is \n ${error.response.data}`
+      // );
       return error;
     }
   };

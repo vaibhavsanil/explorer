@@ -48,6 +48,29 @@ const WelcomeScreen = (props) => {
 
   const history = useHistory();
 
+  const searchConstObject = {
+    ln: "",
+    srt: "",
+    qt: "PRC",
+    qp: "",
+    dtf: [],
+    anf: "",
+    snf: "",
+    dsubfEng: [],
+    dsubfKan: [],
+    dpfEng: [],
+    dpfKan: [],
+    dbf: "",
+    ytf: [],
+    sectionDateFrm: "",
+    sectionDateTo: "",
+    //bookId: [],
+    issfEng: [],
+    issfKan: [],
+    tagfKan: [],
+    tagfEng: [],
+  };
+
   // function to push to explorer page if results exists in the state
 
   useEffect(() => {
@@ -58,8 +81,12 @@ const WelcomeScreen = (props) => {
 
     // Clear Global State
     removeSearchQuery();
-
-    addSearchQueryFormat(searchConstQueryObject);
+    // console.info(
+    //   `[DEBUG] The Add Search Query from Welcome Screen being called !!! \n ${JSON.stringify(
+    //     searchConstObject
+    //   )} `
+    // );
+    addSearchQueryFormat(searchConstObject);
   }, []);
 
   // Local State

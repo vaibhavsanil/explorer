@@ -1,200 +1,122 @@
+const fs = require("fs");
+
 const express = require("express");
+const config = require("../../config/config");
 const auth = require("../../middleware/auth");
+const { reset } = require("nodemon");
 const router = express.Router();
 
-//const bcrypt = require("bcryptjs");
-//const jwt = require("jsonwebtoken");
-//const keys = require("../../config/keys");
-//const passport = require("passport");
-
-//Load Input Validation
-
-////const validateRegisterInput = require("../../validations/register");
-////const validateLoginInput = require("../../validations/login");
-
-//Load Annexure Model
-
-// const Annexure = require("../../models/Annexure");
-// const StructureBook = require("../../models/StructureBook");
-// @route GET /api/annexure/test
-// @desc  Tests Annexure route
-// @access Public
+const { publicDir } = config;
 
 router.get("/test", (req, res) => res.json({ msg: "File Server Test " }));
 
-// // @route GET /api/annexure/new
-// // @desc  Creates & Updates the Annexure Model/:bookId
-// // @access Protected
+// @route GET /api/fs/section/:knwType/:cust/:bookId/:fromPage/:toPage
+// @desc Get the sectional pdf's using request params
+// @access Public
 
-// router.post(
-//   "/new/:bookId",
-//   auth,
-//   //passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     // Validate the Inputs if Required
-//     let errors = {};
+router.get("/section/:knwType/:cust/:bookId/:fromPage/:toPage", (req, res) => {
+  const { knwType, cust, bookId, fromPage, toPage } = req.params;
 
-//     //Create an object to save in the database
-//     // Get Fields
-//     const annexureFields = {}; // Create an Object
-//     if (req.body._id) annexureFields._id = req.body._id;
-//     annexureFields.book_id_num = req.params.bookId;
-//     if (req.user.id) annexureFields.modified_user = req.user.id; // Remove this after adding the authentication
-//     //annexureFields.bookId = req.params.bookId;
-//     annexureFields.annexure_title = req.body.annexure_title;
-//     annexureFields.start_page = req.body.start_page;
-//     annexureFields.end_page = req.body.end_page;
+  if (
+    fs.existsSync(
+      `${publicDir}/${knwType}/${cust}/${bookId}/sections/${fromPage}_${toPage}.pdf`
+    )
+  ) {
+    let file = fs.createReadStream(
+      `${publicDir}/${knwType}/${cust}/${bookId}/sections/${fromPage}_${toPage}.pdf`
+    );
+    var stat = fs.statSync(
+      `${publicDir}/${knwType}/${cust}/${bookId}/sections/${fromPage}_${toPage}.pdf`
+    );
+    res.setHeader("Content-Length", stat.size);
+    res.setHeader("Content-Type", "application/pdf");
+    // res.setHeader(
+    //   "Content-Disposition",
+    //   "inline",
+    //   `filename=${fromPage}_${toPage}.pdf`
+    // );
+    file.pipe(res);
 
-//     // Save in the Database
-//     Annexure.findOne({ _id: req.body._id }).then((annexure) => {
-//       if (annexure) {
-//         //Update the Contents
-//         Annexure.findOneAndUpdate(
-//           { _id: req.body._id },
-//           { $set: annexureFields },
-//           { new: true }
-//         )
-//           .then((annexure) => {
-//             // Setting the id for annexure in Strucutre Book
+    //   res.send(req.params);
+  } else {
+    res.status(404).json({
+      err: `no file`,
+      msg: `The File Dont Exists in ${publicDir}/${knwType}/${cust}/${bookId}/sections/${fromPage}_${toPage}.pdf`,
+    });
+  }
+});
 
-//             res.status(200).json({ msg: "success" });
-//           })
-//           .catch((err) => res.status(400).json(err));
-//       } else {
-//         //Create the New Book Structure
-//         new Annexure(annexureFields)
-//           .save()
-//           .then((annex) => {
-//             StructureBook.findOneAndUpdate(
-//               { bookId: req.params.bookId },
-//               {
-//                 $push: {
-//                   annexure: annex._id,
-//                 },
-//               },
-//               { new: true }
-//             )
-//               .then((structBook) => {
-//                 //  console.log("[DEBUG] the updated structure book ", structBook);
-//                 //res.status(200).json((msg: "success"));
-//               })
-//               .catch((err) => res.status(400).json(err));
-//             res.status(200).json({ msg: "success" });
-//           })
-//           .catch((err) => res.status(400).json(err));
+// @route GET /api/fs//full/:knwType/:cust/:bookId
+// @desc Get the full PDF's of Book Id
+// @access Public
 
-//         // TODO create folders in the static folder with the said book id
-//         // TODO Call Python script to listent to these folders
-//       }
-//     });
-//   }
-// );
+router.get("/full/:knwType/:cust/:bookId", (req, res) => {
+  const { knwType, cust, bookId } = req.params;
 
-// // @route GET /api/annexure/:annexureId
-// // @desc  Gets the details of a particular Annexere
-// // @access Protected
+  if (
+    fs.existsSync(`${publicDir}/${knwType}/${cust}/${bookId}/${bookId}.pdf`)
+  ) {
+    let file = fs.createReadStream(
+      `${publicDir}/${knwType}/${cust}/${bookId}/${bookId}.pdf`
+    );
+    var stat = fs.statSync(
+      `${publicDir}/${knwType}/${cust}/${bookId}/${bookId}.pdf`
+    );
+    res.setHeader("Content-Length", stat.size);
+    res.setHeader("Content-Type", "application/pdf");
+    // res.setHeader(
+    //   "Content-Disposition",
+    //   "inline",
+    //   `filename=${fromPage}_${toPage}.pdf`
+    // );
+    file.pipe(res);
 
-// router.get(
-//   "/:annexureId",
-//   // passport.authenticate("jwt", { session: false }),
-//   auth,
-//   (req, res) => {
-//     // Validate the Inputs if Required
-//     let errors = {};
+    //   res.send(req.params);
+  } else {
+    res.status(404).json({
+      err: `The File Dont Exists`,
+      msg: `${publicDir}/${knwType}/${cust}/${bookId}/${bookId}.pdf`,
+    });
+  }
+});
 
-//     // Save in the Database
-//     Annexure.find({ _id: req.params.annexureId }).then((annexure) => {
-//       if (annexure) {
-//         res.status(200).json(annexure);
-//       } else {
-//         errors.annexure = "This Annexure ID not found !!!";
-//         res.status(404).json(errors);
-//       }
-//     });
-//   }
-// );
+// @route GET /annex/:knwType/:cust/:bookId/annexures/:fromPage/:toPage
+// @desc Get the annexure items
+// @access Public
 
-// // @route GET /api/annexure/:bookId
-// // @desc  Gets the details of all annexure fir  particular bookid
-// // @access Protected
+router.get(
+  "/annex/:knwType/:cust/:bookId/annex/:fromPage/:toPage",
+  (req, res) => {
+    const { knwType, cust, bookId, fromPage, toPage } = req.params;
 
-// router.get(
-//   "/new/:bookId",
-//   //passport.authenticate("jwt", { session: false }),
-//   auth,
-//   (req, res) => {
-//     // Validate the Inputs if Required
-//     let errors = {};
+    if (
+      fs.existsSync(
+        `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`
+      )
+    ) {
+      let file = fs.createReadStream(
+        `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`
+      );
+      var stat = fs.statSync(
+        `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`
+      );
+      res.setHeader("Content-Length", stat.size);
+      res.setHeader("Content-Type", "application/pdf");
+      // res.setHeader(
+      //   "Content-Disposition",
+      //   "inline",
+      //   `filename=${fromPage}_${toPage}.pdf`
+      // );
+      file.pipe(res);
 
-//     // Save in the Database
-//     Annexure.find({ book_id_num: req.params.bookId }).then((annexure) => {
-//       if (annexure) {
-//         res.status(200).json(annexure);
-//       } else {
-//         errors.annexure = "This BookId ID Annexures not found !!!";
-//         res.status(404).json(errors);
-//       }
-//     });
-//   }
-// );
-
-// // @route DELETE /api/annexure/:bookId
-// // @desc  Delete all annexure for  particular bookid
-// // @access Protected
-// router.delete(
-//   "/:bookId",
-//   auth,
-//   // passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     // Validate the Inputs if Required
-//     let errors = {};
-
-//     // Save in the Database
-//     Annexure.deleteMany({ book_id_num: req.params.bookId }).then((annexure) => {
-//       if (annexure) {
-//         //TODO Structure Metadata Model we have to delete one more id from Annexure ID
-//         res.status(200).json(annexure);
-//       } else {
-//         errors.annexure = "This Annexures not found !!!";
-//         res.status(404).json(errors);
-//       }
-//     });
-//   }
-// );
-
-// // @route DELETE /api/annexure/:bookId/:annexureId
-// // @desc  Delete annexure for  particular AnnexureId
-// // @access Protected
-
-// router.delete(
-//   "/:bookId/:annexureId",
-//   auth,
-//   //passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     // Validate the Inputs if Required
-//     let errors = {};
-
-//     // Save in the Database
-//     Annexure.deleteOne({ _id: req.params.annexureId }).then((annexure) => {
-//       if (annexure) {
-//         // Structure Model we have to delete one more id from Annexure ID
-//         StructureBook.update(
-//           { bookId: req.params.bookId },
-//           { $pull: { annexure: req.params.annexureId } },
-//           { safe: true, multi: true }
-//         )
-//           .then((doc) => {
-//             res.status(200).json({ msg: "success" });
-//           })
-//           .catch((err) => {
-//             console.log(`Error from the Delete Annexure ${err}`);
-//           });
-//       } else {
-//         errors.annexure = "[DELETE] This Annexures not found !!!";
-//         res.status(404).json(errors);
-//       }
-//     });
-//   }
-// );
+      //   res.send(req.params);
+    } else {
+      res.status(404).json({
+        err: `The File Dont Exists`,
+        msg: `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`,
+      });
+    }
+  }
+);
 
 module.exports = router;

@@ -185,7 +185,7 @@ function Explorer(props) {
           <div className="header-main">
             <div className="header--level1">
               <Link
-                to="/"
+                onClick={(e) => history.push("/")}
                 className={
                   CUSTOMER === "KLA" ? "logo-name--kla" : "logo-name--klc"
                 }

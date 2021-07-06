@@ -108,9 +108,6 @@ function FacetFilterContainer({ lang }) {
               const formatedDateFrom = dateFormat(dateItems[0][1]);
               const formatedDateTo = dateFormat(dateItems[1][1]);
               // if date-from & date-to are equal push
-              console.info(
-                `[DEBUG] the date format is ${formatedDateFrom} to ${formatedDateTo}`
-              );
 
               if (formatedDateFrom === formatedDateTo) {
                 const facetToPush = [datefacetHeader, formatedDateFrom];

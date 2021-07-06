@@ -198,6 +198,7 @@
     "assemblyNumber",
     "sessionNumber",
     "placeSession",
+    "yearBook",
     "datesSessions",
     "sectionType",
     "startPage",
