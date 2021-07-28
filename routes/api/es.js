@@ -21,6 +21,8 @@ const {
   es_local,
   kla_test_index,
   klc_test_index,
+  kla_prod_index,
+klc_prod_index
 } = require("../../config/config");
 
 // @route GET /api/annexure/test
