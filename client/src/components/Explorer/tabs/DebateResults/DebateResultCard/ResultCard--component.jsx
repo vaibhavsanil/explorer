@@ -1,15 +1,20 @@
 import React, { Fragment, useState, useEffect } from "react";
-import ReactReadMoreReadLess from "react-read-more-read-less";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css"; // optional
+// import ReactReadMoreReadLess from "react-read-more-read-less";
 import Parse from "html-react-parser";
 import ReadMore from "../../debateUtils/ReadMore--component";
 // import ReadMoreOcr from "../../../../Explorer/tabs/debateUtils/ReadMoreOcr";
 import ReadMoreOcr from "../../../../Explorer/tabs/debateUtils/ReadMoreOcrAll--hoc";
 import swal from "sweetalert";
-import { CUSTOMER, i18n } from "../../../../../constants/index";
+import {
+  CUSTOMER,
+  i18n,
+  generateFSPath,
+  FILESERVER_KLA,
+  FILESERVER_KLC,
+} from "../../../../../constants/index";
 function ResultCard({ cardData, lang }) {
-  // https://codesandbox.io/s/06mcf?file=/src/index.js:983-1007
-  // const [cardItem, setCardItem] = useState({});
-  // setCardItem(cardData);
   const { debateParticipants, issues, annexure } = i18n;
   const { _source, highlight, _id } = cardData;
 
@@ -112,8 +117,34 @@ function ResultCard({ cardData, lang }) {
     }
   };
 
+  function renderAssemblyTag(customer, lang) {
+    if (customer === "KLA") {
+      return lang === "ENG"
+        ? `Assembly:${_source["assemblyNumber"]}`
+        : `ವಿಧಾನ ಸಭೆ:${_source["assemblyNumber"]}`;
+    } else {
+      return lang === "ENG"
+        ? `Session:${_source["sessionNumber"]}`
+        : `ವಿಧಾನ ಪರಿಷತ್ತು:${_source["sessionNumber"]}`;
+    }
+  }
+
   function openAnnexureLink() {
-    console.info("The Annexure Link id Clicked");
+    const { annexure_start_page, annexure_end_page, bookId } = _source;
+    let routesPDF = generateFSPath(
+      "debates",
+      "annex",
+      CUSTOMER.toLowerCase(),
+      bookId,
+      annexure_start_page,
+      annexure_end_page
+    );
+    let fileserver = CUSTOMER === "KLA" ? FILESERVER_KLA : FILESERVER_KLC;
+    let pathFileServer = fileserver + routesPDF;
+    // console.info(
+    //   `[DEBUG][Open Request PDF] the pdf is called \n ${fileserver + routesPDF}`
+    // );
+    window.open(pathFileServer, "_blank");
   }
 
   function issuesRender() {
@@ -163,18 +194,40 @@ function ResultCard({ cardData, lang }) {
       dangerMode: false,
     }).then((willDelete) => {
       if (willDelete) {
-        console.log(`[DEBUG] The file being downloaded`);
+        // console.log(`[DEBUG] The file being downloaded`);
         // https://www.codegrepper.com/code-examples/javascript/frameworks/express/express+send+pdf+to+view
         // https://stackoverflow.com/questions/29987478/pdf-js-using-search-function-on-embedded-pdf
-      //  https://stackoverflow.com/questions/14761777/pass-pdf-url-to-pdf-js-in-query-string/20079487
-        // window.open()
+        //  https://stackoverflow.com/questions/14761777/pass-pdf-url-to-pdf-js-in-query-string/20079487
+        const { startPage, endPage, bookId } = _source;
+        let routesPDF = generateFSPath(
+          "debates",
+          "fullPDF",
+          CUSTOMER.toLowerCase(),
+          bookId,
+          startPage,
+          endPage
+        );
+        let fileserver = CUSTOMER === "KLA" ? FILESERVER_KLA : FILESERVER_KLC;
+        let pathFileServer = fileserver + routesPDF;
+        // console.info(
+        //   `[DEBUG][Open Request PDF] the pdf is called \n ${
+        //     fileserver + routesPDF
+        //   }`
+
+        window.open(pathFileServer, "_blank");
       }
     });
   }
 
   return (
     <>
-      <div className="resultCard-container">
+      <div
+        className={
+          CUSTOMER === "KLA"
+            ? "resultCard-container--kla"
+            : "resultCard-container--klc"
+        }
+      >
         <div className="resultCard--row1">
           <div className="resultCard-container--actionButtons">
             <div
@@ -190,10 +243,7 @@ function ResultCard({ cardData, lang }) {
               <div>
                 {lang === "ENG" ? "Year" : "ವರ್ಷ"}: {_source["yearBook"]}
               </div>
-              <div>
-                {lang === "ENG" ? "Assembly" : "ವಿಧಾನ ಸಭೆ"}:{" "}
-                {_source["assemblyNumber"]}
-              </div>
+              <div>{renderAssemblyTag(CUSTOMER, lang)}</div>
             </div>
           </div>
 
@@ -208,7 +258,7 @@ function ResultCard({ cardData, lang }) {
               {cardData._source && debateTitleFunc(lang)}
             </div>
             <div className="resultCard-container--info--debateSubject">
-              <ReadMore>{Parse(debateSUBJECT)}</ReadMore>
+              <ReadMore data={_source}>{Parse(debateSUBJECT)}</ReadMore>
             </div>
 
             <div
@@ -253,9 +303,19 @@ function ResultCard({ cardData, lang }) {
                 >
                   {lang === "ENG" ? i18n.annexure.eng : i18n.annexure.kan}
                 </div>
-                <div className="annexureContainer" onClick={openAnnexureLink}>
-                  {_source.annexure_title}
-                </div>
+                <Tippy
+                  arrow={true}
+                  placement="right"
+                  content={
+                    <span style={{ fontWeight: "bold" }}>
+                      Click to View the Annexure
+                    </span>
+                  }
+                >
+                  <div className="annexureContainer" onClick={openAnnexureLink}>
+                    {_source.annexure_title}
+                  </div>
+                </Tippy>
               </div>
             )}
             {_source.issues_section_eng[0] === "N/A" ? (
@@ -278,17 +338,27 @@ function ResultCard({ cardData, lang }) {
         </div>
 
         <div className="cardFooter">
-          <button
-            className={
-              CUSTOMER === "KLA"
-                ? "resultCard--fullPdf--kla"
-                : "resultCard--fullPdf--klc"
+          <Tippy
+            arrow={true}
+            placement="right"
+            content={
+              <span style={{ fontWeight: "bold" }}>
+                Click to Download the Full Debate Book
+              </span>
             }
-            onClick={renderFullPdf}
           >
-            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>{" "}
-            {lang === "ENG" ? "Debate Book" : "ಪೂರ್ಣ ಪುಸ್ತಕ"}
-          </button>
+            <button
+              className={
+                CUSTOMER === "KLA"
+                  ? "resultCard--fullPdf--kla"
+                  : "resultCard--fullPdf--klc"
+              }
+              onClick={renderFullPdf}
+            >
+              <i class="fa fa-file-pdf-o" aria-hidden="true"></i>{" "}
+              {lang === "ENG" ? "Debate Book" : "ಪೂರ್ಣ ಪುಸ್ತಕ"}
+            </button>
+          </Tippy>
         </div>
       </div>
     </>

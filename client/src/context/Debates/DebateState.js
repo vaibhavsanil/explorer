@@ -179,15 +179,16 @@ const DebateState = (props) => {
         dispatch({ type: SEARCH_REQUEST_SUCCESS, payload: response.data });
         resolve(response.data);
       } catch (error) {
+        console.info(
+          `[DEBUG] ERROR The Search Request Header is \n ${JSON.stringify(
+            error.response
+          )}`
+        );
         dispatch({
           type: SEARCH_REQUEST_ERROR,
           payload: error.response.data,
         });
-        console.info(
-          `[DEBUG] ERROR The Search Request Header is \n ${JSON.stringify(
-            error.response.data
-          )}`
-        );
+
         reject(error.response.data);
       }
     });

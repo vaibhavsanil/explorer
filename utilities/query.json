@@ -100,7 +100,7 @@
     },
     "sessionNumber_bucket": {
       "terms": {
-        "field": "sessionnumber",
+        "field": "sessionNumber",
         "order": {
           "_count": "desc"
         }
@@ -195,6 +195,7 @@
     }
   },
   "_source": [
+    "bookId",
     "assemblyNumber",
     "sessionNumber",
     "placeSession",

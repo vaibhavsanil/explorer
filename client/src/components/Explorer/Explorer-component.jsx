@@ -3,6 +3,7 @@ import { ReactTransliterate } from "react-transliterate";
 import "react-transliterate/dist/index.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Scrollbars } from "react-custom-scrollbars";
 
 import {
   BrowserRouter as Router,
@@ -172,6 +173,19 @@ function Explorer(props) {
   const { searchTerm } = searchState;
   const { explorerHeaders } = i18n;
 
+  function renderFooter(customer, language) {
+    if (customer === "KLA") {
+      console.info(`[DEBUG] The value of language ${JSON.stringify(language)}`);
+      return language["language"] === "ENG"
+        ? "2021 Karnataka Legislative Assembly Secretariat"
+        : "2021 ಕರ್ನಾಟಕ ವಿಧಾನ ಸಭೆ ಸಚಿವಾಲಯ ";
+    } else {
+      return language["language"] === "ENG"
+        ? "2021 Karnataka Legislative Council Secretariat"
+        : "2021 ಕರ್ನಾಟಕ ವಿಧಾನ ಪರಿಷತ್ತು ಸಚಿವಾಲಯ ";
+    }
+  }
+
   return (
     <Router>
       <div className="container-main-explorer">
@@ -294,6 +308,15 @@ function Explorer(props) {
                       : explorerHeaders.newsHeader.kan}
                   </Link>
                 </li>
+                <li id="billsTab">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  <Link to={`${url}/bills`}>
+                    {" "}
+                    {language === "ENG"
+                      ? explorerHeaders.billHeader.eng
+                      : explorerHeaders.billHeader.kan}
+                  </Link>
+                </li>
                 <li id="reviewTab">
                   <i class="fa fa-address-book-o" aria-hidden="true"></i>
                   <Link to={`${url}/review`}>
@@ -331,14 +354,14 @@ function Explorer(props) {
                       : explorerHeaders.vedioHeader.kan}
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to={`${url}/vedio`}>
                     {" "}
                     {language === "ENG"
                       ? explorerHeaders.advancedSearch.eng
                       : explorerHeaders.advancedSearch.kan}
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
@@ -373,7 +396,20 @@ function Explorer(props) {
         </section>
 
         <footer>
-          <h6>This is footer</h6>
+          <div
+            className={
+              CUSTOMER === "KLA" ? "footerheader--kla" : "footerheader--klc"
+            }
+          >
+            {ln["language"] === "ENG"
+              ? "Copyright"
+              : "ಎಲ್ಲ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ."}
+
+            <span>
+              <i class="fa fa-copyright" aria-hidden="true"></i>
+            </span>
+            <span>{renderFooter(CUSTOMER, ln)}</span>
+          </div>
         </footer>
       </div>
     </Router>

@@ -13,13 +13,19 @@ const app = express();
 
 // Body Parser Middleware
 app.use(express.json({ extended: false }));
-app.use(
-  "/pdf",
-  express.static("/home/vaibhav/Documents/VidhanDocsTracker/public/debates")
-);
+// app.use(
+//   "/pdf",
+//   express.static("/home/vaibhav/Documents/VidhanDocsTracker/public/debates")
+// );
 
 // Config
-const { es_pass, es_user, es_host_remote, kla_test_index } = config;
+const {
+  es_pass,
+  es_user,
+  es_host_remote,
+  kla_test_index,
+  klc_test_index,
+} = config;
 
 // Implement Global promise for Mongoose
 mongoose.Promise = global.Promise;

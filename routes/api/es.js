@@ -14,11 +14,13 @@ const suggestES = require("../../utilities/suggest.json");
 const { suggestorTermES, esQueryBuilder } = require("../../utilities/utils");
 const { escape } = require("querystring");
 const {
+  CUSTOMER,
   es_user,
   es_pass,
   es_host_remote,
   es_local,
   kla_test_index,
+  klc_test_index,
 } = require("../../config/config");
 
 // @route GET /api/annexure/test
@@ -92,7 +94,7 @@ router.get("/sh", (req, res) => {
   //   )}`
   // );
 
-  console.log(`The Query is \n ${JSON.stringify(queryParameters, null, 2)}`);
+  // console.log(`The Query is \n ${JSON.stringify(queryParameters, null, 2)}`);
   // Solved no aggregations in the response
   // https://stackoverflow.com/questions/50159269/elasticsearch-aggregation-not-showing-count
 
@@ -104,9 +106,32 @@ router.get("/sh", (req, res) => {
     )}`
   );
 
+  const elasticUrlPath = () => {
+    // "sdc-build-pm2": "NODE_ENV=production pm2 start server.js"
+    if (process.env.NODE_ENV === "production") {
+      console.log(
+        `[Elasticsearch] Calling URL for Elastic Search ${es_local}/${
+          CUSTOMER === "KLA" ? kla_prod_index : klc_prod_index
+        }/_search`
+      );
+      return `${es_local}/${
+        CUSTOMER === "KLA" ? kla_prod_index : klc_prod_index
+      }/_search`;
+    } else {
+      console.log(
+        `[Elasticsearch] Calling URL for Elastic Search https://${es_user}:${es_pass}@${es_host_remote}/${
+          CUSTOMER === "KLA" ? kla_test_index : klc_test_index
+        }/_search`
+      );
+      return `https://${es_user}:${es_pass}@${es_host_remote}/${
+        CUSTOMER === "KLA" ? kla_test_index : klc_test_index
+      }/_search`;
+    }
+  };
+
   axios
     .post(
-      `https://${es_user}:${es_pass}@${es_host_remote}/${kla_test_index}/_search`,
+      elasticUrlPath(),
 
       // path.join(
       //   keys.es_host_remote_new,

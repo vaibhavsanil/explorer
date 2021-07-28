@@ -25,7 +25,9 @@ import InputElement from "../../utils/InputElement";
 
 // Import Images
 
-import SpeakerImage from "../../images/speaker-cropped.jpg";
+// import SpeakerImage from "../../images/speaker-cropped.jpg";
+import SpeakerImage from "../../images/kageri.jpg";
+
 import ChairmanImage from "../../images/chairman.jpeg";
 
 import SecretaryKLA from "../../images/secretary-kla.jpg";
@@ -227,7 +229,7 @@ const WelcomeScreen = (props) => {
   }
 
   function languageChangefunc(e) {
-    console.info(e.target.value);
+    // console.info(e.target.value);
     setLn({ ...ln, language: e.target.value });
   }
 

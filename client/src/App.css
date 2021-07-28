@@ -3,6 +3,7 @@
 :root {
   --primaryKLA: #017143;
   --primaryKLAButton: #44ab42;
+  --primaryKLCButton: #fd2142;
   /* --primaryKLC: #f75151; */
   --primaryKLC: #c53330;
   --primaryBlack: #333333;
@@ -49,6 +50,15 @@ section {
   background: #fff;
   max-height: 100vh;
   overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: var(--primaryKLA);
 }
 
 /* input {
@@ -395,8 +405,41 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
 }
 
 footer {
-  background-color: blueviolet;
+  background-color: #ffff;
   height: 3vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer .footerheader--kla {
+  font-size: 1rem;
+  word-spacing: 2px;
+  padding: 0.5rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: var(--primaryKLA);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+footer .footerheader--kla:hover {
+  text-decoration: underline;
+}
+
+footer .footerheader--klc {
+  font-size: 1rem;
+  word-spacing: 2px;
+  padding: 0.5rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: var(--primaryKLC);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+footer .footerheader--klc:hover {
+  text-decoration: underline;
 }
 
 .header-main {
@@ -521,7 +564,7 @@ footer {
   color: white;
 }
 
-.searchSubmit-explorer--kla:hover .lds-dual-ring:after {
+.searchSubmit-explorer--kla:hover .lds-dual-ring--kla:after {
   border: 4px solid #fff;
   border-color: #fff transparent #fff transparent;
 }
@@ -548,6 +591,11 @@ footer {
 .searchSubmit-explorer--klc:hover {
   background-color: var(--primaryKLC);
   color: white;
+}
+
+.searchSubmit-explorer--kla:hover .lds-dual-ring--klc:after {
+  border: 4px solid #fff;
+  border-color: #fff transparent #fff transparent;
 }
 
 /* Header Level2  KLA */
@@ -581,18 +629,18 @@ footer {
   border-bottom: 2px solid var(--primaryKLA);
 }
 
-.header-navigation--kla li:last-child {
-  /* background-color: var(--primaryKLA); */
+/* .header-navigation--kla li:last-child {
+  background-color: var(--primaryKLA);
   border: none;
   padding: 0 3px;
-}
+} */
 
-.header-navigation--kla li:last-child :hover {
-  /* background-color: var(--primaryKLA); */
-  color: #fff;
-  background-color: var(--primaryKLA);
-  border-radius: 2px;
-}
+/* .header-navigation--kla li:last-child :hover { */
+/* background-color: var(--primaryKLA); */
+/* color: #fff; */
+/* background-color: var(--primaryKLA); */
+/* border-radius: 2px; */
+/* } */
 
 .header-navigation--kla li i {
   color: var(--primaryKLA);
@@ -671,12 +719,12 @@ footer {
 .button:disabled {
   opacity: 0.5;
 }
-.lds-dual-ring {
+.lds-dual-ring--kla {
   display: inline-block;
   width: 0x;
   height: 0px;
 }
-.lds-dual-ring:after {
+.lds-dual-ring--kla:after {
   /* position: absolute; */
   /* top: 16px;
   right: 328px; */
@@ -692,7 +740,33 @@ footer {
   border-color: var(--primaryKLA) transparent var(--primaryKLA) transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
-.lds-dual-ring:hover:after {
+.lds-dual-ring--kla:hover:after {
+  border: 4px solid #fff;
+  border-color: #fff transparent #fff transparent;
+}
+
+.lds-dual-ring--klc {
+  display: inline-block;
+  width: 0x;
+  height: 0px;
+}
+.lds-dual-ring--klc:after {
+  /* position: absolute; */
+  /* top: 16px;
+  right: 328px; */
+  content: " ";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  /* margin: 8px; */
+  border-radius: 50%;
+  /* border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent; */
+  border: 4px solid var(--primaryKLA);
+  border-color: var(--primaryKLC) transparent var(--primaryKLC) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+.lds-dual-ring--klc:hover:after {
   border: 4px solid #fff;
   border-color: #fff transparent #fff transparent;
 }
@@ -772,7 +846,7 @@ footer {
 /* KLA */
 .collapsible--klc {
   /* background-color: #eee; */
-  color: var(--primaryKLA);
+  color: var(--primaryKLC);
   cursor: pointer;
   font-weight: 400;
   padding: 12px;
@@ -787,7 +861,7 @@ footer {
   vertical-align: middle;
   /* background: #56ab2f; fallback for old browsers */
   background-color: var(--primaryLottie);
-  border-bottom: 4px solid var(--primaryKLA);
+  border-bottom: 4px solid var(--primaryKLC);
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
@@ -1256,7 +1330,7 @@ footer {
   text-align: center;
 }
 
-.not-found--dialogue--kla button {
+.not-found--dialogue--kla .not-found--button {
   width: 10%;
   /* background-color: rgba(68, 171, 66, 0.5); */
   background-color: #fff;
@@ -1289,7 +1363,7 @@ footer {
   text-align: center;
 }
 
-.not-found--dialogue--klc button {
+.not-found--dialogue--klc .not-found--button {
   width: 10%;
   /* background-color: rgba(68, 171, 66, 0.5); */
   background-color: #fff;
@@ -1317,17 +1391,33 @@ footer {
 /* Debate 404 Not Found */
 
 /* Result Card Start */
-.resultCard-container {
+.resultCard-container--kla {
   background-color: #ffff;
   padding: 1rem 2rem;
   border-radius: 0.7rem;
 
-  border-top: 3px solid green;
+  border-top: 3px solid var(--primaryKLA);
   display: flex;
   flex-direction: column;
-  box-shadow: 3px 16px 28px -3px rgba(0, 0, 0, 0.73);
-  -webkit-box-shadow: 3px 16px 28px -3px rgba(0, 0, 0, 0.73);
-  -moz-box-shadow: 3px 16px 28px -3px rgba(0, 0, 0, 0.73);
+  box-shadow: 0 6px 16px 0 rgb(0 0 0 / 20%);
+  -webkit-box-shadow: 0 6px 16px 0 rgb(0 0 0 / 20%);
+  -moz-box-shadow: 0 6px 16px 0 rgb(0 0 0 / 20%);
+  margin-bottom: 1.25rem;
+  height: auto;
+}
+
+.resultCard-container--klc {
+  background-color: #ffff;
+  padding: 1rem 2rem;
+  border-radius: 0.7rem;
+
+  border-top: 3px solid var(--primaryKLC);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 16px 0 rgb(0 0 0 / 20%);
+  -webkit-box-shadow: 0 6px 16px 0 rgb(0 0 0 / 20%);
+  -moz-box-shadow: 0 6px 16px 0 rgb(0 0 0 / 20%);
+  margin-bottom: 1.25rem;
   height: auto;
 }
 
@@ -1360,7 +1450,7 @@ footer {
   border: none;
   background-color: #fff;
   padding: 0.5rem;
-  color: var(--primaryKLA);
+  color: var(--primaryKLC);
   font-size: 1.2rem;
   border-radius: 2px;
   border: var(--primaryKLC) solid 0.9px;
@@ -1407,6 +1497,7 @@ footer {
   word-spacing: 0.2rem;
   color: #0b0c0b;
   font-size: 1.6rem;
+  display: inline-block;
 }
 
 #debateSubject:hover {
@@ -1498,6 +1589,14 @@ footer {
 
 .resultCard-container--info--debateParticipants--header-klc {
   min-width: 18%;
+  padding: 0.4rem 0.8rem 0.4rem 0rem;
+  display: flex;
+  /* align-items: center; */
+  /* width: 100%; */
+  justify-content: flex-start;
+}
+
+.resultCard-container--info--debateParticipants--header-klc div {
   background-color: var(--primaryKLC);
   color: #fff;
   padding: 0.3rem 0.5rem;
@@ -1733,6 +1832,102 @@ footer {
 }
 
 /* Read Less */
+
+/* Scroll CSS */
+
+.scroll-to-top--kla {
+  cursor: pointer;
+  position: fixed;
+  bottom: 3.2rem;
+  left: 50%;
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+  background: #fff;
+  color: var(--primaryKLA);
+  z-index: 1;
+  border: var(--primaryKLA) solid 1px;
+  display: flex;
+  justify-content: center;
+  transition: all 0.6s ease;
+}
+
+/* .scroll-to-top--kla:hover {
+  background: var(--primaryKLA);
+  color: #fff;
+  z-index: 1;
+  border: var(--primaryKLA) solid 1px;
+  display: flex;
+  justify-content: center;
+} */
+
+.scroll-to-top--kla .icon {
+  margin-top: 8px;
+  /* width: auto; */
+  animation: scrollTop 0.5s alternate ease infinite;
+  font-size: 1.7rem;
+  background: #ffff;
+  /* color: green; */
+  outline: none;
+  height: 28px;
+  /* transition: all 0.6s ease; */
+}
+
+.scroll-to-top--klc {
+  cursor: pointer;
+  position: fixed;
+  bottom: 3.2rem;
+  left: 50%;
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+  background: #fff;
+  color: var(--primaryKLC);
+  z-index: 1;
+  border: var(--primaryKLC) solid 1px;
+  display: flex;
+  justify-content: center;
+  transition: all 0.6s ease;
+}
+
+/* .scroll-to-top--kla:hover {
+  background: var(--primaryKLA);
+  color: #fff;
+  z-index: 1;
+  border: var(--primaryKLA) solid 1px;
+  display: flex;
+  justify-content: center;
+} */
+
+.scroll-to-top--klc .icon {
+  margin-top: 8px;
+  /* width: auto; */
+  animation: scrollTop 0.5s alternate ease infinite;
+  font-size: 1.7rem;
+  background: #ffff;
+  /* color: green; */
+  outline: none;
+  height: 28px;
+  /* transition: all 0.6s ease; */
+}
+
+/* .scroll-to-top--kla .icon:hover {
+  background: var(--primaryKLA);
+  color: green;
+  outline: none;
+  height: 28px;
+} */
+
+@keyframes scrollTop {
+  from {
+    transform: translateY(2px);
+  }
+  to {
+    transform: translateY(-1px);
+  }
+}
+
+/* Scroll CSS End */
 
 /* ////////////////////////////////////////////////////////// */
 /* /////////////////Media Queries /////////////////////////// */

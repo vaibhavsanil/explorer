@@ -2,6 +2,9 @@ import axios from "axios";
 
 // GLOBAL CONSTANTS
 export const CUSTOMER = "KLA";
+// Dont add / at the end
+export const FILESERVER_KLA = "http://localhost:9201";
+export const FILESERVER_KLC = "http://localhost:9101";
 
 export const i18n = {
   customerName_KLA: {
@@ -121,6 +124,10 @@ export const i18n = {
     newsHeader: {
       eng: "News",
       kan: "ಸುದ್ದಿ",
+    },
+    billHeader: {
+      eng: "Bills",
+      kan: "ವಿಧೇಯಕಗಳು",
     },
     reviewHeader: {
       eng: "Review",
@@ -355,6 +362,31 @@ export function returnQueryVariableFilter(debatetype) {
     issue: ["issfEng", "array", "issfKan"],
   };
   return mappingField[debatetype];
+}
+
+// Generate File Path to the server
+
+export function generateFSPath(
+  knwType,
+  types,
+  customer,
+  bookid,
+  frompageNumber = 0,
+  topageNumber = 0
+) {
+  if (knwType === "debates") {
+    if (types === "section") {
+      return `/api/fs/${types}/${knwType}/${customer}/${bookid}/${frompageNumber}/${topageNumber}`;
+    }
+
+    if (types === "fullPDF") {
+      return `/api/fs/full/${knwType}/${customer}/${bookid}`;
+    }
+
+    if (types === "annex") {
+      return `/api/fs/annex/${knwType}/${customer}/${bookid}/${frompageNumber}/${topageNumber}`;
+    }
+  }
 }
 
 // Export return the query object after manipulating it

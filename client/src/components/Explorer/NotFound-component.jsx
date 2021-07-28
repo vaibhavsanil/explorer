@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+import DebateContext from "../../context/Debates/debateContext";
+import { searchConstQueryObject } from "../../constants/index";
 
 function NotFound() {
+  // console.info(
+  //   `[DEBUG][Not Found] the search Query ${JSON.stringify(
+  //     searchConstQueryObject
+  //   )}`
+  // );
   return (
     <div
       style={{

@@ -7,7 +7,9 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "sdc-build": "NODE_ENV=production node server.js",
+    "sdc-build-pm2": "NODE_ENV=production pm2 start server.js"
   },
   "author": "Vaibhav Sanil",
   "license": "ISC",

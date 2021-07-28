@@ -13,10 +13,11 @@ function selectSortElement({ onClick, customer, lang }) {
             ? "custom-select-KLA menu-select-KLA"
             : "custom-select-KLC menu-select-KLC"
         }
-        onClick={onClick}
+        onClick={(e) => onClick(e)}
       >
-        <option value="asc">Date-Latest to Oldest</option>
-        <option value="dsc">Date-Oldest to Latest</option>
+        <option value="asc">Date-Oldest to Latest</option>
+        <option value="dsc">Date-Latest to Oldest</option>
+        <option value="rel">Sort-By Relevance</option>
       </select>
     </>
   );

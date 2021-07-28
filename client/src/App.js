@@ -9,7 +9,7 @@ import "./App.css";
 import Welcome from "./components/Welcome/Welcome-component";
 import Explorer from "./components/Explorer/Explorer-component";
 import NotFound from "./components/Explorer/NotFound-component";
-
+import { Scrollbars } from "react-custom-scrollbars";
 // Import Context API State
 import DebateState from "./context/Debates/DebateState";
 

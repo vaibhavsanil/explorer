@@ -3,11 +3,14 @@ const fs = require("fs");
 const express = require("express");
 const config = require("../../config/config");
 const auth = require("../../middleware/auth");
-const { reset } = require("nodemon");
+const { CUSTOMER } = require("../../config/config");
+
 const router = express.Router();
 
-const { publicDir } = config;
+const { publicDirLocal, publicDirServer } = config;
 
+const publicDir =
+  process.env.NODE_ENV === "production" ? publicDirServer : publicDirLocal;
 router.get("/test", (req, res) => res.json({ msg: "File Server Test " }));
 
 // @route GET /api/fs/section/:knwType/:cust/:bookId/:fromPage/:toPage
@@ -64,6 +67,42 @@ router.get("/full/:knwType/:cust/:bookId", (req, res) => {
     );
     res.setHeader("Content-Length", stat.size);
     res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment",
+      `filename=${bookId}.pdf`
+    );
+    file.pipe(res);
+
+    //   res.send(req.params);
+  } else {
+    res.status(404).json({
+      err: `no file`,
+      msg: `${publicDir}/${knwType}/${cust}/${bookId}/${bookId}.pdf`,
+    });
+  }
+});
+
+// @route GET /annex/:knwType/:cust/:bookId/annexures/:fromPage/:toPage
+// @desc Get the annexure items
+// @access Public
+
+router.get("/annex/:knwType/:cust/:bookId/:fromPage/:toPage", (req, res) => {
+  const { knwType, cust, bookId, fromPage, toPage } = req.params;
+
+  if (
+    fs.existsSync(
+      `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`
+    )
+  ) {
+    let file = fs.createReadStream(
+      `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`
+    );
+    var stat = fs.statSync(
+      `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`
+    );
+    res.setHeader("Content-Length", stat.size);
+    res.setHeader("Content-Type", "application/pdf");
     // res.setHeader(
     //   "Content-Disposition",
     //   "inline",
@@ -74,49 +113,10 @@ router.get("/full/:knwType/:cust/:bookId", (req, res) => {
     //   res.send(req.params);
   } else {
     res.status(404).json({
-      err: `The File Dont Exists`,
-      msg: `${publicDir}/${knwType}/${cust}/${bookId}/${bookId}.pdf`,
+      err: `no file`,
+      msg: `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`,
     });
   }
 });
-
-// @route GET /annex/:knwType/:cust/:bookId/annexures/:fromPage/:toPage
-// @desc Get the annexure items
-// @access Public
-
-router.get(
-  "/annex/:knwType/:cust/:bookId/annex/:fromPage/:toPage",
-  (req, res) => {
-    const { knwType, cust, bookId, fromPage, toPage } = req.params;
-
-    if (
-      fs.existsSync(
-        `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`
-      )
-    ) {
-      let file = fs.createReadStream(
-        `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`
-      );
-      var stat = fs.statSync(
-        `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`
-      );
-      res.setHeader("Content-Length", stat.size);
-      res.setHeader("Content-Type", "application/pdf");
-      // res.setHeader(
-      //   "Content-Disposition",
-      //   "inline",
-      //   `filename=${fromPage}_${toPage}.pdf`
-      // );
-      file.pipe(res);
-
-      //   res.send(req.params);
-    } else {
-      res.status(404).json({
-        err: `The File Dont Exists`,
-        msg: `${publicDir}/${knwType}/${cust}/${bookId}/annexures/${fromPage}_${toPage}.pdf`,
-      });
-    }
-  }
-);
 
 module.exports = router;
