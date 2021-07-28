@@ -35,7 +35,7 @@
   padding: 0;
   box-sizing: border-box;
   font-size: 10px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", Verdana, Geneva, Tahoma, sans-serif;
   scroll-behavior: smooth;
 }
 body {
@@ -631,7 +631,7 @@ footer .footerheader--klc:hover {
 
 /* .header-navigation--kla li:last-child {
   background-color: var(--primaryKLA);
-  border: none;
+  border: none;ls
   padding: 0 3px;
 } */
 
