@@ -26,8 +26,8 @@ const {
   es_host_remote,
   kla_test_index,
   klc_test_index,
-  publicDirLocal, 
-publicDirServer
+  publicDirLocal,
+  publicDirServer,
 } = config;
 
 // Implement Global promise for Mongoose
@@ -49,15 +49,18 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-
-
 // // ElasticSearch
 // console.log(
 //   `Attempting Connection with ES https://${config.es_user}:${config.es_pass}@${config.es_host}:${config.es_port} `
 // );
+let nodePath = `https://${es_user}:${es_pass}@${es_host_remote}`;
+if (process.env.NODE_ENV === "production") {
+  nodePath = `http://localhost:5000`;
+}
+
 const client = new Client7({
   //   node: `https://${config.es_user}:${config.es_pass}@${config.es_host}:${config.es_port}`,
-  node: `http://localhost:5000`,
+  node: nodePath,
   //"https://elastic:pQoXAqllveTLKzaPvv9NVYnO@enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243",
 });
 
@@ -68,10 +71,7 @@ const client = new Client7({
 app.use("/api/sd/", esroutes); // for all the routes routing to search database
 app.use("/api/fs/", fserver); // For serving static files
 
-const publicDir =
-  process.env.NODE_ENV === "production" ? publicDirServer : publicDirLocal;
 //router.get("/test", (req, res) => res.json({ msg: "File Server Test " }));
-  
 
 // Serve React Files
 
