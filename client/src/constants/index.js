@@ -4,6 +4,8 @@ import axios from "axios";
 export const CUSTOMER = "KLA";
 // Dont add / at the end
 export const FILESERVER_KLA = "http://103.138.196.55:9201";
+// export const FILESERVER_KLA = "http://localhost:9201";
+
 export const FILESERVER_KLC = "http://103.138.196.55:9101";
 
 export const i18n = {

@@ -2,6 +2,12 @@
 
 const queryES = require("./query.json");
 const suggestES = require("./suggest.json");
+const config = require("../config/config");
+// const { default: axios } = require("axios");
+const fetch = require("node-fetch");
+const path = require("path");
+const http = require("http");
+const fs = require("fs");
 
 const sourceFields = [
   "assemblyNumber",
@@ -124,6 +130,69 @@ function getRangeDateQuery(fromDate, toDate, variablename) {
       },
     },
   };
+}
+// Promises Function for get PDF Files from remote Server
+// function getPDFFiles(pathFileServer) {
+//   return new Promise(async function (resolve, reject) {
+//     try {
+//       // { responseType: "blob" }
+//       // https://www.codekayak.net/node-js-download-pdf-file-from-rest-api/
+//       // https://stackoverflow.com/questions/49040247/download-binary-file-with-axios
+//       const file = await axios.get(pathFileServer, {
+//         responseType: "stream",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Accept: "application/pdf",
+//         },
+//       });
+//       resolve(file);
+//     } catch (err) {
+//       reject(err);
+//     }
+//   });
+// }
+
+// Promises using Fetch
+function getPDFFiles(pathFileServer, bookid, frompage, topage) {
+  return new Promise(async function (resolve, reject) {
+    // Working Solution
+    const temp_file = path.join(
+      config["tempDirCache"],
+      `${bookid}_${frompage}_${topage}.pdf`
+    );
+    const request = http.get(pathFileServer, function (response) {
+      if (response.statusCode === 200) {
+        let file = fs.createWriteStream(temp_file);
+
+        response.pipe(file);
+        // console.log("The File is downloaded succesfully !!!");
+        // file.on("end", () => resolve());
+        response.on("end", () => resolve());
+      } else {
+        reject(response);
+      }
+    });
+  });
+}
+
+// Getting FUllPdf Files
+function getPDFFilesFull(pathFileServer, bookid) {
+  return new Promise(async function (resolve, reject) {
+    // Working Solution
+    const temp_file = path.join(config["tempDirCache"], `${bookid}_full.pdf`);
+    const request = http.get(pathFileServer, function (response) {
+      if (response.statusCode === 200) {
+        let file = fs.createWriteStream(temp_file);
+
+        response.pipe(file);
+        // console.log("The File is downloaded succesfully !!!");
+        // file.on("end", () => resolve());
+        response.on("end", () => resolve());
+      } else {
+        reject(response);
+      }
+    });
+  });
 }
 
 function getTermQuery(termsString, varName) {
@@ -308,6 +377,8 @@ function suggestorTermES(query) {
 module.exports = {
   suggestorTermES,
   esQueryBuilder,
+  getPDFFiles,
+  getPDFFilesFull,
 };
 
 // console.log(
