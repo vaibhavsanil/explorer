@@ -98,7 +98,7 @@ client.ping({}, function (error) {
 });
 
 if (keys.CUSTOMER === "KLA") {
-  var port = process.env.PORT || 9201;
+  var port = process.env.PORT || 9200;
 } else {
   var port = process.env.PORT || 9101;
 }

@@ -1,8 +1,8 @@
-import React, { useReducer } from "react";
+import React, { useReducer } from 'react';
 
-import axios from "axios";
-import DebateContext from "./debateContext";
-import debateReducer from "./debateReducer";
+import axios from 'axios';
+import DebateContext from './debateContext';
+import debateReducer from './debateReducer';
 
 import {
   ADD_SEARCH_LOCAL_STATE,
@@ -16,7 +16,9 @@ import {
   REMOVE_SEARCH_QUERY_LOCAL_STATE,
   ERROR_REMOVE_SEARCH_QUERY_LOCAL_STATE,
   REMOVE_SEARCH_REQUEST_ERROR,
-} from "../types";
+  ADD_STATS_QUERY_WELCOME_LOCAL_STATE,
+  REMOVE_STATS_QUERY_WELCOME_LOCAL_STATE,
+} from '../types';
 
 // Import the constants
 import {
@@ -26,15 +28,16 @@ import {
   searchConstQueryObject,
   returnObjQuery,
   arrayToString,
-} from "../../constants/index";
+} from '../../constants/index';
 
 const DebateState = (props) => {
   const initialState = {
-    searchquery: "",
+    searchquery: '',
     loading: false,
     debatesearchResult: {},
     currentDebateSection: {},
     debateQueryObj: searchConstQueryObject,
+    statsQueryWelcome: {},
 
     errors: {},
   };
@@ -43,7 +46,7 @@ const DebateState = (props) => {
 
   // Set Global Constants
   let requestHeaders =
-    CUSTOMER === "KLA"
+    CUSTOMER === 'KLA'
       ? urlHeaders.requestHeadersKLA
       : urlHeaders.requestHeadersKLC;
 
@@ -80,7 +83,7 @@ const DebateState = (props) => {
 
   // Add Search Query to Local State
   const addSearchQuery = (searchTerm, queryObj) => {
-    queryObj["qp"] = searchTerm;
+    queryObj['qp'] = searchTerm;
     dispatch({
       type: ADD_SEARCH_LOCAL_STATE,
       payload: searchTerm,
@@ -99,7 +102,7 @@ const DebateState = (props) => {
   const removeSearchQuery = () => {
     dispatch({
       type: REMOVE_SEARCH_LOCAL_STATE,
-      payload: "",
+      payload: '',
     });
   };
 
@@ -126,7 +129,7 @@ const DebateState = (props) => {
 
       try {
         const response = await axios.get(
-          "/api/sd/sh",
+          '/api/sd/sh',
 
           {
             params: reqObj,
@@ -163,7 +166,7 @@ const DebateState = (props) => {
 
       try {
         const response = await axios.get(
-          "/api/sd/sh",
+          '/api/sd/sh',
 
           {
             params: urlObj,
@@ -221,7 +224,7 @@ const DebateState = (props) => {
   const searchRequestBackend = async (reqPrams) => {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
     let searchTemplate = searchQueryConst;
@@ -238,7 +241,7 @@ const DebateState = (props) => {
 
     try {
       const response = await axios.get(
-        "/api/sd/sh",
+        '/api/sd/sh',
 
         {
           params: searchTemplate,
@@ -292,6 +295,50 @@ const DebateState = (props) => {
     });
   };
 
+  // Adding Welcome Search Query Stats
+
+  const addWelcomQueryStats = async () => {
+    addLoading();
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await axios.get('/api/sd/df');
+      // console.info(
+      //   `[DEBUG] The Search Request Header is \n ${JSON.stringify(
+      //     response.data,
+      //     null,
+      //     2
+      //   )}`
+      // );
+      dispatch({
+        type: ADD_STATS_QUERY_WELCOME_LOCAL_STATE,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: SEARCH_REQUEST_ERROR,
+        payload: error.response.data,
+      });
+      // console.info(
+      //   `[DEBUG] ERROR The Search Request Header is \n ${error.response.data}`
+      // );
+      removeLoading();
+      return error;
+    }
+
+    removeLoading();
+  };
+
+  const removeWelcomQueryStats = () => {
+    dispatch({
+      type: REMOVE_STATS_QUERY_WELCOME_LOCAL_STATE,
+    });
+  };
+
   return (
     <DebateContext.Provider
       value={{
@@ -301,6 +348,7 @@ const DebateState = (props) => {
         newssearchResult: state.newssearchResult,
         currentDebateSection: state.currentDebateSection,
         debateQueryObj: state.debateQueryObj,
+        statsQueryWelcome: state.statsQueryWelcome,
 
         addSearchQuery,
         removeSearchQuery,
@@ -316,6 +364,8 @@ const DebateState = (props) => {
         searchRequestExplorerProm,
         addError,
         removeError,
+        addWelcomQueryStats,
+        removeWelcomQueryStats,
 
         errors: {},
       }}

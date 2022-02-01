@@ -1,86 +1,10 @@
 {
-  "size": 50,
+  "size": 0,
   "min_score": 0.5,
   "query": {
-    "bool": {
-      "must": [],
-      "filter": {
-        "bool": {
-          "must": []
-        }
-      },
-      "should": [
-        {
-          "multi_match": {
-            "query": "",
-            "operator": "and",
-            "fields": [
-              "debate_subject_kan.suggestion^2",
-              "annexure_title.suggestion"
-            ],
-            "fuzziness": 1,
-            "boost": 6
-          }
-        },
-        {
-          "nested": {
-            "path": "ocr_schema_section",
-            "query": {
-              "multi_match": {
-                "query": "increase the non plan expenditure",
-                "type": "best_fields",
-                "fields": ["ocr_schema_section.ocr_text.suggestion"],
-                "operator": "and",
-                "fuzziness": 1,
-                "boost": 5
-              }
-            }
-          }
-        },
-        {
-          "nested": {
-            "path": "ocr_schema_section",
-            "query": {
-              "multi_match": {
-                "query": "increase the non plan expenditure",
-                "type": "phrase",
-                "fields": ["ocr_schema_section.ocr_text"],
-                "operator": "and",
-                "slop": 2,
-                "boost": 10
-              }
-            }
-          }
-        },
-        {
-          "multi_match": {
-            "query": "",
-            "type": "best_fields",
-            "fields": [
-              "debate_participants_eng.suggestion",
-              "debate_participants_kan.suggestion"
-            ],
-            "boost": 1,
-            "operator": "and"
-          }
-        }
-      ],
-      "must_not": []
-    }
+    "match_all": {}
   },
 
-  "sort": [
-    {
-      "_score": {
-        "order": "desc"
-      }
-    },
-    {
-      "debate_section_date": {
-        "order": "desc"
-      }
-    }
-  ],
   "aggs": {
     "debateType_bucket": {
       "terms": {
@@ -102,7 +26,7 @@
     "sessionNumber_bucket": {
       "terms": {
         "field": "sessionNumber",
-        "size": 2000,
+        "size": 1000,
         "order": {
           "_count": "desc"
         }
@@ -111,7 +35,7 @@
     "debateTitleEng_bucket": {
       "terms": {
         "field": "debate_title_subject_eng",
-        "size": 200,
+        "size": 100,
         "order": {
           "_count": "desc"
         }
@@ -178,29 +102,6 @@
         "order": {
           "_count": "desc"
         }
-      }
-    }
-  },
-  "highlight": {
-    "require_field_match": true,
-    "pre_tags": ["<em>"],
-    "post_tags": ["</em>"],
-    "tags_schema": "styled",
-    "fields": {
-      "debate_subject_kan": {
-        "fragment_size": 0
-      },
-      "debate_subject_kan.suggestion": {
-        "fragment_size": 0
-      },
-      "annexure_title.suggestion": {
-        "fragment_size": 0
-      },
-      "ocr_schema_section.ocr_text": {
-        "fragment_size": 1000
-      },
-      "ocr_schema_section.ocr_text.suggestion": {
-        "fragment_size": 1000
       }
     }
   },

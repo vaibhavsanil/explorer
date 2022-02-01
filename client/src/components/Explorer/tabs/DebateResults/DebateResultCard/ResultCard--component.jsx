@@ -189,7 +189,7 @@ function ResultCard({ cardData, lang }) {
       title: "Proceed with File ?",
       text:
         "The full pdf being loaded is of large size, it will take time to load ",
-      icon: "warning",
+      icon: "info",
       buttons: true,
       dangerMode: false,
     }).then((willDelete) => {

@@ -10,7 +10,9 @@ import {
   ADD_SEARCH_QUERY_LOCAL_STATE,
   REMOVE_SEARCH_QUERY_LOCAL_STATE,
   ERROR_REMOVE_SEARCH_QUERY_LOCAL_STATE,
-} from "../types";
+  ADD_STATS_QUERY_WELCOME_LOCAL_STATE,
+  REMOVE_STATS_QUERY_WELCOME_LOCAL_STATE,
+} from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -23,7 +25,19 @@ export default (state, action) => {
     case REMOVE_SEARCH_LOCAL_STATE:
       return {
         ...state,
-        searchquery: "",
+        searchquery: '',
+      };
+
+    case ADD_STATS_QUERY_WELCOME_LOCAL_STATE:
+      return {
+        ...state,
+        statsQueryWelcome: action.payload,
+      };
+
+    case REMOVE_STATS_QUERY_WELCOME_LOCAL_STATE:
+      return {
+        ...state,
+        statsQueryWelcome: {},
       };
 
     case ADD_LOADING_LOCAL_STATE:

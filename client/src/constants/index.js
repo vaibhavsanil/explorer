@@ -1,199 +1,199 @@
-import axios from "axios";
+import axios from 'axios';
 
 // GLOBAL CONSTANTS
-export const CUSTOMER = "KLA";
+export const CUSTOMER = 'KLA';
 // Dont add / at the end
-export const FILESERVER_KLA = "http://103.138.196.55:9201";
+export const FILESERVER_KLA = 'http://103.138.196.55:9200';
 // export const FILESERVER_KLA = "http://localhost:9201";
 
-export const FILESERVER_KLC = "http://103.138.196.55:9101";
+export const FILESERVER_KLC = 'http://103.138.196.55:9101';
 
 export const i18n = {
   customerName_KLA: {
-    eng: "Karnataka Legislative Assembly",
-    kan: "ಕರ್ನಾಟಕ ವಿಧಾನಸಭೆ",
+    eng: 'Karnataka Legislative Assembly',
+    kan: 'ಕರ್ನಾಟಕ ವಿಧಾನಸಭೆ',
   },
 
   customerName_KLC: {
-    eng: "Karnataka Legislative Council",
-    kan: "ಕರ್ನಾಟಕ ವಿಧಾನ ಪರಿಷತ್ತು",
+    eng: 'Karnataka Legislative Council',
+    kan: 'ಕರ್ನಾಟಕ ವಿಧಾನ ಪರಿಷತ್ತು',
   },
 
   speakerName_KLA: {
-    eng: "Shri Vishweshwar Hegde Kageri",
-    kan: "ಶ್ರೀ ವಿಶ್ವೇಶ್ವರ ಹೆಗಡೆ ಕಾಗೇರಿ",
-    photo_location: "",
+    eng: 'Shri Vishweshwar Hegde Kageri',
+    kan: 'ಶ್ರೀ ವಿಶ್ವೇಶ್ವರ ಹೆಗಡೆ ಕಾಗೇರಿ',
+    photo_location: '',
   },
 
   speaker_KLA: {
     eng: "Hon'ble Speaker",
-    kan: "ಗೌರವಾನ್ವಿತ ಸ್ಪೀಕರ್",
+    kan: 'ಗೌರವಾನ್ವಿತ ಸ್ಪೀಕರ್',
   },
 
   chairmanName_KLC: {
-    eng: "Shri Basavaraja Horatti",
-    kan: "ಶ್ರೀ ಬಸವರಾಜ ಶಿವಲಿಂಗಪ್ಪ ಹೊರಟ್ಟಿ",
-    photo_location: "",
+    eng: 'Shri Basavaraja Horatti',
+    kan: 'ಶ್ರೀ ಬಸವರಾಜ ಶಿವಲಿಂಗಪ್ಪ ಹೊರಟ್ಟಿ',
+    photo_location: '',
   },
 
   chairman_KLC: {
     eng: "Hon'ble Chairman",
-    kan: "ಗೌರವಾನ್ವಿತ ಸಭಾಪತಿ",
+    kan: 'ಗೌರವಾನ್ವಿತ ಸಭಾಪತಿ',
   },
 
   secretaryName_KLA: {
-    eng: "Smt M.K. VISHALAKSHI",
-    kan: "ಶ್ರೀಮತಿ ಎಂ.ಕೆ. ವಿಶಾಲಕ್ಷಿ",
-    photo_location: "",
+    eng: 'Smt M.K. VISHALAKSHI',
+    kan: 'ಶ್ರೀಮತಿ ಎಂ.ಕೆ. ವಿಶಾಲಕ್ಷಿ',
+    photo_location: '',
   },
 
   secretary_KLA: {
-    eng: "Secretary (I/C)",
-    kan: "ಕಾರ್ಯದರ್ಶಿ (ಕಾ /ಭಾ )",
+    eng: 'Secretary (I/C)',
+    kan: 'ಕಾರ್ಯದರ್ಶಿ (ಕಾ /ಭಾ )',
   },
 
   secretaryName_KLC: {
-    eng: "Smt K R Mahalakshmi",
-    kan: "ಶ್ರೀಮತಿ ಕೆ ಆರ್ ಮಹಾಲಕ್ಷ್ಮಿ",
-    photo_location: "",
+    eng: 'Smt K R Mahalakshmi',
+    kan: 'ಶ್ರೀಮತಿ ಕೆ ಆರ್ ಮಹಾಲಕ್ಷ್ಮಿ',
+    photo_location: '',
   },
 
   secretary_KLC: {
-    eng: "Secretary",
-    kan: "ಕಾರ್ಯದರ್ಶಿ",
+    eng: 'Secretary',
+    kan: 'ಕಾರ್ಯದರ್ಶಿ',
   },
 
   // Explorer Constants
 
   debateType: {
-    eng: "Debate Type",
-    kan: "ಚರ್ಚೆಯ ವಿಧಾ ",
+    eng: 'Debate Type',
+    kan: 'ಚರ್ಚೆಯ ವಿಧಾ ',
   },
   year: {
-    eng: "Year",
-    kan: "ವರ್ಷ",
+    eng: 'Year',
+    kan: 'ವರ್ಷ',
   },
   bookId: {
-    eng: "Book Id",
-    kan: "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
+    eng: 'Book Id',
+    kan: 'ಪುಸ್ತಕ ಸಂಖ್ಯೆ',
   },
 
   assemblyNumber: {
-    eng: "Assembly Number",
-    kan: "ವಿಧಾನ ಸಭೆಯ ಸಂಖ್ಯೆ",
+    eng: 'Assembly Number',
+    kan: 'ವಿಧಾನ ಸಭೆಯ ಸಂಖ್ಯೆ',
   },
 
   sessionNumber: {
-    eng: "Session Number",
-    kan: "ಅಧಿವೇಶನ ಸಂಖ್ಯೆ",
+    eng: 'Session Number',
+    kan: 'ಅಧಿವೇಶನ ಸಂಖ್ಯೆ',
   },
 
   debateTitle: {
-    eng: "Debate Title",
-    kan: "ಚರ್ಚೆಯ ಶೀರ್ಷಿಕೆ",
+    eng: 'Debate Title',
+    kan: 'ಚರ್ಚೆಯ ಶೀರ್ಷಿಕೆ',
   },
 
   debateParticipants: {
-    eng: "Debate Participants",
-    kan: "ಚರ್ಚೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿದ ಸದಸ್ಯರು/ಸಚಿವರು",
+    eng: 'Debate Participants',
+    kan: 'ಚರ್ಚೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿದ ಸದಸ್ಯರು/ಸಚಿವರು',
   },
 
   bookId: {
-    eng: "Book Id",
-    kan: "ನಡವಳಿ ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
+    eng: 'Book Id',
+    kan: 'ನಡವಳಿ ಪುಸ್ತಕ ಸಂಖ್ಯೆ',
   },
 
   issues: {
-    eng: "Issues",
-    kan: "ಸಮಸ್ಯೆಗಳು",
+    eng: 'Issues',
+    kan: 'ಸಮಸ್ಯೆಗಳು',
   },
 
   annexure: {
-    eng: "Annexure",
-    kan: "ಅನುಬಂಧಗಳು",
+    eng: 'Annexure',
+    kan: 'ಅನುಬಂಧಗಳು',
   },
 
   searchPlaceHolder: {
-    eng: "Click to search in Debates",
-    kan: "ಚರ್ಚೆಗಳಲ್ಲಿ ಹುಡುಕಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
+    eng: 'Click to search in Debates',
+    kan: 'ಚರ್ಚೆಗಳಲ್ಲಿ ಹುಡುಕಲು ಕ್ಲಿಕ್ ಮಾಡಿ',
   },
 
   explorerHeaders: {
     debatesHeader: {
-      eng: "Debates",
-      kan: "ಚರ್ಚೆಗಳು",
+      eng: 'Debates',
+      kan: 'ಚರ್ಚೆಗಳು',
     },
     newsHeader: {
-      eng: "News",
-      kan: "ಸುದ್ದಿ",
+      eng: 'News',
+      kan: 'ಸುದ್ದಿ',
     },
     billHeader: {
-      eng: "Bills",
-      kan: "ವಿಧೇಯಕಗಳು",
+      eng: 'Bills',
+      kan: 'ವಿಧೇಯಕಗಳು',
     },
     reviewHeader: {
-      eng: "Review",
-      kan: "ಪುನರ್ ವಲೋಕನ",
+      eng: 'Review',
+      kan: 'ಪುನರ್ ವಲೋಕನ',
     },
     budgetHeader: {
-      eng: "Budget",
-      kan: "ಆಯವ್ಯಯ ಪತ್ರ",
+      eng: 'Budget',
+      kan: 'ಆಯವ್ಯಯ ಪತ್ರ',
     },
     whoswhoHeader: {
       eng: "Who's Who",
-      kan: "ಸದ್ಯಸರ ಪರಿಚಯ",
+      kan: 'ಸದ್ಯಸರ ಪರಿಚಯ',
     },
     vedioHeader: {
-      eng: "Vedios",
-      kan: "ವೀಡಿಯೊಗಳು",
+      eng: 'Videos',
+      kan: 'ವೀಡಿಯೊಗಳು',
     },
     advancedSearch: {
-      eng: "Advanced Search",
-      kan: "ಸಾಧನಗಳು",
+      eng: 'Advanced Search',
+      kan: 'ಸಾಧನಗಳು',
     },
   },
 };
 // Global Constants of the Request Headers
 export const urlHeaders = {
   requestHeadersKLA: {
-    searchQuery: "http://localhost:9201/api/sd/sh",
-    suggestQuery: "http://localhost:9201/api/sd/0",
+    searchQuery: 'http://localhost:9201/api/sd/sh',
+    suggestQuery: 'http://localhost:9201/api/sd/0',
   },
   requestHeadersKLC: {
-    searchQuery: "http://localhost:9101/api/sd/sh",
-    suggestQuery: "http://localhost:9101/api/sd/0",
+    searchQuery: 'http://localhost:9101/api/sd/sh',
+    suggestQuery: 'http://localhost:9101/api/sd/0',
   },
 
   requestpublicDir: {
     requestURlLink: [
-      "https://spin.atomicobject.com/2015/10/03/remote-pfs-node-js-express/",
-      "https://gist.github.com/adamgibbons/af2de54c011e68a7b85a",
+      'https://spin.atomicobject.com/2015/10/03/remote-pfs-node-js-express/',
+      'https://gist.github.com/adamgibbons/af2de54c011e68a7b85a',
     ],
-    serverPublicFilesKLA: "",
-    serverPublicFilesKLC: "",
+    serverPublicFilesKLA: '',
+    serverPublicFilesKLC: '',
   },
 };
 
 // Search Request  Constants
 export const searchQueryConst = {
-  srt: "",
-  qt: "PRC",
-  qp: "",
-  dtf: "",
-  anf: "",
-  snf: "",
-  dsubfEng: "",
-  dsubfKan: "",
-  dpfEng: "",
-  dpfKan: "",
-  dbf: "",
-  ytf: "",
-  sectionDateFrm: "",
-  sectionDateTo: "",
-  issfEng: "",
-  issfKan: "",
-  tagfKan: "",
-  tagfEng: "",
+  srt: '',
+  qt: 'PRC',
+  qp: '',
+  dtf: '',
+  anf: '',
+  snf: '',
+  dsubfEng: '',
+  dsubfKan: '',
+  dpfEng: '',
+  dpfKan: '',
+  dbf: '',
+  ytf: '',
+  sectionDateFrm: '',
+  sectionDateTo: '',
+  issfEng: '',
+  issfKan: '',
+  tagfKan: '',
+  tagfEng: '',
 };
 
 // Function to convert array keys which has arrays  to string
@@ -212,57 +212,57 @@ export function arrayToString(obj) {
 
 // Search Request Constants Exmaple
 export const searchObject = {
-  ln: "kn",
-  srt: "",
-  qt: "PRC",
-  qp: "world bank",
-  dtf: "part1,part2",
-  anf: "13[2005-2008]",
-  snf: "13[2007]",
-  dsubfEng: "zero hour,rule 69",
-  dsubfKan: "",
-  dpfEng: "",
-  dpfKan: "",
-  dbf: "24",
-  ytf: "2000,2001",
-  sectionDateFrm: "2000-01-01",
-  sectionDateTo: "1999-01-01",
-  issfEng: "cauvery,river",
-  issfKan: "",
-  tagfKan: "krishna,water",
-  tagfEng: "",
+  ln: 'kn',
+  srt: '',
+  qt: 'PRC',
+  qp: 'world bank',
+  dtf: 'part1,part2',
+  anf: '13[2005-2008]',
+  snf: '13[2007]',
+  dsubfEng: 'zero hour,rule 69',
+  dsubfKan: '',
+  dpfEng: '',
+  dpfKan: '',
+  dbf: '24',
+  ytf: '2000,2001',
+  sectionDateFrm: '2000-01-01',
+  sectionDateTo: '1999-01-01',
+  issfEng: 'cauvery,river',
+  issfKan: '',
+  tagfKan: 'krishna,water',
+  tagfEng: '',
 };
 
 // Elasticsearch Contansts
 export const elasticSearchConst = {
-  userName: "elastic",
-  password: "7pD3s7WlEBZXCr5F3oKdGn2S",
+  userName: 'elastic',
+  password: '7pD3s7WlEBZXCr5F3oKdGn2S',
   webAddr:
-    "enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243",
-  local: "",
-  collection_test_kla: "klatest",
-  collection_test_klc: "klctest",
-  collection_prod_kla: "klaprod",
-  collection_prod_klc: "klcprod",
+    'enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243',
+  local: '',
+  collection_test_kla: 'klatest',
+  collection_test_klc: 'klctest',
+  collection_prod_kla: 'klaprod',
+  collection_prod_klc: 'klcprod',
 };
 
 // Search Query Request Constants Exmaple
 export const searchConstQueryObject = {
-  ln: "",
-  srt: "",
-  qt: "PRC",
-  qp: "",
+  ln: '',
+  srt: '',
+  qt: 'PRC',
+  qp: '',
   dtf: [],
-  anf: "",
-  snf: "",
+  anf: '',
+  snf: '',
   dsubfEng: [],
   dsubfKan: [],
   dpfEng: [],
   dpfKan: [],
-  dbf: "",
+  dbf: '',
   ytf: [],
-  sectionDateFrm: "",
-  sectionDateTo: "",
+  sectionDateFrm: '',
+  sectionDateTo: '',
   //bookId: [],
   issfEng: [],
   issfKan: [],
@@ -273,22 +273,22 @@ export const searchConstQueryObject = {
 // Filter Mapping to Tag Name
 export function filterMappingObject(lang, itemType) {
   const queryObj = {
-    dtf: "ENG" ? "Debate Type" : "ಚರ್ಚೆಯ ವಿಧಾ",
-    anf: "ENG" ? "Assembly Number" : "ವಿಧಾನ ಸಭೆಯ ಸಂಖ್ಯೆ",
-    snf: "ENG" ? "Session Number" : "ಅಧಿವೇಶನ ಸಂಖ್ಯೆ",
-    dsubfEng: "Debate Title",
-    dsubfKan: "ಚರ್ಚೆಯ ಶೀರ್ಷಿಕೆ",
-    dpfEng: "Debate Participants",
-    dpfKan: "ಚರ್ಚೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿದ ಸದಸ್ಯರು/ಸಚಿವರು",
-    dbf: lang === "ENG" ? "Book Id" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
-    ytf: lang === "ENG" ? "Year" : "ವರ್ಷ",
-    sectionDateFrm: "ENG" ? "Date" : "ದಿನಾಂಕ ",
-    sectionDateTo: "ENG" ? "Date" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
-    bookId: lang === "ENG" ? "Book Id" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
-    issfEng: "Issues",
-    issfKan: "ಸಮಸ್ಯೆಗಳು",
-    tagfKan: "Tags",
-    tagfEng: "Tags",
+    dtf: 'ENG' ? 'Debate Type' : 'ಚರ್ಚೆಯ ವಿಧಾ',
+    anf: 'ENG' ? 'Assembly Number' : 'ವಿಧಾನ ಸಭೆಯ ಸಂಖ್ಯೆ',
+    snf: 'ENG' ? 'Session Number' : 'ಅಧಿವೇಶನ ಸಂಖ್ಯೆ',
+    dsubfEng: 'Debate Title',
+    dsubfKan: 'ಚರ್ಚೆಯ ಶೀರ್ಷಿಕೆ',
+    dpfEng: 'Debate Participants',
+    dpfKan: 'ಚರ್ಚೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿದ ಸದಸ್ಯರು/ಸಚಿವರು',
+    dbf: lang === 'ENG' ? 'Book Id' : 'ಪುಸ್ತಕ ಸಂಖ್ಯೆ',
+    ytf: lang === 'ENG' ? 'Year' : 'ವರ್ಷ',
+    sectionDateFrm: 'ENG' ? 'Date' : 'ದಿನಾಂಕ ',
+    sectionDateTo: 'ENG' ? 'Date' : 'ಪುಸ್ತಕ ಸಂಖ್ಯೆ',
+    bookId: lang === 'ENG' ? 'Book Id' : 'ಪುಸ್ತಕ ಸಂಖ್ಯೆ',
+    issfEng: 'Issues',
+    issfKan: 'ಸಮಸ್ಯೆಗಳು',
+    tagfKan: 'Tags',
+    tagfEng: 'Tags',
   };
   return queryObj[itemType];
 }
@@ -296,7 +296,7 @@ export function filterMappingObject(lang, itemType) {
 // Date Formats
 
 export function dateFormat(dateString) {
-  const dateSplit = dateString.split("-");
+  const dateSplit = dateString.split('-');
   // Changing the date to dd/MM/yyyy
   const newDate = `${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}`;
   return newDate;
@@ -305,22 +305,22 @@ export function dateFormat(dateString) {
 // Filter Mapping to Tag Name
 export function filterMappingObjectForKey(lang, itemValue) {
   const queryObj = {
-    dtf: "ENG" ? "Debate Type" : "ಚರ್ಚೆಯ ವಿಧಾ",
-    anf: "ENG" ? "Assembly Number" : "ವಿಧಾನ ಸಭೆಯ ಸಂಖ್ಯೆ",
-    snf: "ENG" ? "Session Number" : "ಅಧಿವೇಶನ ಸಂಖ್ಯೆ",
-    dsubfEng: "Debate Title",
-    dsubfKan: "ಚರ್ಚೆಯ ಶೀರ್ಷಿಕೆ",
-    dpfEng: "Debate Participants",
-    dpfKan: "ಚರ್ಚೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿದ ಸದಸ್ಯರು/ಸಚಿವರು",
-    dbf: lang === "ENG" ? "Book Id" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
-    ytf: lang === "ENG" ? "Year" : "ವರ್ಷ",
-    sectionDateFrm: "Date-From",
-    sectionDateTo: "Date-To",
-    bookId: lang === "ENG" ? "Book Id" : "ಪುಸ್ತಕ ಸಂಖ್ಯೆ",
-    issfEng: "Issues",
-    issfKan: "ಸಮಸ್ಯೆಗಳು",
-    tagfKan: "Tags",
-    tagfEng: "Tags",
+    dtf: 'ENG' ? 'Debate Type' : 'ಚರ್ಚೆಯ ವಿಧಾ',
+    anf: 'ENG' ? 'Assembly Number' : 'ವಿಧಾನ ಸಭೆಯ ಸಂಖ್ಯೆ',
+    snf: 'ENG' ? 'Session Number' : 'ಅಧಿವೇಶನ ಸಂಖ್ಯೆ',
+    dsubfEng: 'Debate Title',
+    dsubfKan: 'ಚರ್ಚೆಯ ಶೀರ್ಷಿಕೆ',
+    dpfEng: 'Debate Participants',
+    dpfKan: 'ಚರ್ಚೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿದ ಸದಸ್ಯರು/ಸಚಿವರು',
+    dbf: lang === 'ENG' ? 'Book Id' : 'ಪುಸ್ತಕ ಸಂಖ್ಯೆ',
+    ytf: lang === 'ENG' ? 'Year' : 'ವರ್ಷ',
+    sectionDateFrm: 'Date-From',
+    sectionDateTo: 'Date-To',
+    bookId: lang === 'ENG' ? 'Book Id' : 'ಪುಸ್ತಕ ಸಂಖ್ಯೆ',
+    issfEng: 'Issues',
+    issfKan: 'ಸಮಸ್ಯೆಗಳು',
+    tagfKan: 'Tags',
+    tagfEng: 'Tags',
   };
 
   for (let key in queryObj) {
@@ -333,16 +333,16 @@ export function filterMappingObjectForKey(lang, itemValue) {
 // Helper Functions
 export function renderCustomerName(customer, lang, varObject) {
   // This function will conditional render the Logo Name based on customer
-  if (customer === "KLA") {
+  if (customer === 'KLA') {
     const logoName =
-      lang === "ENG"
+      lang === 'ENG'
         ? varObject.customerName_KLA.eng
         : varObject.customerName_KLA.kan;
 
     return logoName;
   } else {
     const logoName =
-      lang === "ENG"
+      lang === 'ENG'
         ? varObject.customerName_KLC.eng
         : varObject.customerName_KLC.kan;
 
@@ -352,16 +352,16 @@ export function renderCustomerName(customer, lang, varObject) {
 
 export function returnQueryVariableFilter(debatetype) {
   const mappingField = {
-    debateType: ["dtf", "array"],
-    assemblyNumber: ["anf", "string"],
-    sessionNumber: ["snf", "string"],
-    debateTitle: ["dsubfEng", "array", "dsubfKan"],
-    debatePart: ["dpfEng", "array", "dpfKan"],
-    year: ["ytf", "array"],
-    dateFrom: ["sectionDateFrm", "string"],
-    dateTo: ["sectionDateTo", "string"],
-    bookId: ["dbf", "string"],
-    issue: ["issfEng", "array", "issfKan"],
+    debateType: ['dtf', 'array'],
+    assemblyNumber: ['anf', 'string'],
+    sessionNumber: ['snf', 'string'],
+    debateTitle: ['dsubfEng', 'array', 'dsubfKan'],
+    debatePart: ['dpfEng', 'array', 'dpfKan'],
+    year: ['ytf', 'array'],
+    dateFrom: ['sectionDateFrm', 'string'],
+    dateTo: ['sectionDateTo', 'string'],
+    bookId: ['dbf', 'string'],
+    issue: ['issfEng', 'array', 'issfKan'],
   };
   return mappingField[debatetype];
 }
@@ -376,16 +376,16 @@ export function generateFSPath(
   frompageNumber = 0,
   topageNumber = 0
 ) {
-  if (knwType === "debates") {
-    if (types === "section") {
+  if (knwType === 'debates') {
+    if (types === 'section') {
       return `/api/fs/${types}/${knwType}/${customer}/${bookid}/${frompageNumber}/${topageNumber}`;
     }
 
-    if (types === "fullPDF") {
+    if (types === 'fullPDF') {
       return `/api/fs/full/${knwType}/${customer}/${bookid}`;
     }
 
-    if (types === "annex") {
+    if (types === 'annex') {
       return `/api/fs/annex/${knwType}/${customer}/${bookid}/${frompageNumber}/${topageNumber}`;
     }
   }
@@ -401,14 +401,14 @@ export function returnObjQuery(eventObj, lang, arrayObject, queryObject) {
   if (arrayObject.length === 2) {
     parameterVariable = [arrayObject[0]];
   } else {
-    parameterVariable = lang === "ENG" ? arrayObject[0] : arrayObject[2];
+    parameterVariable = lang === 'ENG' ? arrayObject[0] : arrayObject[2];
   }
 
   // let queryObject = {...queryParameter,parameterVariable:eventObj.target.value}
   // console.info(
   //   `[DEBUG] The value of the paramerter variable is ${parameterVariable}`
   // );
-  if (arrayObject[1] === "string") {
+  if (arrayObject[1] === 'string') {
     // Checking if the string value is checked or not
     if (eventObj.target.checked) {
       // let queryObject = {
@@ -422,7 +422,7 @@ export function returnObjQuery(eventObj, lang, arrayObject, queryObject) {
       //   ...queryParameter,
       //   parameterVariable: eventObj.target.value,
       // };
-      queryObject[parameterVariable] = "";
+      queryObject[parameterVariable] = '';
       return queryObject;
     }
     //  let queryParameter = (eventObj.target.checked) ? {...queryParameter,parameterVariable:eventObj.target.value}:{...queryParameter,queryParameter[arrayObject[0]]:""}
@@ -479,7 +479,7 @@ export function returnObjRemoveQuery(eventKey, queryObject, value) {
     query[eventKey] = filteredAry;
     return query;
   } else {
-    query[eventKey] = "";
+    query[eventKey] = '';
     return query;
   }
 }
@@ -487,18 +487,18 @@ export function returnObjRemoveQuery(eventKey, queryObject, value) {
 // Add the Highlight To Tab
 export function addHiglightToTab(tabType) {
   function nodeType(type) {
-    if (type === "debate") {
-      return "debatesTab";
-    } else if (type === "news") {
-      return "newsTab";
-    } else if (type === "review") {
-      return "reviewTab";
-    } else if (type === "budget") {
-      return "budgetTab";
-    } else if ("vedio") {
-      return "vedioTab";
-    } else if (type === "whoswho") {
-      return "whowhotab";
+    if (type === 'debate') {
+      return 'debatesTab';
+    } else if (type === 'news') {
+      return 'newsTab';
+    } else if (type === 'review') {
+      return 'reviewTab';
+    } else if (type === 'budget') {
+      return 'budgetTab';
+    } else if ('vedio') {
+      return 'vedioTab';
+    } else if (type === 'whoswho') {
+      return 'whowhotab';
     }
   }
   const node = document.getElementById(nodeType(tabType));
@@ -507,7 +507,7 @@ export function addHiglightToTab(tabType) {
   }
 
   node.classList.toggle(
-    CUSTOMER === "KLA" ? "active_tab--kla" : "active_tab--klc"
+    CUSTOMER === 'KLA' ? 'active_tab--kla' : 'active_tab--klc'
   );
 }
 

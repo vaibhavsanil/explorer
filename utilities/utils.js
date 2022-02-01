@@ -167,6 +167,21 @@ function getPDFFiles(pathFileServer, bookid, frompage, topage) {
         response.pipe(file);
         // console.log("The File is downloaded succesfully !!!");
         // file.on("end", () => resolve());
+
+        response.on("error", (err) => {
+          console.log(`Error while writing file ${temp_file}`);
+          reject();
+        });
+
+        response.on("end", () => {
+          // console.log(
+          //   `[DEBUG] The file ${temp_file} exists in folder ${fs.existsSync(
+          //     temp_file
+          //   )}`
+          // );
+          resolve();
+        });
+
         response.on("end", () => resolve());
       } else {
         reject(response);
@@ -187,7 +202,23 @@ function getPDFFilesFull(pathFileServer, bookid) {
         response.pipe(file);
         // console.log("The File is downloaded succesfully !!!");
         // file.on("end", () => resolve());
-        response.on("end", () => resolve());
+
+        response.on("error", (err) => {
+          console.log(`Error while writing file ${temp_file}`);
+          reject();
+        });
+
+        response.on("end", () => {
+          console.log(
+            `[DEBUG] The file ${temp_file} exists in folder ${fs.existsSync(
+              temp_file
+            )}`
+          );
+
+          resolve();
+        });
+
+        // response.on("end", () => resolve());
       } else {
         reject(response);
       }
