@@ -121,7 +121,12 @@ const WelcomeScreen = (props) => {
   }
 
   function onChangeQuery(e) {
+    e.preventDefault();
     setQuery(e.target.value);
+  }
+
+  function setQueryNull() {
+    setQuery('');
   }
 
   // Handle Search Submit
@@ -258,10 +263,11 @@ const WelcomeScreen = (props) => {
         </header>
         <div className="container-main">
           <div className="searchArea">
-            {/* <div className="welcomeShape"></div> */}
+            <div className="welcomeShape"></div>
             <form action="">
-              <div className="searchInputWrapper">
-                {/* <input
+              <div className="searchGlassContainer">
+                <div className="searchInputWrapper">
+                  {/* <input
                   className={
                     CUSTOMER === 'KLA' ? 'searchInput--kla' : 'searchInput--klc'
                   }
@@ -273,32 +279,47 @@ const WelcomeScreen = (props) => {
                   onChange={onChangeQuery}
                   id="transliteration"
                 /> */}
-                <ReactTransliterate
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  lang="kn"
-                />
-                {/* <InputElement language={language} onChangeQuery={onChangeQuery} /> */}
-                <button
-                  type="submit"
-                  disabled={ln.loading ? true : false}
-                  className={
-                    CUSTOMER === 'KLA'
-                      ? 'searchSubmit--kla'
-                      : 'searchSubmit--klc'
-                  }
-                  onClick={handleSearchSubmit}
-                >
-                  {ln.loading ? (
-                    <i
-                      class="fa fa-spinner fa-2x animateLoader"
-                      aria-hidden="true"
-                    ></i>
+
+                  <i className="fa fa-search searchIconWelcome"></i>
+                  <ReactTransliterate
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    lang="kn"
+                  />
+                  {/* <InputElement language={language} onChangeQuery={onChangeQuery} /> */}
+
+                  {query.length > 0 ? (
+                    <a
+                      onClick={(e) => setQueryNull()}
+                      className="welcome-closeQuery"
+                    >
+                      X
+                    </a>
                   ) : (
-                    <i class="fa fa-search"></i>
+                    ''
                   )}
-                  {/* <i class="fa fa-search"></i> */}
-                </button>
+
+                  <button
+                    type="submit"
+                    disabled={ln.loading ? true : false}
+                    className={
+                      CUSTOMER === 'KLA'
+                        ? 'searchSubmit--kla'
+                        : 'searchSubmit--klc'
+                    }
+                    onClick={handleSearchSubmit}
+                  >
+                    {ln.loading ? (
+                      <i
+                        class="fa fa-spinner fa-2x animateLoader"
+                        aria-hidden="true"
+                      ></i>
+                    ) : (
+                      <i class="fa fa-search"></i>
+                    )}
+                    {/* <i class="fa fa-search"></i> */}
+                  </button>
+                </div>
               </div>
             </form>
           </div>
