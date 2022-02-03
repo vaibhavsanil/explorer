@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import ReactLoading from 'react-loading';
 import { Link, useHistory } from 'react-router-dom';
 import { ReactTransliterate } from 'react-transliterate';
 import 'react-transliterate/dist/index.css';
@@ -115,6 +116,8 @@ const WelcomeScreen = (props) => {
     element.classList.add(
       customer === 'KLA' ? 'searchInput--kla' : 'searchInput--klc'
     );
+
+    element.placeholder = 'Search For Debates, News, Bills ....';
 
     var parentElement = element.parentNode;
     parentElement.style.width = '80%';

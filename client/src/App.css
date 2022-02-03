@@ -335,7 +335,7 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
 
 .searchInputWrapper {
   display: flex;
-  width: 86%;
+  width: 95%;
   /* margin-left: 21rem; */
 }
 
@@ -384,6 +384,10 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
   outline-style: none; */
 }
 
+.searchInput--kla::placeholder {
+  letter-spacing: 1px;
+}
+
 /* KLC */
 .searchInput--klc {
   box-sizing: border-box;
@@ -407,6 +411,10 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
   outline-style: none; */
 }
 
+.searchInput--klc::placeholder {
+  letter-spacing: 1px;
+}
+
 /* Welcome Screen KLA */
 .searchSubmit--kla {
   width: 20%;
@@ -416,7 +424,7 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
   padding: 10px;
   color: var(--primaryKLA);
   font-size: 1.6rem;
-  border-radius: 2px;
+  border-radius: 62px;
   max-width: 15rem;
 
   border: 1px solid var(--primaryKLA);
@@ -2024,11 +2032,25 @@ footer .footerheader--klc:hover {
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1300px) {
+  .searchArea {
+    padding-right: 43px;
+  }
+
+  .searchGlassContainer {
+    margin-left: 5rem;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
+  .searchArea {
+    padding-right: 150px;
+  }
+
+  .searchGlassContainer {
+    margin-left: 34rem;
+  }
 }
 
 /* /////////////////Media Queries End/////////////////////// */
