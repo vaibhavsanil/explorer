@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 
 // GLOBAL CONSTANTS
 export const CUSTOMER = 'KLA';
@@ -7,6 +7,9 @@ export const FILESERVER_KLA = 'http://103.138.196.55:9200';
 // export const FILESERVER_KLA = "http://localhost:9201";
 
 export const FILESERVER_KLC = 'http://103.138.196.55:9101';
+
+// variable to disable Book Id in Welcome Menu
+export const disableBookId = false;
 
 export const i18n = {
   customerName_KLA: {
@@ -236,9 +239,8 @@ export const searchObject = {
 // Elasticsearch Contansts
 export const elasticSearchConst = {
   userName: 'elastic',
-  password: '7pD3s7WlEBZXCr5F3oKdGn2S',
-  webAddr:
-    'enterprise-search-deployment-2bf868.es.us-west1.gcp.cloud.es.io:9243',
+  password: 'kab4XXLhezhvc5IDUXBAT4Nj',
+  webAddr: 'my-deployment-5fea49.es.asia-south1.gcp.elastic-cloud.com:9243',
   local: '',
   collection_test_kla: 'klatest',
   collection_test_klc: 'klctest',

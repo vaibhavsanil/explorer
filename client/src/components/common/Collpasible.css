@@ -1,0 +1,81 @@
+/* Style the button that is used to open and close the collapsible content */
+
+.colapContainer {
+  margin-bottom: 1rem;
+}
+/* Button KLA */
+.collapsibleWelcome--KLA {
+  background-color: #ffff;
+  color: var(--primaryKLA);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active--KLA,
+.collapsibleWelcome--KLA:hover {
+  /* background-color: var(--onHoverMenu-KLA); */
+  /* border-bottom: 1px solid var(--primaryKLA); */
+  border-left: 5px solid var(--primaryKLA);
+}
+
+/* Button KLC */
+.collapsibleWelcome--KLC {
+  background-color: #ffff;
+  color: var(--primaryKLC);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active--KLC,
+.collapsibleWelcome--KLC:hover {
+  /* background-color: var(--onHoverMenu-KLA); */
+  /* border-bottom: 1px solid var(--primaryKLA); */
+  border-left: 5px solid var(--primaryKLC);
+}
+
+.collapsibleWelcome:after {
+  content: '\002B';
+  color: var(--primaryKLA);
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: '\2212';
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.contentWelcome {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+.contentWelcomeOpen {
+  max-height: 5rem;
+  padding: 5px 18px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background-color: #f1f1f1;
+  height: auto;
+}

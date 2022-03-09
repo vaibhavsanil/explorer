@@ -3,8 +3,11 @@ import ReactLoading from 'react-loading';
 import { Link, useHistory } from 'react-router-dom';
 import { ReactTransliterate } from 'react-transliterate';
 import 'react-transliterate/dist/index.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+import 'antd/dist/antd.css';
+import { Drawer } from 'antd';
+import { notification, Alert } from 'antd';
 
 // Import Contexts
 import DebateContext from '../../context/Debates/debateContext';
@@ -24,6 +27,7 @@ import SelectElement from '../common/selectElementLanguage';
 
 import InputElement from '../../utils/InputElement';
 
+import SidebarMenu from '../sidebarmenu/Sidebarmenu';
 // Import Images
 
 // import SpeakerImage from "../../images/speaker-cropped.jpg";
@@ -33,6 +37,7 @@ import ChairmanImage from '../../images/chairman.jpg';
 
 import SecretaryKLA from '../../images/secretary-kla.jpg';
 import SecretaryKLC from '../../images/secretary-klc.jpg';
+import { ADD_LOADING_LOCAL_STATE } from '../../context/types';
 
 const WelcomeScreen = (props) => {
   const debateContext = useContext(DebateContext);
@@ -49,9 +54,44 @@ const WelcomeScreen = (props) => {
     debateQueryObj,
     addWelcomQueryStats,
     removeWelcomQueryStats,
+    loading,
+    addLoading,
+    removeLoading,
+    errors,
+    removeError,
   } = debateContext;
 
   const history = useHistory();
+
+  // Ant Toast Notification
+  // const [api, contextHolder] = notification.useNotification();
+  const openNotificationServerError = () => {
+    notification.error({
+      message: 'Server Connection Error !!! Unable to Connect to the Server',
+      description:
+        'Please Check Your Internet Connection or Contact System Administrator.',
+      placement: 'bottomLeft',
+    });
+    // api.error({
+    //   message: 'Server Connection Error !!!',
+    //   description:
+    //     'Unable to Connect to the Server , Please Check Your Internet Connection or Contact System Administrator.',
+    //   placement: 'bottomLeft',
+    // });
+  };
+
+  const openNotificationEmptyServer = () => {
+    notification.info({
+      message: 'Please enter a search query !!!',
+      description: 'Please enter a search query to search',
+      placement: 'bottomLeft',
+    });
+    // api.info({
+    //   message: 'Please enter a search query !!!',
+    //   description: 'Please enter a search query to search !!!',
+    //   placement: 'bottomLeft',
+    // });
+  };
 
   const searchConstObject = {
     ln: '',
@@ -96,18 +136,30 @@ const WelcomeScreen = (props) => {
 
     return () => {
       removeWelcomQueryStats();
+      removeError();
     };
-  }, []);
+  }, [errors]);
 
   // Local State
   const [ln, setLn] = useState({
     language: 'ENG',
     loading: false,
   });
+
+  const [drawer, setDrawer] = useState(false);
   // Local Loading State
   // const [loading, setLoading] = useState(false);
 
   const [query, setQuery] = useState('');
+
+  function setShowDrawer() {
+    // console.log('from Welecome Component the drawer value is', drawer);
+    setDrawer(!drawer);
+  }
+
+  function setHideDrawer() {
+    setDrawer(false);
+  }
 
   function addClassInputElement(customer) {
     // https://stackoverflow.com/questions/6856871/getting-the-parent-div-of-element
@@ -136,13 +188,16 @@ const WelcomeScreen = (props) => {
 
   function handleSearchSubmit(e) {
     e.preventDefault();
+    addLoading();
     if (query.length === 0) {
-      toast.error('Please enter a search Query .');
+      // toast.error('Please enter a search Query .');
+      openNotificationEmptyServer();
+      removeLoading();
       return;
     }
     // Setting Loading True
     // setLoading(true);
-    setLn({ ...ln, loading: true });
+    // setLn({ ...ln, loading: true });
     // Pass the query to the gobal state
     let queryObject = addSearchQuery(query.trim(), debateQueryObj);
     // alert("you have searched for - " + query);
@@ -150,14 +205,17 @@ const WelcomeScreen = (props) => {
     searchRequestBackendProm(queryObject)
       .then((res) => {
         // setLoading(false);
-        setLn({ ...ln, loading: false });
+        // setLn({ ...ln, loading: false });
+        removeLoading();
         history.push('/explorer/debates');
       })
       .catch((error) => {
-        toast.error(
-          'Connection to the Server Failed !!! Please Contact System Administrator'
-        );
-        setLn({ ...ln, loading: false });
+        // toast.error(
+        //   'Connection to the Server Failed !!! Please Contact System Administrator'
+        // );
+        openNotificationServerError();
+        // setLn({ ...ln, loading: false });
+        removeLoading();
       });
 
     // history.push("/explorer");
@@ -266,6 +324,17 @@ const WelcomeScreen = (props) => {
         </header>
         <div className="container-main">
           <div className="searchArea">
+            <div className="errorWelcomeMessage">
+              {Object.keys(errors).length > 0 && (
+                <Alert
+                  message="Error ,Unable to Connect to Server!!!"
+                  type="error"
+                  showIcon
+                  closable
+                />
+              )}
+            </div>
+
             <div className="welcomeShape"></div>
             <form action="">
               <div className="searchGlassContainer">
@@ -283,7 +352,16 @@ const WelcomeScreen = (props) => {
                   id="transliteration"
                 /> */}
 
-                  <i className="fa fa-search searchIconWelcome"></i>
+                  {loading ? (
+                    <ReactLoading
+                      type="spin"
+                      color={CUSTOMER === 'KLA' ? '#017143' : '#c53330'}
+                      height={50}
+                      width={50}
+                    />
+                  ) : (
+                    <i className="fa fa-search searchIconWelcome"></i>
+                  )}
                   <ReactTransliterate
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -304,7 +382,7 @@ const WelcomeScreen = (props) => {
 
                   <button
                     type="submit"
-                    disabled={ln.loading ? true : false}
+                    disabled={loading ? true : false}
                     className={
                       CUSTOMER === 'KLA'
                         ? 'searchSubmit--kla'
@@ -325,6 +403,19 @@ const WelcomeScreen = (props) => {
                 </div>
               </div>
             </form>
+            <div className="advancedSearchButton--welcome">
+              <button
+                id={
+                  CUSTOMER === 'KLA'
+                    ? 'advancedButton--kla'
+                    : 'advancedButton--klc'
+                }
+                onClick={(e) => setShowDrawer()}
+              >
+                Advanced Search
+              </button>
+              {/* <button id="advancedButton--klc">Advanced Search</button> */}
+            </div>
           </div>
           <div className="imgContainer">
             <div className="keypersonImgContainer">
@@ -364,7 +455,7 @@ const WelcomeScreen = (props) => {
             </div>
           </div>
         </div>
-        <ToastContainer
+        {/* <ToastContainer
           position="bottom-left"
           autoClose={5000}
           hideProgressBar={false}
@@ -374,8 +465,19 @@ const WelcomeScreen = (props) => {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-        />
+        /> */}
       </section>
+      <Drawer
+        title="Advanced Search"
+        placement="left"
+        onClose={setHideDrawer}
+        visible={drawer}
+        bodyStyle={{
+          padding: '2rem 0rem',
+        }}
+      >
+        <SidebarMenu lang={ln.language} customer={CUSTOMER} />
+      </Drawer>
       {/* <footer>This is Footer</footer> */}
     </>
   );

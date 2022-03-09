@@ -28,6 +28,8 @@
     #a13303,
     #a12a00
   );
+
+  --onHoverMenu-KLA: #def5de;
 }
 
 * {
@@ -41,7 +43,9 @@
 body {
   /* overflow: hidden; */
 }
-
+.optionSourceWelcome {
+  font-size: 2rem;
+}
 section {
   width: 100%;
   display: flex;
@@ -446,7 +450,7 @@ select.custom-select-KLA.menu-select-KLC:active:focus {
   padding: 10px;
   color: var(--primaryKLC);
   font-size: 1.6rem;
-  border-radius: 2px;
+  border-radius: 62px;
   max-width: 15rem;
   border: 1px solid var(--primaryKLC);
   transition: 0.3s all;
@@ -2014,6 +2018,73 @@ footer .footerheader--klc:hover {
   }
 }
 
+.sidebarMenu {
+  padding: 1rem 0.8rem;
+  background-color: var(--primaryLottie);
+  height: 100%;
+}
+
+.advancedSearchButton--welcome {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 30rem;
+}
+
+/* .advancedSearchButton--welcome > button {
+  padding: 1rem 1.5rem;
+  background-color: brown;
+} */
+
+#advancedButton--kla {
+  padding: 0.7rem 1.2rem;
+  letter-spacing: 1.5px;
+  /* background-color: rgba(68, 171, 66, 0.5); */
+  background-color: #fff;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.3s ease-out;
+  font-weight: 400;
+  color: #059105;
+  border: 1px solid rgba(68, 171, 66, 0.5);
+}
+
+#advancedButton--kla:hover {
+  transform: translateY(-0.15rem);
+  text-decoration: underline;
+  background-color: rgba(68, 171, 66, 0.5);
+  color: green;
+}
+
+#advancedButton--kla:active {
+  transform: translateY(0.3rem);
+}
+
+#advancedButton--klc {
+  padding: 0.7rem 1.2rem;
+  letter-spacing: 1.5px;
+  /* background-color: rgba(68, 171, 66, 0.5); */
+  background-color: #fff;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.3s ease-out;
+  font-weight: 400;
+  color: rgb(247, 39, 39);
+  border: 1px solid #f54e5e;
+}
+
+#advancedButton--klc:hover {
+  transform: translateY(-0.15rem);
+  text-decoration: underline;
+  background-color: #f39c9c;
+  color: red;
+}
+
+#advancedButton--klc:active {
+  transform: translateY(0.3rem);
+}
+
 /* Scroll CSS End */
 
 /* ////////////////////////////////////////////////////////// */
@@ -2035,6 +2106,7 @@ footer .footerheader--klc:hover {
 @media only screen and (min-width: 1300px) {
   .searchArea {
     padding-right: 43px;
+    padding-top: 50px;
   }
 
   .searchGlassContainer {
@@ -2050,6 +2122,10 @@ footer .footerheader--klc:hover {
 
   .searchGlassContainer {
     margin-left: 34rem;
+  }
+
+  .advancedSearchButton--welcome {
+    width: 118%;
   }
 }
 

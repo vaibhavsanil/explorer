@@ -318,6 +318,7 @@ const DebateState = (props) => {
         type: ADD_STATS_QUERY_WELCOME_LOCAL_STATE,
         payload: response.data,
       });
+      removeLoading();
     } catch (error) {
       dispatch({
         type: SEARCH_REQUEST_ERROR,
@@ -329,8 +330,6 @@ const DebateState = (props) => {
       removeLoading();
       return error;
     }
-
-    removeLoading();
   };
 
   const removeWelcomQueryStats = () => {
@@ -367,7 +366,7 @@ const DebateState = (props) => {
         addWelcomQueryStats,
         removeWelcomQueryStats,
 
-        errors: {},
+        errors: state.errors,
       }}
     >
       {props.children}

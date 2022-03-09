@@ -1,0 +1,51 @@
+.footerWelcomeButtons {
+  padding: 2rem;
+}
+
+.linkToDebatesWelcome--kla {
+  outline: none;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 2px;
+  background-color: #ffff;
+  color: var(--primaryKLA);
+  font-size: 1.2rem;
+  font-weight: 400;
+  border: 1px solid var(--primaryKLA);
+  transition: all 0.3s ease-in-out;
+}
+
+.linkToDebatesWelcome--kla:hover {
+  border: none;
+  background-color: var(--primaryKLA);
+  color: #ffff;
+  text-decoration: underline;
+}
+
+.linkToDebatesWelcome--kla:active {
+  transform: translateY(0.3rem);
+}
+
+.linkToDebatesWelcome--klc {
+  outline: none;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 2px;
+  background-color: #ffff;
+  color: var(--primaryKLC);
+  font-size: 1.2rem;
+  font-weight: 400;
+  border: 1px solid var(--primaryKLC);
+  transition: all 0.3s ease-in-out;
+}
+
+.linkToDebatesWelcome--klc:hover {
+  border: none;
+  background-color: var(--primaryKLC);
+  color: #ffff;
+  text-decoration: underline;
+}
+
+.linkToDebatesWelcome--klc:active {
+  transform: translateY(0.3rem);
+}

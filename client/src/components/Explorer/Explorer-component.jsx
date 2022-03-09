@@ -1,9 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
-import { ReactTransliterate } from "react-transliterate";
-import "react-transliterate/dist/index.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Scrollbars } from "react-custom-scrollbars";
+import React, { useState, useContext, useEffect } from 'react';
+import { ReactTransliterate } from 'react-transliterate';
+import 'react-transliterate/dist/index.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import {
   BrowserRouter as Router,
@@ -13,15 +13,15 @@ import {
   useParams,
   useRouteMatch,
   useHistory,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import SelectElement from "../common/selectElementLanguage";
+import SelectElement from '../common/selectElementLanguage';
 
 // Import Loading
-import LoadingButton from "../../utils/Loading";
+import LoadingButton from '../../utils/Loading';
 
 // Import Debate Context
-import DebateContext from "../../context/Debates/debateContext";
+import DebateContext from '../../context/Debates/debateContext';
 
 // Import Constants
 
@@ -30,13 +30,13 @@ import {
   i18n,
   renderCustomerName,
   searchConstQueryObject,
-} from "../../constants/index";
+} from '../../constants/index';
 
 // Import Components
 
-import DebateResults from "./tabs/DebatesResults--component";
-import NewsResults from "./tabs/NewsResults--component";
-import NotFound from "./tabs/NotFound--component";
+import DebateResults from './tabs/DebatesResults--component';
+import NewsResults from './tabs/NewsResults--component';
+import NotFound from './tabs/NotFound--component';
 
 function Explorer(props) {
   const debateContext = useContext(DebateContext);
@@ -61,11 +61,11 @@ function Explorer(props) {
   // console.info(`[DEBUG] Path is ${path}  url is ${url}`);
 
   const [ln, setLn] = useState({
-    language: "ENG",
+    language: 'ENG',
   });
 
   const [searchState, setSearch] = useState({
-    searchTerm: "",
+    searchTerm: '',
   });
 
   const searchTermQuery = searchState.searchTerm;
@@ -76,7 +76,7 @@ function Explorer(props) {
     // Push to Welcome if the result state is zero
     pushToWelcome();
     // Sett Search Query to Local State
-    setSearch({ ...searchTerm, searchTerm: debateQueryObj["qp"] });
+    setSearch({ ...searchTerm, searchTerm: debateQueryObj['qp'] });
     addClassInputElement(CUSTOMER);
     // Remove Query to Local State
     removeSearchQuery();
@@ -94,23 +94,23 @@ function Explorer(props) {
   function pushToWelcome() {
     var sizeObject = Object.keys(debatesearchResult).length;
     if (sizeObject === 0) {
-      history.push("/");
+      history.push('/');
     }
   }
 
   // Function detect Keyboard Enter
   function keyBoardEnterPress() {
     // Get the input field
-    var input = document.getElementsByTagName("input")[0];
+    var input = document.getElementsByTagName('input')[0];
 
     // Execute a function when the user releases a key on the keyboard
-    input.addEventListener("keyup", function (event) {
+    input.addEventListener('keyup', function (event) {
       // Number 13 is the "Enter" key on the keyboard
       if (event.keyCode === 13) {
         // Cancel the default action, if needed
         event.preventDefault();
         // Trigger the button element with a click
-        document.getElementById("searchButton").click();
+        document.getElementById('searchButton').click();
       }
     });
   }
@@ -118,14 +118,14 @@ function Explorer(props) {
   // Change the atribute of the element
   function addClassInputElement(customer) {
     // https://stackoverflow.com/questions/6856871/getting-the-parent-div-of-element
-    var element = document.getElementsByTagName("input")[0];
+    var element = document.getElementsByTagName('input')[0];
 
     element.classList.add(
-      customer === "KLA" ? "searchInput-explorer" : "searchInput-explorer"
+      customer === 'KLA' ? 'searchInput-explorer' : 'searchInput-explorer'
     );
 
     var parentElement = element.parentNode;
-    parentElement.style.width = "80%";
+    parentElement.style.width = '80%';
   }
 
   // Change Language Function
@@ -143,14 +143,14 @@ function Explorer(props) {
     e.preventDefault();
     addLoading();
     if (searchTermQuery.length === 0) {
-      toast.error("Please enter a Search Query .");
+      toast.error('Please enter a Search Query .');
       removeLoading();
       return;
     }
 
     let globalSearchQuery = debateQueryObj;
     // Storing the query phrase
-    globalSearchQuery["qp"] = searchState.searchTerm.trim();
+    globalSearchQuery['qp'] = searchState.searchTerm.trim();
     addSearchQueryFormat(globalSearchQuery);
     debateQueryObj &&
       searchRequestExplorerProm(debateQueryObj)
@@ -162,7 +162,7 @@ function Explorer(props) {
         })
         .catch((error) => {
           toast.error(
-            "Connection to the Server Failed !!! Please Contact System Administrator"
+            'Connection to the Server Failed !!! Please Contact System Administrator'
           );
           removeLoading();
         });
@@ -174,15 +174,15 @@ function Explorer(props) {
   const { explorerHeaders } = i18n;
 
   function renderFooter(customer, language) {
-    if (customer === "KLA") {
+    if (customer === 'KLA') {
       console.info(`[DEBUG] The value of language ${JSON.stringify(language)}`);
-      return language["language"] === "ENG"
-        ? "2021 Karnataka Legislative Assembly Secretariat"
-        : "2021 ಕರ್ನಾಟಕ ವಿಧಾನ ಸಭೆ ಸಚಿವಾಲಯ ";
+      return language['language'] === 'ENG'
+        ? '2021 Karnataka Legislative Assembly Secretariat'
+        : '2021 ಕರ್ನಾಟಕ ವಿಧಾನ ಸಭೆ ಸಚಿವಾಲಯ ';
     } else {
-      return language["language"] === "ENG"
-        ? "2021 Karnataka Legislative Council Secretariat"
-        : "2021 ಕರ್ನಾಟಕ ವಿಧಾನ ಪರಿಷತ್ತು ಸಚಿವಾಲಯ ";
+      return language['language'] === 'ENG'
+        ? '2021 Karnataka Legislative Council Secretariat'
+        : '2021 ಕರ್ನಾಟಕ ವಿಧಾನ ಪರಿಷತ್ತು ಸಚಿವಾಲಯ ';
     }
   }
 
@@ -191,7 +191,7 @@ function Explorer(props) {
       <div className="container-main-explorer">
         <div
           className={
-            CUSTOMER === "KLA" ? "gradient-ribbon--KLA" : "gradient-ribbon--KLC"
+            CUSTOMER === 'KLA' ? 'gradient-ribbon--KLA' : 'gradient-ribbon--KLC'
           }
         ></div>
 
@@ -199,9 +199,9 @@ function Explorer(props) {
           <div className="header-main">
             <div className="header--level1">
               <Link
-                onClick={(e) => history.push("/")}
+                onClick={(e) => history.push('/')}
                 className={
-                  CUSTOMER === "KLA" ? "logo-name--kla" : "logo-name--klc"
+                  CUSTOMER === 'KLA' ? 'logo-name--kla' : 'logo-name--klc'
                 }
               >
                 {renderCustomerName(CUSTOMER, language, i18n)}
@@ -210,22 +210,22 @@ function Explorer(props) {
               <div>
                 <form
                   style={{
-                    display: "flex",
-                    width: "100%",
+                    display: 'flex',
+                    width: '100%',
                   }}
                   action=""
                 >
                   <div
                     className={
-                      CUSTOMER === "KLA"
-                        ? "searchContainer-explorer--kla"
-                        : "searchContainer-explorer--klc"
+                      CUSTOMER === 'KLA'
+                        ? 'searchContainer-explorer--kla'
+                        : 'searchContainer-explorer--klc'
                     }
                   >
                     {/* <div className="searchInputWrapper"> */}
                     <div
                       className={
-                        CUSTOMER === "KLA" ? "searchIcon" : "searchIcon"
+                        CUSTOMER === 'KLA' ? 'searchIcon' : 'searchIcon'
                       }
                     >
                       <i class="fa fa-search"></i>
@@ -259,9 +259,9 @@ function Explorer(props) {
                     id="searchButton"
                     disabled={loading ? true : false}
                     className={
-                      CUSTOMER === "KLA"
-                        ? "searchSubmit-explorer--kla"
-                        : "searchSubmit-explorer--klc"
+                      CUSTOMER === 'KLA'
+                        ? 'searchSubmit-explorer--kla'
+                        : 'searchSubmit-explorer--klc'
                     }
                     onClick={onSubmitAction}
                   >
@@ -272,8 +272,8 @@ function Explorer(props) {
 
               <div
                 style={{
-                  marginLeft: "1rem",
-                  verticalAlign: "middle",
+                  marginLeft: '1rem',
+                  verticalAlign: 'middle',
                 }}
               >
                 <SelectElement
@@ -286,15 +286,15 @@ function Explorer(props) {
             <div className="header--level2">
               <ul
                 className={
-                  CUSTOMER === "KLA"
-                    ? "header-navigation--kla"
-                    : "header-navigation--klc"
+                  CUSTOMER === 'KLA'
+                    ? 'header-navigation--kla'
+                    : 'header-navigation--klc'
                 }
               >
                 <li id="debatesTab">
                   <i class="fa fa-users" aria-hidden="true"></i>
                   <Link to={`${url}/debates`}>
-                    {language === "ENG"
+                    {language === 'ENG'
                       ? explorerHeaders.debatesHeader.eng
                       : explorerHeaders.debatesHeader.kan}
                   </Link>
@@ -302,8 +302,8 @@ function Explorer(props) {
                 <li id="newsTab">
                   <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                   <Link to={`${url}/news`}>
-                    {" "}
-                    {language === "ENG"
+                    {' '}
+                    {language === 'ENG'
                       ? explorerHeaders.newsHeader.eng
                       : explorerHeaders.newsHeader.kan}
                   </Link>
@@ -311,8 +311,8 @@ function Explorer(props) {
                 <li id="billsTab">
                   <i class="fa fa-file-text-o" aria-hidden="true"></i>
                   <Link to={`${url}/bills`}>
-                    {" "}
-                    {language === "ENG"
+                    {' '}
+                    {language === 'ENG'
                       ? explorerHeaders.billHeader.eng
                       : explorerHeaders.billHeader.kan}
                   </Link>
@@ -320,8 +320,8 @@ function Explorer(props) {
                 <li id="reviewTab">
                   <i class="fa fa-address-book-o" aria-hidden="true"></i>
                   <Link to={`${url}/review`}>
-                    {" "}
-                    {language === "ENG"
+                    {' '}
+                    {language === 'ENG'
                       ? explorerHeaders.reviewHeader.eng
                       : explorerHeaders.reviewHeader.kan}
                   </Link>
@@ -329,8 +329,8 @@ function Explorer(props) {
                 <li id="budgetTab">
                   <i class="fa fa-inr" aria-hidden="true"></i>
                   <Link to={`${url}/budget`}>
-                    {" "}
-                    {language === "ENG"
+                    {' '}
+                    {language === 'ENG'
                       ? explorerHeaders.budgetHeader.eng
                       : explorerHeaders.budgetHeader.kan}
                   </Link>
@@ -339,8 +339,8 @@ function Explorer(props) {
                   <i class="fa fa-user" aria-hidden="true"></i>
 
                   <Link to={`${url}/whoswho`}>
-                    {" "}
-                    {language === "ENG"
+                    {' '}
+                    {language === 'ENG'
                       ? explorerHeaders.whoswhoHeader.eng
                       : explorerHeaders.whoswhoHeader.kan}
                   </Link>
@@ -348,8 +348,8 @@ function Explorer(props) {
                 <li id="vedioTab">
                   <i class="fa fa-video-camera" aria-hidden="true"></i>
                   <Link to={`${url}/vedio`}>
-                    {" "}
-                    {language === "ENG"
+                    {' '}
+                    {language === 'ENG'
                       ? explorerHeaders.vedioHeader.eng
                       : explorerHeaders.vedioHeader.kan}
                   </Link>
@@ -398,12 +398,12 @@ function Explorer(props) {
         <footer>
           <div
             className={
-              CUSTOMER === "KLA" ? "footerheader--kla" : "footerheader--klc"
+              CUSTOMER === 'KLA' ? 'footerheader--kla' : 'footerheader--klc'
             }
           >
-            {ln["language"] === "ENG"
-              ? "Copyright"
-              : "ಎಲ್ಲ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ."}
+            {ln['language'] === 'ENG'
+              ? 'Copyright'
+              : 'ಎಲ್ಲ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.'}
 
             <span>
               <i class="fa fa-copyright" aria-hidden="true"></i>
