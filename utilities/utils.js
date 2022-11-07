@@ -1,42 +1,42 @@
 // Import the query json File
 
-const queryES = require("./query.json");
-const suggestES = require("./suggest.json");
-const config = require("../config/config");
+const queryES = require('./query.json');
+const suggestES = require('./suggest.json');
+const config = require('../config/config');
 // const { default: axios } = require("axios");
-const fetch = require("node-fetch");
-const path = require("path");
-const http = require("http");
-const fs = require("fs");
+// const fetch = require("node-fetch");
+const path = require('path');
+const http = require('http');
+const fs = require('fs');
 
 const sourceFields = [
-  "assemblyNumber",
-  "sessionNumber",
-  "placeSession",
-  "datesSessions",
-  "sectionType",
-  "startPage",
-  "endPage",
-  "debate_title_subject_eng",
-  "debate_title_subject_kan",
-  "debate_subject_kan",
-  "issues_section_eng",
-  "issues_section_kan",
-  "tags_array_eng",
-  "tags_array_kan",
-  "questioner_name_eng",
-  "questioner_name_kan",
-  "minister_name_eng",
-  "minister_name_kan",
-  "minister_portfolio_eng",
-  "minister_portfolio_kan",
-  "annexure_title",
-  "annexure_start_page",
-  "annexure_end_page",
-  "debate_participants_eng",
-  "debate_participants_kan",
-  "ocr_schema_section",
-  "debate_section_date",
+  'assemblyNumber',
+  'sessionNumber',
+  'placeSession',
+  'datesSessions',
+  'sectionType',
+  'startPage',
+  'endPage',
+  'debate_title_subject_eng',
+  'debate_title_subject_kan',
+  'debate_subject_kan',
+  'issues_section_eng',
+  'issues_section_kan',
+  'tags_array_eng',
+  'tags_array_kan',
+  'questioner_name_eng',
+  'questioner_name_kan',
+  'minister_name_eng',
+  'minister_name_kan',
+  'minister_portfolio_eng',
+  'minister_portfolio_kan',
+  'annexure_title',
+  'annexure_start_page',
+  'annexure_end_page',
+  'debate_participants_eng',
+  'debate_participants_kan',
+  'ocr_schema_section',
+  'debate_section_date',
 ];
 
 function getShouldQueryParams(queryType, queryString) {
@@ -44,7 +44,7 @@ function getShouldQueryParams(queryType, queryString) {
   let returnShouldArray = [];
   //   The below if statement evaluates the query for Precision & recall
   //   QueryType should be queryType = "PRC" || "REC"
-  let queryOperands = queryType === "PRC" ? "and" : "or";
+  let queryOperands = queryType === 'PRC' ? 'and' : 'or';
   // let matchQuery = {
   //   match: {
   //     debate_subject_kan: {
@@ -59,7 +59,7 @@ function getShouldQueryParams(queryType, queryString) {
     multi_match: {
       query: queryString,
       operator: queryOperands,
-      fields: ["debate_subject_kan.suggestion^2", "annexure_title.suggestion"],
+      fields: ['debate_subject_kan.suggestion^2', 'annexure_title.suggestion'],
       fuzziness: 1,
       boost: 6,
     },
@@ -67,13 +67,13 @@ function getShouldQueryParams(queryType, queryString) {
 
   let nested_ocr_section_query = {
     nested: {
-      path: "ocr_schema_section",
+      path: 'ocr_schema_section',
       query: {
         multi_match: {
           query: queryString,
-          type: "best_fields",
-          fields: ["ocr_schema_section.ocr_text.suggestion"],
-          operator: "and",
+          type: 'best_fields',
+          fields: ['ocr_schema_section.ocr_text.suggestion'],
+          operator: 'and',
           fuzziness: 1,
           boost: 5,
         },
@@ -83,13 +83,13 @@ function getShouldQueryParams(queryType, queryString) {
   // OCR Match Phrase suggestion
   let nested_ocr_phrase_section_query = {
     nested: {
-      path: "ocr_schema_section",
+      path: 'ocr_schema_section',
       query: {
         multi_match: {
           query: queryString,
-          type: "phrase",
-          fields: ["ocr_schema_section.ocr_text"],
-          operator: "and",
+          type: 'phrase',
+          fields: ['ocr_schema_section.ocr_text'],
+          operator: 'and',
           slop: 2,
           boost: 10,
         },
@@ -101,13 +101,13 @@ function getShouldQueryParams(queryType, queryString) {
   let multi_match_debate_participants = {
     multi_match: {
       query: queryString,
-      type: "best_fields",
+      type: 'best_fields',
       fields: [
-        "debate_participants_eng.suggestion",
-        "debate_participants_kan.suggestion",
+        'debate_participants_eng.suggestion',
+        'debate_participants_kan.suggestion',
       ],
       boost: 1,
-      operator: "and",
+      operator: 'and',
     },
   };
 
@@ -157,7 +157,7 @@ function getPDFFiles(pathFileServer, bookid, frompage, topage) {
   return new Promise(async function (resolve, reject) {
     // Working Solution
     const temp_file = path.join(
-      config["tempDirCache"],
+      config['tempDirCache'],
       `${bookid}_${frompage}_${topage}.pdf`
     );
     const request = http.get(pathFileServer, function (response) {
@@ -168,12 +168,12 @@ function getPDFFiles(pathFileServer, bookid, frompage, topage) {
         // console.log("The File is downloaded succesfully !!!");
         // file.on("end", () => resolve());
 
-        response.on("error", (err) => {
+        response.on('error', (err) => {
           console.log(`Error while writing file ${temp_file}`);
           reject();
         });
 
-        response.on("end", () => {
+        response.on('end', () => {
           // console.log(
           //   `[DEBUG] The file ${temp_file} exists in folder ${fs.existsSync(
           //     temp_file
@@ -182,7 +182,7 @@ function getPDFFiles(pathFileServer, bookid, frompage, topage) {
           resolve();
         });
 
-        response.on("end", () => resolve());
+        response.on('end', () => resolve());
       } else {
         reject(response);
       }
@@ -194,7 +194,7 @@ function getPDFFiles(pathFileServer, bookid, frompage, topage) {
 function getPDFFilesFull(pathFileServer, bookid) {
   return new Promise(async function (resolve, reject) {
     // Working Solution
-    const temp_file = path.join(config["tempDirCache"], `${bookid}_full.pdf`);
+    const temp_file = path.join(config['tempDirCache'], `${bookid}_full.pdf`);
     const request = http.get(pathFileServer, function (response) {
       if (response.statusCode === 200) {
         let file = fs.createWriteStream(temp_file);
@@ -203,12 +203,12 @@ function getPDFFilesFull(pathFileServer, bookid) {
         // console.log("The File is downloaded succesfully !!!");
         // file.on("end", () => resolve());
 
-        response.on("error", (err) => {
+        response.on('error', (err) => {
           console.log(`Error while writing file ${temp_file}`);
           reject();
         });
 
-        response.on("end", () => {
+        response.on('end', () => {
           console.log(
             `[DEBUG] The file ${temp_file} exists in folder ${fs.existsSync(
               temp_file
@@ -232,8 +232,8 @@ function getTermQuery(termsString, varName) {
   //   `[DEBUG] the value of termsString ${termsString} & varName ${varName}  `
   // );
 
-  if (termsString !== "") {
-    let termVarsName = termsString.split(",");
+  if (termsString !== '') {
+    let termVarsName = termsString.split(',');
 
     // terms: {
     //   [varName]: {
@@ -263,21 +263,21 @@ function getFilterQueryParams(queryObject) {
   const { sectionDateFrm, sectionDateTo } = queryObject;
 
   const dictVariableName = {
-    dtf: "sectionType",
-    anf: "assemblyNumber",
-    snf: "sessionNumber",
-    dsubfEng: "debate_title_subject_eng",
-    dsubfKan: "debate_title_subject_kan",
-    dpfEng: "debate_participants_eng.keyword",
-    dpfKan: "debate_participants_kan.keyword",
-    dbf: "bookId",
-    ytf: "yearBook",
-    sectionDateFrm: "debate_section_date",
-    sectionDateTo: "debate_section_date",
-    issfEng: "issues_section_eng.keyword",
-    issfKan: "issues_section_kan.keyword",
-    tagfKan: "tags_array_kan",
-    tagfEng: "tags_array_eng",
+    dtf: 'sectionType',
+    anf: 'assemblyNumber',
+    snf: 'sessionNumber',
+    dsubfEng: 'debate_title_subject_eng',
+    dsubfKan: 'debate_title_subject_kan',
+    dpfEng: 'debate_participants_eng.keyword',
+    dpfKan: 'debate_participants_kan.keyword',
+    dbf: 'bookId',
+    ytf: 'yearBook',
+    sectionDateFrm: 'debate_section_date',
+    sectionDateTo: 'debate_section_date',
+    issfEng: 'issues_section_eng.keyword',
+    issfKan: 'issues_section_kan.keyword',
+    tagfKan: 'tags_array_kan',
+    tagfEng: 'tags_array_eng',
   };
 
   const filterQueryParams = {
@@ -287,38 +287,38 @@ function getFilterQueryParams(queryObject) {
   };
 
   // Get range query for date
-  if (sectionDateFrm !== "" && sectionDateTo !== "") {
+  if (sectionDateFrm !== '' && sectionDateTo !== '') {
     var rangeDate = getRangeDateQuery(
       sectionDateFrm,
       sectionDateTo,
-      "debate_section_date"
+      'debate_section_date'
     );
 
     filterQueryParams.bool.must.push(rangeDate);
   }
 
   let objectKey = [
-    "dtf",
-    "anf",
-    "snf",
-    "dsubfEng",
-    "dsubfKan",
-    "dpfEng",
-    "dpfKan",
-    "dbf",
-    "ytf",
-    "sectionDateFrm",
-    "sectionDateTo",
-    "issfEng",
-    "issfKan",
-    "tagfEng",
-    "tagfKan",
+    'dtf',
+    'anf',
+    'snf',
+    'dsubfEng',
+    'dsubfKan',
+    'dpfEng',
+    'dpfKan',
+    'dbf',
+    'ytf',
+    'sectionDateFrm',
+    'sectionDateTo',
+    'issfEng',
+    'issfKan',
+    'tagfEng',
+    'tagfKan',
   ];
-  let rangeQueryVariables = ["sectionDateFrm", "sectionDateTo", "qt", "qp"];
+  let rangeQueryVariables = ['sectionDateFrm', 'sectionDateTo', 'qt', 'qp'];
   for (key in queryObject) {
     var varHeader = queryObject[key];
     if (!rangeQueryVariables.includes(key)) {
-      if (queryObject[key] !== "") {
+      if (queryObject[key] !== '') {
         // console.log(
         //   `[DEBUG] get Filter Function  ${varHeader} queryObject ${queryObject[varHeader]}  variable name   ${dictVariableName[varHeader]} `
         // );
@@ -349,7 +349,7 @@ function getSortFilter(srtString, variableName, direction) {
 
   sortArray.push({
     _score: {
-      order: "desc",
+      order: 'desc',
     },
   });
   sortArray.push(sortObject);
@@ -374,14 +374,14 @@ function esQueryBuilder(queryObject) {
   queryES.query.bool.filter = filterQueryParams;
   //   3 Put the Sort filter
 
-  if (srt !== "") {
-    let sortFilter = getSortFilter(srt, "debate_section_date");
+  if (srt !== '') {
+    let sortFilter = getSortFilter(srt, 'debate_section_date');
     queryES.sort = sortFilter;
   } else {
     let sortFilter = [
       {
         _score: {
-          order: "desc",
+          order: 'desc',
         },
       },
     ];

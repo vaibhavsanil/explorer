@@ -1,9 +1,11 @@
 .env
 client/node_modules
+client/build
 config/
 demo.js
-middleware/
 node_modules/
 package-lock.json
+client1/
+
 
 

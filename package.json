@@ -10,13 +10,15 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "sdc-build": "NODE_ENV=production node server.js",
     "sdc-klabuild-pm2": "NODE_ENV=production pm2 start --name klaexplorer server.js",
-    "sdc-klcbuild-pm2": "NODE_ENV=production pm2 start --name klcexplorer server.js"
+    "sdc-klcbuild-pm2": "NODE_ENV=production pm2 start --name klcexplorer server.js",
+    "deploy-test": "npm run build --prefix client && npm start server"
   },
   "author": "Vaibhav Sanil",
   "license": "ISC",
   "dependencies": {
     "@elastic/elasticsearch": "^7.11.0",
     "axios": "^0.21.1",
+    "compression": "^1.7.4",
     "concurrently": "^6.0.1",
     "config": "^3.3.6",
     "cors": "^2.8.5",
@@ -29,7 +31,6 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
     "react-date-range": "^1.1.4",
-    "sweetalert": "^2.1.2",
-    "winston": "^3.6.0"
+    "sweetalert": "^2.1.2"
   }
 }

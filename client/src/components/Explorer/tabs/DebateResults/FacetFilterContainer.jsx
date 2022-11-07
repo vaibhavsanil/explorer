@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect, useContext } from "react";
-import FacetChips from "../debateUtils/FacetChips--component";
-import DebateContext from "../../../../context/Debates/debateContext";
-import { toast } from "react-toastify";
+import React, { Fragment, useEffect, useContext } from 'react';
+import FacetChips from '../debateUtils/FacetChips--component';
+import DebateContext from '../../../../context/Debates/debateContext';
+import { toast } from 'react-toastify';
 import {
   filterMappingObject,
   CUSTOMER,
@@ -9,7 +9,7 @@ import {
   filterMappingObjectForKey,
   returnObjRemoveQuery,
   dateFormat,
-} from "../../../../constants/index";
+} from '../../../../constants/index';
 
 function FacetFilterContainer({ lang }) {
   const debateContext = useContext(DebateContext);
@@ -21,29 +21,18 @@ function FacetFilterContainer({ lang }) {
     removeLoading,
   } = debateContext;
 
-  useEffect(() => {
-    // renderFacets(queryFiltered, FacetChips);
-    // console.info(
-    //   `[DEBUG] the facet value array is ${renderFacets(
-    //     debateQueryObj,
-    //     FacetChips
-    //   )} `
-    // );
-  }, [debateQueryObj, lang]);
+  useEffect(() => {}, [debateQueryObj, lang]);
   function removeFacet(value, facettype) {
-    //[TODO]  Remove Facet Type
-    // Add Loading to global state
-    // console.info(`[DEBUG] from removeFacet the ${value} && ${facettype}`);
     addLoading();
     let queryObjectKey;
     let updatedQuery;
-    if (facettype === "Date") {
-      queryObjectKey = ["sectionDateFrm", "sectionDateTo"];
+    if (facettype === 'Date') {
+      queryObjectKey = ['sectionDateFrm', 'sectionDateTo'];
       let queryCopy = debateQueryObj;
 
       for (let index in queryObjectKey) {
         const key = queryObjectKey[index];
-        queryCopy[key] = "";
+        queryCopy[key] = '';
       }
       updatedQuery = queryCopy;
     } else {
@@ -68,14 +57,14 @@ function FacetFilterContainer({ lang }) {
       })
       .catch((err) => {
         toast.error(
-          "Connection to the Server Failed !!! Please Contact System Administrator"
+          'Connection to the Server Failed !!! Please Contact System Administrator'
         );
         removeLoading();
       });
     return;
   }
 
-  const notAllowedKey = ["qt", "qp", "ln"];
+  const notAllowedKey = ['qt', 'qp', 'ln'];
   // Filter the Query Objects
   let queryFiltered = filterRemoveKeysObject(debateQueryObj, notAllowedKey);
   let facetItems = [];
@@ -94,16 +83,16 @@ function FacetFilterContainer({ lang }) {
         });
       } else {
         // Return String
-        if (item === "sectionDateFrm" || item === "sectionDateTo") {
-          if (debateQueryObj[item] !== "") {
+        if (item === 'sectionDateFrm' || item === 'sectionDateTo') {
+          if (debateQueryObj[item] !== '') {
             const date =
-              item === "sectionDateFrm"
-                ? ["date-from", debateQueryObj[item]]
-                : ["date-to", debateQueryObj[item]];
+              item === 'sectionDateFrm'
+                ? ['date-from', debateQueryObj[item]]
+                : ['date-to', debateQueryObj[item]];
             dateItems.push(date);
 
             if (dateItems.length > 1) {
-              const datefacetHeader = lang === "ENG" ? "Date" : "ದಿನಾಂಕ";
+              const datefacetHeader = lang === 'ENG' ? 'Date' : 'ದಿನಾಂಕ';
               // console.info(`[DEBUG] from date format ${dateItems}`);
               const formatedDateFrom = dateFormat(dateItems[0][1]);
               const formatedDateTo = dateFormat(dateItems[1][1]);
@@ -124,8 +113,8 @@ function FacetFilterContainer({ lang }) {
         }
         if (
           queryObj[item].length > 0 &&
-          item !== "sectionDateFrm" &&
-          item !== "sectionDateTo"
+          item !== 'sectionDateFrm' &&
+          item !== 'sectionDateTo'
         ) {
           const itemToPushString = [facetTYPE, debateQueryObj[item]];
           facetItems.push(itemToPushString);

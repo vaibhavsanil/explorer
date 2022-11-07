@@ -1,20 +1,46 @@
 const express = require('express');
-const fs = require('fs');
+// const fs = require('fs');
 const mongoose = require('mongoose');
 const path = require('path');
 const keys = require('./config/config');
 const { Client: Client7 } = require('es7');
 const config = require('./config/config');
-const helmet = require('helmet');
+// const helmet = require('helmet');
+const morgan = require('morgan');
+// const compression = require('compression');
+const cors = require('cors');
 //Imported Routes
 const esroutes = require('./routes/api/es');
 const fserver = require('./routes/api/fileserver');
 
-const app = express();
+// app.disable('x-powered-by');
 // const esconfig = require("./config/esConfig");
+// app.disable('x-powered-by');
+// app.use(function (req, res, next) {
+//   // Switch off the default 'X-Powered-By: Express' header
+//   app.disable('x-powered-by');
 
+//   // OR set your own header here
+//   res.setHeader('X-Powered-By', 'Vidhan Docs API Ver 1.4 :-)');
+
+//   // .. other headers here
+
+//   next();
+// });
+
+// app.disable('x-powered-by');
+
+const app = express();
 // Using Helmet JS
-app.use(helmet());
+// app.use(helmet());
+//app.use(compression());
+// Using Logger
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'));
+} else {
+  app.use(morgan('tiny'));
+}
 
 // Body Parser Middleware
 app.use(express.json({ extended: false }));
@@ -59,8 +85,10 @@ mongoose
 // );
 let nodePath = `https://${es_user}:${es_pass}@${es_host_remote}`;
 if (process.env.NODE_ENV === 'production') {
-  nodePath = `http://localhost:5000`;
+  // nodePath = `http://localhost:5000`;
 }
+
+console.log('The Node Path is set to --> ', nodePath);
 
 const client = new Client7({
   //   node: `https://${config.es_user}:${config.es_pass}@${config.es_host}:${config.es_port}`,
@@ -70,11 +98,13 @@ const client = new Client7({
 
 // Routing
 //app.get("/", (req, res) => res.send("Hello Vidhan DocsTracker Explorer!!!"));
-
+// CORS
+app.use(cors());
 //Use routes
 app.use('/api/sd/', esroutes); // for all the routes routing to search database
 app.use('/api/fs/', fserver); // For serving static files
-
+app.disable('x-powered-by');
+// console.log(app);
 //router.get("/test", (req, res) => res.json({ msg: "File Server Test " }));
 
 // Serve React Files
@@ -88,9 +118,11 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
 
   // Handle React routing, return all requests to React app
-  app.get('*', function (req, res) {
+  app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
+
+  // app.disable('x-powered-by');
 }
 
 client.ping({}, function (error) {

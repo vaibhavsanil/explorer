@@ -413,32 +413,15 @@ export function returnObjQuery(eventObj, lang, arrayObject, queryObject) {
   if (arrayObject[1] === 'string') {
     // Checking if the string value is checked or not
     if (eventObj.target.checked) {
-      // let queryObject = {
-      //   ...queryParameter,
-      //   parameterVariable: eventObj.target.value,
-      // };
       queryObject[parameterVariable] = eventObj.target.value;
       return queryObject;
     } else {
-      // let queryObject = {
-      //   ...queryParameter,
-      //   parameterVariable: eventObj.target.value,
-      // };
       queryObject[parameterVariable] = '';
       return queryObject;
     }
-    //  let queryParameter = (eventObj.target.checked) ? {...queryParameter,parameterVariable:eventObj.target.value}:{...queryParameter,queryParameter[arrayObject[0]]:""}
-    //  return queryParameter
   } else {
     // Checking if the array value is checked or not
     if (eventObj.target.checked) {
-      // let queryObject = {
-      //   ...queryParameter,
-      //   parameterVariable: [...parameterVariable, eventObj.target.value],
-      // };
-      // queryObject[parameterVariable] = queryObject[parameterVariable].push(
-      //   eventObj.target.value
-      // );
       queryObject[parameterVariable] = [
         ...queryObject[parameterVariable],
         eventObj.target.value,

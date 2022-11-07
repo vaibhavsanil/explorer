@@ -117,6 +117,14 @@ const WelcomeScreen = (props) => {
   };
 
   // function to push to explorer page if results exists in the state
+  // useEffect(() => {
+  //   // addSearchQueryFormat(searchConstObject);
+  //   addWelcomQueryStats();
+  //   return () => {
+  //     removeWelcomQueryStats();
+  //     // removeError();
+  //   };
+  // }, []);
 
   useEffect(() => {
     addClassInputElement(CUSTOMER);
@@ -138,7 +146,7 @@ const WelcomeScreen = (props) => {
       removeWelcomQueryStats();
       removeError();
     };
-  }, [errors]);
+  }, []);
 
   // Local State
   const [ln, setLn] = useState({

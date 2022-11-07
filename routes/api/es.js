@@ -6,6 +6,8 @@ const path = require('path');
 
 const router = express.Router();
 
+// app.disable('x-powered-by');
+
 // Loading ES Query Templates
 const queryES = require('../../utilities/query.json');
 const queryExplorerStats = require('../../utilities/query_stats.json');

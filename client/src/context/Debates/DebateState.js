@@ -156,13 +156,6 @@ const DebateState = (props) => {
   const searchRequestExplorerProm = (reqObj) => {
     return new Promise(async function (resolve, reject) {
       let urlObj = arrayToString(reqObj);
-      // console.info(
-      //   `[DEBUG][DEBATE-STATE] from promise function Explorer Search The value of search Template ${JSON.stringify(
-      //     urlObj,
-      //     null,
-      //     2
-      //   )}`
-      // );
 
       try {
         const response = await axios.get(
@@ -201,20 +194,9 @@ const DebateState = (props) => {
 
   const manipulateQuery = (event, lang, arrayObject, queryObj) => {
     let queryToDispatch = returnObjQuery(event, lang, arrayObject, queryObj);
-    // console.info(
-    //   `[DEBUG] from Debate State Manipulate Query the query is \n ${JSON.stringify(
-    //     queryToDispatch
-    //   )}`
-    // );
+
     // Adding query to the local state
     addSearchQueryFormat(queryToDispatch);
-    // [TODO] Whether to keep the request in state or client
-    // searchRequestExplorerProm(state.debateQueryObj).then().catch();
-    // console.info(
-    //   `[DEBUG] The manipulateQuery is called from \n ${JSON.stringify(
-    //     state.debateQueryObj
-    //   )} `
-    // );
 
     return queryToDispatch;
   };

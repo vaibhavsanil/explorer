@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
-import DebateContext from "../../../../context/Debates/debateContext";
-import { returnQueryVariableFilter } from "../../../../constants";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useContext, useState } from 'react';
+import DebateContext from '../../../../context/Debates/debateContext';
+import { returnQueryVariableFilter } from '../../../../constants';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function FacetItem({
   itemHeader,
   docCount,
@@ -52,7 +52,7 @@ function FacetItem({
         addError(err);
         removeLoading();
         toast.error(
-          "Connection to the Server Failed !!! Please Contact System Administrator"
+          'Connection to the Server Failed !!! Please Contact System Administrator'
         );
       });
   }
@@ -62,12 +62,12 @@ function FacetItem({
 
     const itemCheckArray = returnQueryVariableFilter(type);
 
-    if (itemCheckArray[1] === "string") {
+    if (itemCheckArray[1] === 'string') {
       if (stateglobal[itemCheckArray[0]] === value) {
         setChecked(true);
       }
     } else {
-      if (itemCheckArray[1] === "array" && itemCheckArray.length === 2) {
+      if (itemCheckArray[1] === 'array' && itemCheckArray.length === 2) {
         // console.info(
         //   `[DEBUG] from Facet Chips state global ${stateglobal} && ${itemCheckArray[0]} && value ${value} `
         // );
@@ -76,7 +76,7 @@ function FacetItem({
         }
       } else {
         const setBool =
-          lang === "ENG"
+          lang === 'ENG'
             ? stateglobal[itemCheckArray[0]].includes(value)
             : stateglobal[itemCheckArray[2]].includes(value);
 
