@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from 'react';
-import 'antd/dist/antd.css';
-import { disableBookId } from '../../constants/index';
+import React, { useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import "antd/dist/antd.css";
+import { disableBookId } from "../../constants/index";
 
 // import {
 //   AppstoreOutlined,
@@ -9,49 +10,31 @@ import { disableBookId } from '../../constants/index';
 //   SearchOutlined,
 // } from '@ant-design/icons';
 
-import Collapsible from '../common/CollapsibleWelcome';
-import SourceSelect from '../common/WelcomeSelect/SourceSelect';
-import SingleSelect from '../common/WelcomeSelect/SingleSelect';
+import Collapsible from "../common/CollapsibleWelcome";
+import SourceSelect from "../common/WelcomeSelect/SourceSelect";
+import SingleSelect from "../common/WelcomeSelect/SingleSelect";
 
-import DebateContext from '../../context/Debates/debateContext';
-import MultiSelect from '../common/WelcomeSelect/MultiSelect';
-import './SidebarMenu.css';
+import DebateContext from "../../context/Debates/debateContext";
+import MultiSelect from "../common/WelcomeSelect/MultiSelect";
+import "./SidebarMenu.css";
 
 function Sidebarmenu({ lang, customer }) {
   const debateContext = useContext(DebateContext);
-
+  const history = useHistory();
   const { statsQueryWelcome } = debateContext;
-
-  // useEffect(() => {}, [statsQueryWelcome]);
-  // const {
-  //   analysis: {
-  //     debateParticiapantsEng_bucket,
-  //     debateParticiapantsKan_bucket,
-  //     assemblyNumber_bucket,
-  //     issuesSection_eng_bucket,
-  //     issuesSection_kan_bucket,
-  //     yearFilter_bucket,
-  //     debateTitleEng_bucket,
-  //     debateTitleKan_bucket,
-  //     debateType_bucket,
-  //     sessionNumber_bucket,
-  //     bookId_bucket,
-  //   },
-  // } = statsQueryWelcome;
 
   const { analysis } = statsQueryWelcome;
 
-  // console.log(
-  //   ` The value of the stats Query Welcome ${JSON.stringify(analysis)} `
-  // );
   // Get Full Debates
 
-  const pushGetDebates = () => {};
+  const pushGetDebates = () => {
+    history.push("/debates");
+  };
 
   // Debate Title Value
 
   const debateTitle =
-    lang === 'ENG'
+    lang === "ENG"
       ? analysis.debateTitleEng_bucket
       : analysis.debateTitleKan_bucket;
 
@@ -73,7 +56,11 @@ function Sidebarmenu({ lang, customer }) {
         icon="fa "
         customer={customer}
       >
-        <SingleSelect lang={lang} data={analysis.debateType_bucket} />
+        <SingleSelect
+          name="debateType"
+          lang={lang}
+          data={analysis.debateType_bucket}
+        />
       </Collapsible>
       <Collapsible
         lang={lang}
@@ -83,8 +70,10 @@ function Sidebarmenu({ lang, customer }) {
         customer={customer}
       >
         <MultiSelect
+          name="assemblyNumber"
           holderName="Please Select Assembly Number"
           data={analysis.assemblyNumber_bucket}
+          lang={lang}
         />
       </Collapsible>
       <Collapsible
@@ -95,8 +84,10 @@ function Sidebarmenu({ lang, customer }) {
         customer={customer}
       >
         <MultiSelect
+          name="sessionNumber"
           holderName="Please Select Session Number"
           data={analysis.sessionNumber_bucket}
+          lang={lang}
         />
       </Collapsible>
       <Collapsible
@@ -107,12 +98,14 @@ function Sidebarmenu({ lang, customer }) {
         customer={customer}
       >
         <MultiSelect
+          name="debateTitle"
           holderName="Please Select Debate Title"
           data={
-            lang === 'ENG'
+            lang === "ENG"
               ? analysis.debateTitleEng_bucket
               : analysis.debateTitleKan_bucket
           }
+          lang={lang}
         />
       </Collapsible>
       <Collapsible
@@ -123,12 +116,14 @@ function Sidebarmenu({ lang, customer }) {
         customer={customer}
       >
         <MultiSelect
+          name="debatePart"
           holderName="Please Select Debate Participants"
           data={
-            lang === 'ENG'
+            lang === "ENG"
               ? analysis.debateParticiapantsEng_bucket
               : analysis.debateParticiapantsKan_bucket
           }
+          lang={lang}
         />
       </Collapsible>
       <Collapsible
@@ -139,12 +134,14 @@ function Sidebarmenu({ lang, customer }) {
         customer={customer}
       >
         <MultiSelect
+          name="debatePart"
           holderName="Please Select Questioner's Name"
           data={
-            lang === 'ENG'
+            lang === "ENG"
               ? analysis.debateParticiapantsEng_bucket
               : analysis.debateParticiapantsKan_bucket
           }
+          lang={lang}
         />
       </Collapsible>
 
@@ -157,6 +154,7 @@ function Sidebarmenu({ lang, customer }) {
           customer={customer}
         >
           <MultiSelect
+            name="bookId"
             holderName="Please Select Questioner's Name"
             data={analysis.bookId_bucket}
           />
@@ -165,18 +163,18 @@ function Sidebarmenu({ lang, customer }) {
       <div className="footerWelcomeButtons">
         <button
           className={
-            customer === 'KLA'
-              ? 'linkToDebatesWelcome--kla'
-              : 'linkToDebatesWelcome--klc'
+            customer === "KLA"
+              ? "linkToDebatesWelcome--kla"
+              : "linkToDebatesWelcome--klc"
           }
           onClick={pushGetDebates}
         >
           <i
-            style={{ marginRight: '0.5rem' }}
+            style={{ marginRight: "0.5rem" }}
             class="fa fa-book"
             aria-hidden="true"
           ></i>
-          {lang === 'ENG' ? 'Search Full Debates' : 'ಪೂರ್ಣ ಪುಸ್ತಕ'}
+          {lang === "ENG" ? "Search Full Debates" : "ಪೂರ್ಣ ಪುಸ್ತಕ"}
         </button>
       </div>
     </div>

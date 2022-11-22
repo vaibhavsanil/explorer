@@ -1,8 +1,8 @@
-import React, { useReducer } from 'react';
+import React, { useReducer } from "react";
 
-import axios from 'axios';
-import DebateContext from './debateContext';
-import debateReducer from './debateReducer';
+import axios from "axios";
+import DebateContext from "./debateContext";
+import debateReducer from "./debateReducer";
 
 import {
   ADD_SEARCH_LOCAL_STATE,
@@ -18,7 +18,7 @@ import {
   REMOVE_SEARCH_REQUEST_ERROR,
   ADD_STATS_QUERY_WELCOME_LOCAL_STATE,
   REMOVE_STATS_QUERY_WELCOME_LOCAL_STATE,
-} from '../types';
+} from "../types";
 
 // Import the constants
 import {
@@ -28,11 +28,12 @@ import {
   searchConstQueryObject,
   returnObjQuery,
   arrayToString,
-} from '../../constants/index';
+  returnObjQueryWelcome,
+} from "../../constants/index";
 
 const DebateState = (props) => {
   const initialState = {
-    searchquery: '',
+    searchquery: "",
     loading: false,
     debatesearchResult: {},
     currentDebateSection: {},
@@ -46,7 +47,7 @@ const DebateState = (props) => {
 
   // Set Global Constants
   let requestHeaders =
-    CUSTOMER === 'KLA'
+    CUSTOMER === "KLA"
       ? urlHeaders.requestHeadersKLA
       : urlHeaders.requestHeadersKLC;
 
@@ -83,7 +84,7 @@ const DebateState = (props) => {
 
   // Add Search Query to Local State
   const addSearchQuery = (searchTerm, queryObj) => {
-    queryObj['qp'] = searchTerm;
+    queryObj["qp"] = searchTerm;
     dispatch({
       type: ADD_SEARCH_LOCAL_STATE,
       payload: searchTerm,
@@ -102,7 +103,7 @@ const DebateState = (props) => {
   const removeSearchQuery = () => {
     dispatch({
       type: REMOVE_SEARCH_LOCAL_STATE,
-      payload: '',
+      payload: "",
     });
   };
 
@@ -129,7 +130,7 @@ const DebateState = (props) => {
 
       try {
         const response = await axios.get(
-          '/api/sd/sh',
+          "/api/sd/sh",
 
           {
             params: reqObj,
@@ -143,11 +144,11 @@ const DebateState = (props) => {
           type: SEARCH_REQUEST_ERROR,
           payload: error.response.data,
         });
-        console.info(
-          `[DEBUG] ERROR The Search Request Header is \n ${JSON.stringify(
-            error.response.data
-          )}`
-        );
+        // console.info(
+        //   `[DEBUG] ERROR The Search Request Header is \n ${JSON.stringify(
+        //     error.response.data
+        //   )}`
+        // );
         reject(error.response.data);
       }
     });
@@ -159,7 +160,7 @@ const DebateState = (props) => {
 
       try {
         const response = await axios.get(
-          '/api/sd/sh',
+          "/api/sd/sh",
 
           {
             params: urlObj,
@@ -201,12 +202,28 @@ const DebateState = (props) => {
     return queryToDispatch;
   };
 
+  // Manipulate the query state in the Welcome Facets
+
+  const manipulateQueryWelcome = (value, lang, arrayObject, queryObj) => {
+    let queryToDispatch = returnObjQueryWelcome(
+      value,
+      lang,
+      arrayObject,
+      queryObj
+    );
+
+    // Adding query to the local state
+    addSearchQueryFormat(queryToDispatch);
+
+    return queryToDispatch;
+  };
+
   // Request The server for Search Results
 
   const searchRequestBackend = async (reqPrams) => {
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     };
     let searchTemplate = searchQueryConst;
@@ -223,7 +240,7 @@ const DebateState = (props) => {
 
     try {
       const response = await axios.get(
-        '/api/sd/sh',
+        "/api/sd/sh",
 
         {
           params: searchTemplate,
@@ -252,11 +269,11 @@ const DebateState = (props) => {
   // Actions Search Query
 
   const addSearchQueryFormat = (queryload) => {
-    console.log(
-      `[DEBUG][ADD SEARCH QUERY] called with query load ${JSON.stringify(
-        queryload
-      )}`
-    );
+    // console.log(
+    //   `[DEBUG][ADD SEARCH QUERY] called with query load ${JSON.stringify(
+    //     queryload
+    //   )}`
+    // );
     dispatch({
       type: ADD_SEARCH_QUERY_LOCAL_STATE,
       payload: queryload,
@@ -283,12 +300,12 @@ const DebateState = (props) => {
     addLoading();
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     };
 
     try {
-      const response = await axios.get('/api/sd/df');
+      const response = await axios.get("/api/sd/df");
       // console.info(
       //   `[DEBUG] The Search Request Header is \n ${JSON.stringify(
       //     response.data,
@@ -347,6 +364,7 @@ const DebateState = (props) => {
         removeError,
         addWelcomQueryStats,
         removeWelcomQueryStats,
+        manipulateQueryWelcome,
 
         errors: state.errors,
       }}

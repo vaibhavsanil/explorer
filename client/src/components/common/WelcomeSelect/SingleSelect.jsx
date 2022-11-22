@@ -1,36 +1,50 @@
-import React, { useContext } from 'react';
-
+import React, { useContext } from "react";
+import DebateContext from "../../../context/Debates/debateContext";
+import { returnQueryVariableFilter } from "../../../constants/index";
 // Importing Debate Context
 // import DebateContext from '../../../context/Debates/debateContext';
 
-import 'antd/dist/antd.css';
-import { Select } from 'antd';
+import "antd/dist/antd.css";
+import { Select } from "antd";
 const { Option } = Select;
 
-function SingleSelect({ data, lang }) {
+function SingleSelect({ data, lang, name }) {
   const { buckets } = data;
+  const { debateQueryObj, manipulateQueryWelcome } = useContext(DebateContext);
 
   const removeNABucket = buckets.filter((bukValue) => {
-    return bukValue.key !== 'N/A';
+    return bukValue.key !== "N/A";
   });
 
-  function handleChange(value) {
+  async function handleChange(value) {
     // e.preventDefault();
-    console.info(`The value of select is ${value}`);
+    console.info(`The value of select is ${typeof value}`);
+    const itemCheckArray = await returnQueryVariableFilter(name);
+
+    const querySideBar = manipulateQueryWelcome(
+      value,
+      lang,
+      itemCheckArray,
+      debateQueryObj
+    );
+
+    console.info(
+      `[DEBUG] from Welcome Screen Multi Select ${JSON.stringify(querySideBar)}`
+    );
   }
   // console.log(`From the value of the Single Select ${JSON.stringify(buckets)}`);
   function debateTypeRenderOptions(renderData, lang) {
     // Function to render the Option String
     function renderDebateTypeString(optionKey, count, ln) {
-      if (ln === 'ENG') {
+      if (ln === "ENG") {
         const returnOptionString =
-          optionKey === 'part1'
+          optionKey === "part1"
             ? `Question & Answers( Part-1 ) (${count})`
             : `Other than Question & Answers( Part-2 ) (${count})`;
         return returnOptionString;
       } else {
         const returnOptionString =
-          optionKey === 'part1'
+          optionKey === "part1"
             ? `ಭಾಗ-1: ಪ್ರಶ್ನೋತ್ತರ(${count})`
             : `ಭಾಗ-2: ಪ್ರಶ್ನೋತ್ತರವನ್ನು ಹೊರತುಪಡಿಸಿ ಇತರೆ ವಿಷಯಗಳ ಮೇಲೆ ಚರ್ಚೆ(${count})`;
         return returnOptionString;
@@ -48,7 +62,7 @@ function SingleSelect({ data, lang }) {
 
       return (
         <Option
-          style={{ fontSize: '3rem' }}
+          style={{ fontSize: "3rem" }}
           className="optionSourceWelcome"
           key={key}
         >

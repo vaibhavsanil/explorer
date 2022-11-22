@@ -2,3 +2,12 @@
 // https://webapphuddle.com/design-advanced-search-interface-step-step/
 // https://torsaaan.medium.com/the-ui-and-ux-design-of-the-advanced-search-a5a42cfc2f6e
 // https://medium.appbase.io/searchbox-1-0-a-javascript-library-for-building-search-uis-1e93effae2d4
+
+
+
+// Make Note of the Welcome Screen Changes
+
+
+1. Add Ticker For the Book Available Status
+2. Make Searching Metadata from the Welcome Screen
+3. Add Support for the 

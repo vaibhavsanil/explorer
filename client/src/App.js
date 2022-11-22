@@ -9,6 +9,7 @@ import "./App.css";
 import Welcome from "./components/Welcome/Welcome-component";
 import Explorer from "./components/Explorer/Explorer-component";
 import NotFound from "./components/Explorer/NotFound-component";
+import FullDebates from "./components/FullDebates/FullDebates--component"
 import { Scrollbars } from "react-custom-scrollbars";
 // Import Context API State
 import DebateState from "./context/Debates/DebateState";
@@ -24,6 +25,9 @@ function App() {
           <Route exact path="/" component={Welcome} />
 
           <Route path="/explorer" component={Explorer} />
+          <Route path="/debates" component={FullDebates} />
+
+
           <Route component={NotFound} />
         </Switch>
       </Router>

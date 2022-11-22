@@ -27,7 +27,7 @@
             "path": "ocr_schema_section",
             "query": {
               "multi_match": {
-                "query": "increase the non plan expenditure",
+                "query": "",
                 "type": "best_fields",
                 "fields": ["ocr_schema_section.ocr_text.suggestion"],
                 "operator": "and",
@@ -42,7 +42,7 @@
             "path": "ocr_schema_section",
             "query": {
               "multi_match": {
-                "query": "increase the non plan expenditure",
+                "query": "",
                 "type": "phrase",
                 "fields": ["ocr_schema_section.ocr_text"],
                 "operator": "and",

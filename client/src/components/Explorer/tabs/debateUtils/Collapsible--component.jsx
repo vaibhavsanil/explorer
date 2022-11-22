@@ -59,11 +59,6 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
   };
 
   function dontrenderFacet(type) {
-    // console.log(
-    //   `[DEBUG] Don Render The data facet length of ${type} is ${JSON.stringify(
-    //     dataFacetEng
-    //   )}`
-    // );
     if (type === "debatePart") {
       return;
     } else {
@@ -81,11 +76,6 @@ function Collapsible({ header, lang, type, dataFacetEng, dataFacetKan }) {
     }
   }
 
-  // console.info(
-  //   `[DEBUG] The value of the filetered value is \n ${JSON.stringify(
-  //     facetValue
-  //   )}`
-  // );
   function onChange(e) {
     setInput(e.target.value);
   }

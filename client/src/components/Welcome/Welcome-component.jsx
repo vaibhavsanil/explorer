@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
-import ReactLoading from 'react-loading';
-import { Link, useHistory } from 'react-router-dom';
-import { ReactTransliterate } from 'react-transliterate';
-import 'react-transliterate/dist/index.css';
+import React, { useState, useEffect, useContext } from "react";
+import ReactLoading from "react-loading";
+import { Link, useHistory } from "react-router-dom";
+import { ReactTransliterate } from "react-transliterate";
+import "react-transliterate/dist/index.css";
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
-import 'antd/dist/antd.css';
-import { Drawer } from 'antd';
-import { notification, Alert } from 'antd';
+import "antd/dist/antd.css";
+import { Drawer } from "antd";
+import { notification, Alert } from "antd";
 
 // Import Contexts
-import DebateContext from '../../context/Debates/debateContext';
+import DebateContext from "../../context/Debates/debateContext";
 
 // Import Constants
 
@@ -19,25 +19,25 @@ import {
   i18n,
   renderCustomerName,
   searchConstQueryObject,
-} from '../../constants/index';
+} from "../../constants/index";
 
 // Import Components
 
-import SelectElement from '../common/selectElementLanguage';
+import SelectElement from "../common/selectElementLanguage";
 
-import InputElement from '../../utils/InputElement';
+import InputElement from "../../utils/InputElement";
 
-import SidebarMenu from '../sidebarmenu/Sidebarmenu';
+import SidebarMenu from "../sidebarmenu/Sidebarmenu";
 // Import Images
 
 // import SpeakerImage from "../../images/speaker-cropped.jpg";
-import SpeakerImage from '../../images/kageri.jpg';
+import SpeakerImage from "../../images/kageri.jpg";
 
-import ChairmanImage from '../../images/chairman.jpg';
+import ChairmanImage from "../../images/chairman.jpg";
 
-import SecretaryKLA from '../../images/secretary-kla.jpg';
-import SecretaryKLC from '../../images/secretary-klc.jpg';
-import { ADD_LOADING_LOCAL_STATE } from '../../context/types';
+import SecretaryKLA from "../../images/secretary-kla.jpg";
+import SecretaryKLC from "../../images/secretary-klc.jpg";
+import { ADD_LOADING_LOCAL_STATE } from "../../context/types";
 
 const WelcomeScreen = (props) => {
   const debateContext = useContext(DebateContext);
@@ -64,27 +64,21 @@ const WelcomeScreen = (props) => {
   const history = useHistory();
 
   // Ant Toast Notification
-  // const [api, contextHolder] = notification.useNotification();
+
   const openNotificationServerError = () => {
     notification.error({
-      message: 'Server Connection Error !!! Unable to Connect to the Server',
+      message: "Server Connection Error !!! Unable to Connect to the Server",
       description:
-        'Please Check Your Internet Connection or Contact System Administrator.',
-      placement: 'bottomLeft',
+        "Please Check Your Internet Connection or Contact System Administrator.",
+      placement: "bottomLeft",
     });
-    // api.error({
-    //   message: 'Server Connection Error !!!',
-    //   description:
-    //     'Unable to Connect to the Server , Please Check Your Internet Connection or Contact System Administrator.',
-    //   placement: 'bottomLeft',
-    // });
   };
 
   const openNotificationEmptyServer = () => {
     notification.info({
-      message: 'Please enter a search query !!!',
-      description: 'Please enter a search query to search',
-      placement: 'bottomLeft',
+      message: "Please enter a search query !!!",
+      description: "Please enter a search query to search",
+      placement: "bottomLeft",
     });
     // api.info({
     //   message: 'Please enter a search query !!!',
@@ -94,37 +88,27 @@ const WelcomeScreen = (props) => {
   };
 
   const searchConstObject = {
-    ln: '',
-    srt: '',
-    qt: 'PRC',
-    qp: '',
+    ln: "",
+    srt: "",
+    qt: "PRC",
+    qp: "",
     dtf: [],
-    anf: '',
-    snf: '',
+    anf: "",
+    snf: "",
     dsubfEng: [],
     dsubfKan: [],
     dpfEng: [],
     dpfKan: [],
-    dbf: '',
+    dbf: "",
     ytf: [],
-    sectionDateFrm: '',
-    sectionDateTo: '',
+    sectionDateFrm: "",
+    sectionDateTo: "",
     //bookId: [],
     issfEng: [],
     issfKan: [],
     tagfKan: [],
     tagfEng: [],
   };
-
-  // function to push to explorer page if results exists in the state
-  // useEffect(() => {
-  //   // addSearchQueryFormat(searchConstObject);
-  //   addWelcomQueryStats();
-  //   return () => {
-  //     removeWelcomQueryStats();
-  //     // removeError();
-  //   };
-  // }, []);
 
   useEffect(() => {
     addClassInputElement(CUSTOMER);
@@ -150,7 +134,7 @@ const WelcomeScreen = (props) => {
 
   // Local State
   const [ln, setLn] = useState({
-    language: 'ENG',
+    language: "ENG",
     loading: false,
   });
 
@@ -158,7 +142,7 @@ const WelcomeScreen = (props) => {
   // Local Loading State
   // const [loading, setLoading] = useState(false);
 
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   function setShowDrawer() {
     // console.log('from Welecome Component the drawer value is', drawer);
@@ -169,18 +153,20 @@ const WelcomeScreen = (props) => {
     setDrawer(false);
   }
 
-  function addClassInputElement(customer) {
+  function addClassInputElement(customer, lang) {
     // https://stackoverflow.com/questions/6856871/getting-the-parent-div-of-element
-    var element = document.getElementsByTagName('input')[0];
-
+    var element = document.getElementsByTagName("input")[0];
+    const placeHolderText = (lang = "ENG"
+      ? "Search For Debates, Review, Bills ...."
+      : "Search For Debates, Review, Bills ....");
     element.classList.add(
-      customer === 'KLA' ? 'searchInput--kla' : 'searchInput--klc'
+      customer === "KLA" ? "searchInput--kla" : "searchInput--klc"
     );
 
-    element.placeholder = 'Search For Debates, News, Bills ....';
+    element.placeholder = placeHolderText;
 
     var parentElement = element.parentNode;
-    parentElement.style.width = '80%';
+    parentElement.style.width = "80%";
   }
 
   function onChangeQuery(e) {
@@ -189,7 +175,7 @@ const WelcomeScreen = (props) => {
   }
 
   function setQueryNull() {
-    setQuery('');
+    setQuery("");
   }
 
   // Handle Search Submit
@@ -197,16 +183,14 @@ const WelcomeScreen = (props) => {
   function handleSearchSubmit(e) {
     e.preventDefault();
     addLoading();
-    if (query.length === 0) {
-      // toast.error('Please enter a search Query .');
-      openNotificationEmptyServer();
-      removeLoading();
-      return;
-    }
-    // Setting Loading True
-    // setLoading(true);
-    // setLn({ ...ln, loading: true });
-    // Pass the query to the gobal state
+    // TO-DO Fix Empty Request
+    // if (query.length === 0) {
+    //   // toast.error('Please enter a search Query .');
+    //   openNotificationEmptyServer();
+    //   removeLoading();
+    //   return;
+    // }
+
     let queryObject = addSearchQuery(query.trim(), debateQueryObj);
     // alert("you have searched for - " + query);
 
@@ -215,7 +199,7 @@ const WelcomeScreen = (props) => {
         // setLoading(false);
         // setLn({ ...ln, loading: false });
         removeLoading();
-        history.push('/explorer/debates');
+        history.push("/explorer/debates");
       })
       .catch((error) => {
         // toast.error(
@@ -241,31 +225,31 @@ const WelcomeScreen = (props) => {
 
   function renderSpeaker(customer, lang, varObject, type) {
     // This function will render the secretary s Name & Designation
-    if (customer === 'KLA') {
-      if (type === 'name') {
+    if (customer === "KLA") {
+      if (type === "name") {
         const speakerName =
-          lang === 'ENG'
+          lang === "ENG"
             ? varObject.speakerName_KLA.eng
             : varObject.speakerName_KLA.kan;
         return speakerName;
       } else {
         const speakerDesigination =
-          lang === 'ENG'
+          lang === "ENG"
             ? varObject.speaker_KLA.eng
             : varObject.speaker_KLA.kan;
 
         return speakerDesigination;
       }
     } else {
-      if (type === 'name') {
+      if (type === "name") {
         const secretaryName =
-          lang === 'ENG'
+          lang === "ENG"
             ? varObject.chairmanName_KLC.eng
             : varObject.chairmanName_KLC.kan;
         return secretaryName;
       } else {
         const chairmanDesigination =
-          lang === 'ENG'
+          lang === "ENG"
             ? varObject.chairman_KLC.eng
             : varObject.chairman_KLC.kan;
 
@@ -276,31 +260,31 @@ const WelcomeScreen = (props) => {
 
   function renderSecretary(customer, lang, varObject, type) {
     // This function will render the secretary s Name & Designation
-    if (customer === 'KLA') {
-      if (type === 'name') {
+    if (customer === "KLA") {
+      if (type === "name") {
         const secretaryName =
-          lang === 'ENG'
+          lang === "ENG"
             ? varObject.secretaryName_KLA.eng
             : varObject.secretaryName_KLA.kan;
         return secretaryName;
       } else {
         const secretaryDesigination =
-          lang === 'ENG'
+          lang === "ENG"
             ? varObject.secretary_KLA.eng
             : varObject.secretary_KLA.kan;
 
         return secretaryDesigination;
       }
     } else {
-      if (type === 'name') {
+      if (type === "name") {
         const secretaryName =
-          lang === 'ENG'
+          lang === "ENG"
             ? varObject.secretaryName_KLC.eng
             : varObject.secretaryName_KLC.kan;
         return secretaryName;
       } else {
         const secretaryDesigination =
-          lang === 'ENG'
+          lang === "ENG"
             ? varObject.secretary_KLC.eng
             : varObject.secretary_KLC.kan;
 
@@ -322,7 +306,7 @@ const WelcomeScreen = (props) => {
 
         <header>
           <div
-            className={CUSTOMER === 'KLA' ? 'logo-name--kla' : 'logo-name--klc'}
+            className={CUSTOMER === "KLA" ? "logo-name--kla" : "logo-name--klc"}
           >
             {renderCustomerName(CUSTOMER, language, i18n)}
           </div>
@@ -347,23 +331,10 @@ const WelcomeScreen = (props) => {
             <form action="">
               <div className="searchGlassContainer">
                 <div className="searchInputWrapper">
-                  {/* <input
-                  className={
-                    CUSTOMER === 'KLA' ? 'searchInput--kla' : 'searchInput--klc'
-                  }
-                  placeholder={
-                    language === 'ENG'
-                      ? i18n.searchPlaceHolder.eng
-                      : i18n.searchPlaceHolder.kan
-                  }
-                  onChange={onChangeQuery}
-                  id="transliteration"
-                /> */}
-
                   {loading ? (
                     <ReactLoading
                       type="spin"
-                      color={CUSTOMER === 'KLA' ? '#017143' : '#c53330'}
+                      color={CUSTOMER === "KLA" ? "#017143" : "#c53330"}
                       height={50}
                       width={50}
                     />
@@ -385,16 +356,16 @@ const WelcomeScreen = (props) => {
                       X
                     </a>
                   ) : (
-                    ''
+                    ""
                   )}
 
                   <button
                     type="submit"
                     disabled={loading ? true : false}
                     className={
-                      CUSTOMER === 'KLA'
-                        ? 'searchSubmit--kla'
-                        : 'searchSubmit--klc'
+                      CUSTOMER === "KLA"
+                        ? "searchSubmit--kla"
+                        : "searchSubmit--klc"
                     }
                     onClick={handleSearchSubmit}
                   >
@@ -414,9 +385,9 @@ const WelcomeScreen = (props) => {
             <div className="advancedSearchButton--welcome">
               <button
                 id={
-                  CUSTOMER === 'KLA'
-                    ? 'advancedButton--kla'
-                    : 'advancedButton--klc'
+                  CUSTOMER === "KLA"
+                    ? "advancedButton--kla"
+                    : "advancedButton--klc"
                 }
                 onClick={(e) => setShowDrawer()}
               >
@@ -430,16 +401,16 @@ const WelcomeScreen = (props) => {
               <div className="imgBx">
                 <img
                   id="speaker"
-                  src={CUSTOMER === 'KLA' ? SpeakerImage : ChairmanImage}
+                  src={CUSTOMER === "KLA" ? SpeakerImage : ChairmanImage}
                   alt="SpeakerImage"
                 />
               </div>
               <div className="intro">
                 <h4 className="name">
-                  {renderSpeaker(CUSTOMER, language, i18n, 'name')}
+                  {renderSpeaker(CUSTOMER, language, i18n, "name")}
                 </h4>
                 <h5 className="designation">
-                  {renderSpeaker(CUSTOMER, language, i18n, 'desg')}
+                  {renderSpeaker(CUSTOMER, language, i18n, "desg")}
                 </h5>
               </div>
             </div>
@@ -448,16 +419,16 @@ const WelcomeScreen = (props) => {
               <div className="imgBx">
                 <img
                   id="secretary"
-                  src={CUSTOMER === 'KLA' ? SecretaryKLA : SecretaryKLC}
+                  src={CUSTOMER === "KLA" ? SecretaryKLA : SecretaryKLC}
                   alt="Secretary "
                 />
               </div>
               <div className="intro">
                 <h4 className="name">
-                  {renderSecretary(CUSTOMER, language, i18n, 'name')}
+                  {renderSecretary(CUSTOMER, language, i18n, "name")}
                 </h4>
                 <h5 className="designation">
-                  {renderSecretary(CUSTOMER, language, i18n, 'desg')}
+                  {renderSecretary(CUSTOMER, language, i18n, "desg")}
                 </h5>
               </div>
             </div>
@@ -481,7 +452,7 @@ const WelcomeScreen = (props) => {
         onClose={setHideDrawer}
         visible={drawer}
         bodyStyle={{
-          padding: '2rem 0rem',
+          padding: "2rem 0rem",
         }}
       >
         <SidebarMenu lang={ln.language} customer={CUSTOMER} />

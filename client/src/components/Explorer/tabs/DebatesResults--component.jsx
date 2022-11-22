@@ -23,19 +23,12 @@ function DebatesResults({ lang, searchTerm }) {
   const debateContext = useContext(DebateContext);
   const [searchState, setSearch] = useState(searchQueryConst);
 
-  const {
-    debatesearchResult,
-    loading,
-    addSearchQueryFormat,
-    debateQueryObj,
-  } = debateContext;
+  const { debatesearchResult, loading, addSearchQueryFormat, debateQueryObj } =
+    debateContext;
 
   useEffect(() => {
     addHiglightToTab(tabType);
-    // setSearch(...searchState, (searchState["qp"] = searchTerm));
-    // console.info(
-    //   `[DEBUG] the value of search State is ${JSON.stringify(searchState)} `
-    // );
+
     return function cleanup() {
       //removeHiglightToTab();
       addHiglightToTab(tabType);
@@ -44,24 +37,10 @@ function DebatesResults({ lang, searchTerm }) {
 
   useEffect(() => {}, [debatesearchResult]);
   const { analysis, debateResults } = debatesearchResult;
-  // useEffect(() => {
-  //   setSearch((searchState.qp = searchTerm));
-  // }, [searchTerm]);
 
-  // console.info(
-  //   `[DEBUG] from the Debate Results compoent ${JSON.stringify(searchState)}`
-  // );
-  // debateResults && debateResults.length === 0
   const notFoundRender = (lang) => {
-    // addSearchQueryFormat(searchConstQueryObject);
-
     return <NotFound404 lang={lang} results={debateResults} />;
   };
-  // if (debateResults && debateResults.length === 0) {
-  //   searchConstQueryObject["qp"] = debateQueryObj["qp"];
-
-  //   addSearchQueryFormat(searchConstQueryObject);
-  // }
 
   return (
     <>

@@ -559,7 +559,7 @@ footer .footerheader--klc:hover {
 .searchContainer-explorer--kla:active,
 .searchContainer-explorer--kla:focus-within {
   border: 1px solid var(--primaryKLA);
-  height: 3.5rem;
+  height: 3.2rem;
   width: 48rem;
   margin-left: 3rem;
 }
@@ -567,7 +567,7 @@ footer .footerheader--klc:hover {
 .searchContainer-explorer--kla:hover .searchIcon,
 .searchContainer-explorer--kla:active .searchIcon,
 .searchContainer-explorer--kla:focus-within .searchIcon {
-  margin: 7px;
+  margin: 5px;
   font-size: 1.3rem;
 }
 
@@ -586,7 +586,7 @@ footer .footerheader--klc:hover {
 .searchContainer-explorer--klc:active,
 .searchContainer-explorer--klc:focus-within {
   border: 1px solid var(--primaryKLC);
-  height: 3.5rem;
+  height: 3.2rem;
   width: 48rem;
   margin-left: 3rem;
 }
@@ -594,7 +594,7 @@ footer .footerheader--klc:hover {
 .searchContainer-explorer--klc:hover .searchIcon,
 .searchContainer-explorer--klc:active .searchIcon,
 .searchContainer-explorer--klc:focus-within .searchIcon {
-  margin: 7px;
+  margin: 5px;
   font-size: 1.3rem;
 }
 
@@ -609,7 +609,7 @@ footer .footerheader--klc:hover {
 
 .searchIcon:hover,
 .searchIcon:active {
-  margin: 7px;
+  margin: 4px;
   font-size: 1.3rem;
 }
 
@@ -617,9 +617,9 @@ footer .footerheader--klc:hover {
   width: 100%;
   border-style: none;
   /* border-color: red; */
-  padding: 2px 8px;
+  padding: 2px 8px 2px 8px;
   font-size: 1.5rem;
-  height: 3rem;
+  height: 2.8rem;
   letter-spacing: 0.7px;
 }
 
@@ -754,7 +754,7 @@ footer .footerheader--klc:hover {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 4rem;
+  margin-top: 3.8rem;
 }
 .header-navigation--klc {
   position: relative;
@@ -2103,7 +2103,7 @@ footer .footerheader--klc:hover {
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 1300px) {
+@media only screen and (min-width: 1300px) and (max-width: 1600px) {
   .searchArea {
     padding-right: 43px;
     padding-top: 50px;
@@ -2112,10 +2112,36 @@ footer .footerheader--klc:hover {
   .searchGlassContainer {
     margin-left: 5rem;
   }
+
+  .header--level2 {
+    margin-top: 3.8rem;
+  }
+
+  .logo-name--kla {
+    font-size: 1.8rem;
+  }
+
+  .logo-name--klc {
+    font-size: 1.8rem;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1600px) {
+  .searchArea {
+    padding-right: 150px;
+  }
+
+  .searchGlassContainer {
+    margin-left: 34rem;
+  }
+
+  .advancedSearchButton--welcome {
+    width: 118%;
+  }
+}
+
+@media only screen and (min-width: 1824px) {
   .searchArea {
     padding-right: 150px;
   }

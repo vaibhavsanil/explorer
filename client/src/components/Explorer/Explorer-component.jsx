@@ -177,12 +177,12 @@ function Explorer(props) {
     if (customer === 'KLA') {
       console.info(`[DEBUG] The value of language ${JSON.stringify(language)}`);
       return language['language'] === 'ENG'
-        ? '2021 Karnataka Legislative Assembly Secretariat'
-        : '2021 ಕರ್ನಾಟಕ ವಿಧಾನ ಸಭೆ ಸಚಿವಾಲಯ ';
+        ? '2022 Karnataka Legislative Assembly Secretariat'
+        : '2022 ಕರ್ನಾಟಕ ವಿಧಾನ ಸಭೆ ಸಚಿವಾಲಯ ';
     } else {
       return language['language'] === 'ENG'
-        ? '2021 Karnataka Legislative Council Secretariat'
-        : '2021 ಕರ್ನಾಟಕ ವಿಧಾನ ಪರಿಷತ್ತು ಸಚಿವಾಲಯ ';
+        ? '2022 Karnataka Legislative Council Secretariat'
+        : '2022 ಕರ್ನಾಟಕ ವಿಧಾನ ಪರಿಷತ್ತು ಸಚಿವಾಲಯ ';
     }
   }
 
