@@ -9,6 +9,8 @@ import "antd/dist/antd.css";
 import { Drawer } from "antd";
 import { notification, Alert } from "antd";
 
+import FilterComponent from "./WelcomeFacetFilterContainer";
+
 // Import Contexts
 import DebateContext from "../../context/Debates/debateContext";
 
@@ -59,6 +61,9 @@ const WelcomeScreen = (props) => {
     removeLoading,
     errors,
     removeError,
+    queryObjectCheck,
+    showFilter,
+    removeFilter,
   } = debateContext;
 
   const history = useHistory();
@@ -125,12 +130,23 @@ const WelcomeScreen = (props) => {
     // );
     addSearchQueryFormat(searchConstObject);
     addWelcomQueryStats();
+    removeFilter();
 
     return () => {
       removeWelcomQueryStats();
       removeError();
     };
   }, []);
+
+  // const [showFilter, ChangeFilter] = useState(false);
+
+  // useEffect(() => {
+  //   const filterBool = queryObjectCheck(debateQueryObj);
+  //   ChangeFilter(filterBool);
+  //   console.log(
+  //     `The value of debate Query Object use Effect Called ${showFilter} `
+  //   );
+  // }, [JSON.stringify(debateQueryObj)]);
 
   // Local State
   const [ln, setLn] = useState({
@@ -326,6 +342,24 @@ const WelcomeScreen = (props) => {
                 />
               )}
             </div>
+
+            {showFilter && (
+              <div
+                className={
+                  CUSTOMER === "KLA"
+                    ? "fieldSetHeader--kla"
+                    : "fieldSetHeader--klc"
+                }
+              >
+                <h5>{language === "ENG" ? "Filter" : "ಫಿಲ್ಟರ್"}</h5>
+                <FilterComponent lang={language} />
+              </div>
+            )}
+
+            {/* <fieldset>
+              <legend>{language === "ENG" ? "Filter" : "ಫಿಲ್ಟರ್"}</legend>
+              <FilterComponent lang={language} />
+            </fieldset> */}
 
             <div className="welcomeShape"></div>
             <form action="">

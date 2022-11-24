@@ -21,9 +21,11 @@ import "./SidebarMenu.css";
 function Sidebarmenu({ lang, customer }) {
   const debateContext = useContext(DebateContext);
   const history = useHistory();
-  const { statsQueryWelcome } = debateContext;
+  const { statsQueryWelcome, debateQueryObj } = debateContext;
 
   const { analysis } = statsQueryWelcome;
+
+  // useEffect(() => {}, [debateQueryObj]);
 
   // Get Full Debates
 

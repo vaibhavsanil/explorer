@@ -1,9 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { toast } from "react-toastify";
+import FacetChips from "../Explorer/tabs/debateUtils/FacetChips--component";
 
 // Import Debate Context
 import DebateContext from "../../context/Debates/debateContext";
 
-function WelcomeFacetFilterContainer() {
+// Import Constants
+import {
+  filterRemoveKeysObject,
+  filterMappingObject,
+  filterMappingObjectForKey,
+  returnObjRemoveQuery,
+  dateFormat,
+} from "../../constants/index";
+
+function WelcomeFacetFilterContainer({ lang }) {
   const debateContext = useContext(DebateContext);
   const {
     debateQueryObj,
@@ -11,9 +22,11 @@ function WelcomeFacetFilterContainer() {
     addSearchQueryFormat,
     addLoading,
     removeLoading,
+    queryObjectCheck,
   } = debateContext;
 
   useEffect(() => {}, [debateQueryObj, lang]);
+  // https://stackoverflow.com/questions/7731310/text-in-border-css-html
   function removeFacet(value, facettype) {
     addLoading();
     let queryObjectKey;
@@ -36,23 +49,24 @@ function WelcomeFacetFilterContainer() {
         value
       );
     }
-
+    queryObjectCheck(updatedQuery);
     // console.info(
     //   `[DEBUG][REMOVE] The facet filter remove is called for ${value} && type is ${queryObjectKey}!!! the value of query is \n ${JSON.stringify(
     //     updatedQuery
     //   )} `
     // );
-    addSearchQueryFormat(updatedQuery);
-    searchRequestExplorerProm(updatedQuery)
-      .then((res) => {
-        removeLoading();
-      })
-      .catch((err) => {
-        toast.error(
-          "Connection to the Server Failed !!! Please Contact System Administrator"
-        );
-        removeLoading();
-      });
+    // addSearchQueryFormat(updatedQuery);
+    // searchRequestExplorerProm(updatedQuery)
+    //   .then((res) => {
+    //     removeLoading();
+    //   })
+    //   .catch((err) => {
+    //     toast.error(
+    //       "Connection to the Server Failed !!! Please Contact System Administrator"
+    //     );
+    //     removeLoading();
+    //   });
+    removeLoading();
     return;
   }
 
@@ -127,7 +141,7 @@ function WelcomeFacetFilterContainer() {
   }
   return (
     <>
-      <div className="facet-filter-view">
+      <div className="facet-filter-view-welcome">
         {renderFacets(queryFiltered, FacetChips)}
       </div>
     </>

@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from "react";
 // import { FcSearch } from 'react-icons/fc';
 // import { SearchOutlined } from '@ant-design/icons';
-import './Collpasible.css';
-import SourceSelect from './WelcomeSelect/SourceSelect';
+import "./Collpasible.css";
+import SourceSelect from "./WelcomeSelect/SourceSelect";
 
 function CollapsibleWelcome({
   lang,
@@ -34,10 +34,10 @@ function CollapsibleWelcome({
   }, [showContent]);
 
   let customerButtonClasses =
-    customer === 'KLA' ? 'collapsibleWelcome--KLA' : 'collapsibleWelcome--KLC';
+    customer === "KLA" ? "collapsibleWelcome--KLA" : "collapsibleWelcome--KLC";
 
   let activeCustomerClasses =
-    customer === 'KLA' ? `active--KLA` : `active--KLC`;
+    customer === "KLA" ? `active--KLA` : `active--KLC`;
   return (
     <div className="colapContainer">
       <button
@@ -49,10 +49,10 @@ function CollapsibleWelcome({
         }
         onClick={showContentToggle}
       >
-        <i className={`fa ${icon} `} style={{ marginRight: '1rem' }}></i>
-        {lang === 'ENG' ? headerEng : headerKan}
+        <i className={`fa ${icon} `} style={{ marginRight: "1rem" }}></i>
+        {lang === "ENG" ? headerEng : headerKan}
       </button>
-      <div className={showContent ? 'contentWelcomeOpen' : 'contentWelcome'}>
+      <div className={showContent ? "contentWelcomeOpen" : "contentWelcome"}>
         {children}
       </div>
     </div>

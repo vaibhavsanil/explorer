@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,500;1,600;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,500;1,600;1,700&display=swap");
 
 :root {
   --primaryKLA: #017143;
@@ -37,7 +37,7 @@
   padding: 0;
   box-sizing: border-box;
   font-size: 10px;
-  font-family: 'Poppins', Verdana, Geneva, Tahoma, sans-serif;
+  font-family: "Poppins", Verdana, Geneva, Tahoma, sans-serif;
   scroll-behavior: smooth;
 }
 body {
@@ -818,7 +818,7 @@ footer .footerheader--klc:hover {
   /* position: absolute; */
   /* top: 16px;
   right: 328px; */
-  content: ' ';
+  content: " ";
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -844,7 +844,7 @@ footer .footerheader--klc:hover {
   /* position: absolute; */
   /* top: 16px;
   right: 328px; */
-  content: ' ';
+  content: " ";
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -918,7 +918,7 @@ footer .footerheader--klc:hover {
 }
 
 .collapsible--kla::after {
-  content: '\002B';
+  content: "\002B";
   color: var(--primaryKLA);
   font-weight: bold;
   float: right;
@@ -926,7 +926,7 @@ footer .footerheader--klc:hover {
 }
 
 .collapsible--kla.active::after {
-  content: '\2212';
+  content: "\2212";
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
@@ -1101,7 +1101,7 @@ footer .footerheader--klc:hover {
 .md-chip-remove--KLA:after {
   color: #fff;
   font-weight: 1rem;
-  content: 'x';
+  content: "x";
 }
 .md-chip-remove--KLA:hover {
   background: #348d4b;
@@ -1127,7 +1127,7 @@ footer .footerheader--klc:hover {
 .md-chip-remove--KLC:after {
   color: #fff;
   font-weight: 1rem;
-  content: 'x';
+  content: "x";
 }
 .md-chip-remove--KLC:hover {
   background: #9a2624;
@@ -1240,7 +1240,7 @@ footer .footerheader--klc:hover {
 
 /* Search Info */
 .search--info {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.3rem;
   letter-spacing: 1px;
   line-height: 1rem;
@@ -1270,7 +1270,7 @@ footer .footerheader--klc:hover {
 }
 
 .calenderButton--kla::after {
-  content: '';
+  content: "";
 }
 
 .calenderButton--kla:hover {
@@ -2085,6 +2085,35 @@ footer .footerheader--klc:hover {
   transform: translateY(0.3rem);
 }
 
+fieldset {
+  border: 1px solid #000;
+}
+
+.fieldSetHeader--kla {
+  border: 0.8px solid var(--primaryKLA);
+  padding: 0.9rem;
+  border-radius: 0.5rem;
+  position: relative;
+  max-width: 77.7rem;
+  margin-bottom: 1rem;
+  color: grey;
+}
+
+.fieldSetHeader--klc {
+  border: 0.8px solid var(--primaryKLC);
+  padding: 0.9rem;
+  border-radius: 0.5rem;
+  position: relative;
+  max-width: 77.7rem;
+  margin-bottom: 1rem;
+}
+.fieldSetHeader--kla > h5 {
+  background: white;
+  position: absolute;
+  top: -9px;
+  padding: 0.1rem;
+}
+
 /* Scroll CSS End */
 
 /* ////////////////////////////////////////////////////////// */
@@ -2138,6 +2167,12 @@ footer .footerheader--klc:hover {
 
   .advancedSearchButton--welcome {
     width: 118%;
+  }
+  .fieldSetHeader--kla {
+    margin-left: 36rem;
+  }
+  .fieldSetHeader--klc {
+    margin-left: 36rem;
   }
 }
 

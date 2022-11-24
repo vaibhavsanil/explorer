@@ -18,6 +18,8 @@ import {
   REMOVE_SEARCH_REQUEST_ERROR,
   ADD_STATS_QUERY_WELCOME_LOCAL_STATE,
   REMOVE_STATS_QUERY_WELCOME_LOCAL_STATE,
+  ADD_FILTER_LOCAL_STATE,
+  ADD_FILTER_REMOVE_LOCAL_STATE,
 } from "../types";
 
 // Import the constants
@@ -39,6 +41,7 @@ const DebateState = (props) => {
     currentDebateSection: {},
     debateQueryObj: searchConstQueryObject,
     statsQueryWelcome: {},
+    showFilter: false,
 
     errors: {},
   };
@@ -215,6 +218,9 @@ const DebateState = (props) => {
     // Adding query to the local state
     addSearchQueryFormat(queryToDispatch);
 
+    // Show Filter Logic
+    queryObjectCheck(queryToDispatch);
+
     return queryToDispatch;
   };
 
@@ -337,6 +343,64 @@ const DebateState = (props) => {
     });
   };
 
+  const queryObjectCheck = (queryObject) => {
+    const checkArray = [];
+    const allowedKey = [
+      "anf",
+      "snf",
+      "dsubfEng",
+      "dsubfKan",
+      "dpfEng",
+      "dpfKan",
+      "dbf",
+      "ytf",
+      "sectionDateFrm",
+      "sectionDateTo",
+      "issfEng",
+      "issfKan",
+    ];
+
+    for (const key in queryObject) {
+      // console.log(
+      //   `[DEBUG] from queryObjectCheck ${key} ${typeof key} - ${allowedKey.includes(
+      //     key
+      //   )}`
+      // );
+      if (allowedKey.includes(key)) {
+        if (queryObject[key] instanceof Array) {
+          // Check if the key is an array
+          const boolValue = queryObject[key].length > 0 ? true : false;
+          checkArray.push(boolValue);
+          // console.log(`The value of the check array ${checkArray}`);
+        } else {
+          // Check if the key is a string
+          const boolValue = queryObject[key].length > 0 ? true : false;
+          checkArray.push(boolValue);
+        }
+      }
+    }
+
+    // console.log(`The value of the check array ${checkArray}`);
+
+    if (checkArray.includes(true)) {
+      dispatch({
+        type: ADD_FILTER_LOCAL_STATE,
+      });
+    } else {
+      dispatch({
+        type: ADD_FILTER_REMOVE_LOCAL_STATE,
+      });
+    }
+
+    return;
+  };
+
+  const removeFilter = () => {
+    dispatch({
+      type: ADD_FILTER_REMOVE_LOCAL_STATE,
+    });
+  };
+
   return (
     <DebateContext.Provider
       value={{
@@ -347,6 +411,7 @@ const DebateState = (props) => {
         currentDebateSection: state.currentDebateSection,
         debateQueryObj: state.debateQueryObj,
         statsQueryWelcome: state.statsQueryWelcome,
+        showFilter: state.showFilter,
 
         addSearchQuery,
         removeSearchQuery,
@@ -365,6 +430,8 @@ const DebateState = (props) => {
         addWelcomQueryStats,
         removeWelcomQueryStats,
         manipulateQueryWelcome,
+        queryObjectCheck,
+        removeFilter,
 
         errors: state.errors,
       }}

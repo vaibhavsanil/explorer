@@ -381,6 +381,26 @@ export function returnQueryVariableFilter(debatetype) {
   return mappingField[debatetype];
 }
 
+// Get the Varibel to Listen on Multiselect rom debate query OBJ
+
+export function getListeningSelectVarArray(queryObj, name, lang) {
+  //Get the MultiSelect Var Name
+
+  let varName = returnQueryVariableFilter(name);
+  let objKey;
+  if (varName[1] === "array") {
+    objKey = lang === "ENG" ? varName[0] : varName[1];
+  } else {
+    objKey = varName[0];
+  }
+
+  console.log(
+    `The default values from DEBUG MULTISELECT - getListeningSelectVarArray is ${queryObj[objKey]} `
+  );
+
+  return queryObj[objKey];
+}
+
 // Generate File Path to the server
 
 export function generateFSPath(
@@ -576,3 +596,43 @@ export function filterRemoveKeysObject(queryObj, filterArray) {
 
 //   return null;
 // }
+
+export function queryObjectCheck(queryObject) {
+  for (const key in queryObject) {
+    console.log(`${key} : ${queryObject[key]}`);
+  }
+  // const notAllowedKey = ["qt", "qp", "ln"];
+  // // Filter the Query Objects
+  // let queryFiltered = filterRemoveKeysObject(queryObject, notAllowedKey);
+  const checkArray = [];
+  const allowedKey = [
+    "anf",
+    "snf",
+    "dsubfEng",
+    "dsubfKan",
+    "dpfEng",
+    "dpfKan",
+    "dbf",
+    "ytf",
+    "sectionDateFrm",
+    "sectionDateTo",
+    "issfEng",
+    "issfKan",
+  ];
+
+  for (const key in queryObject) {
+    if (key.includes(allowedKey)) {
+      if (queryObject[key] instanceof Array) {
+        // Check if the key is an array
+        const boolValue = queryObject[key].length > 0 ? true : false;
+        checkArray.push(boolValue);
+      } else {
+        // Check if the key is a string
+        const boolValue = queryObject[key].length > 0 ? true : false;
+        checkArray.push(boolValue);
+      }
+    }
+  }
+  console.log(`The value of the check array ${checkArray}`);
+  return checkArray.includes(true);
+}

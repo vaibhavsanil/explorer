@@ -12,7 +12,9 @@ import {
   ERROR_REMOVE_SEARCH_QUERY_LOCAL_STATE,
   ADD_STATS_QUERY_WELCOME_LOCAL_STATE,
   REMOVE_STATS_QUERY_WELCOME_LOCAL_STATE,
-} from '../types';
+  ADD_FILTER_LOCAL_STATE,
+  ADD_FILTER_REMOVE_LOCAL_STATE,
+} from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -25,7 +27,7 @@ export default (state, action) => {
     case REMOVE_SEARCH_LOCAL_STATE:
       return {
         ...state,
-        searchquery: '',
+        searchquery: "",
       };
 
     case ADD_STATS_QUERY_WELCOME_LOCAL_STATE:
@@ -92,6 +94,18 @@ export default (state, action) => {
       return {
         ...state,
         errors: action.payload,
+      };
+
+    case ADD_FILTER_REMOVE_LOCAL_STATE:
+      return {
+        ...state,
+        showFilter: false,
+      };
+
+    case ADD_FILTER_LOCAL_STATE:
+      return {
+        ...state,
+        showFilter: true,
       };
     default:
       return state;
