@@ -43,7 +43,7 @@ import { ADD_LOADING_LOCAL_STATE } from "../../context/types";
 
 const WelcomeScreen = (props) => {
   const debateContext = useContext(DebateContext);
-
+  const [api, contextHolder] = notification.useNotification();
   const {
     addSearchQuery,
     removeSearchQuery,
@@ -78,17 +78,22 @@ const WelcomeScreen = (props) => {
       placement: "bottomLeft",
     });
   };
-
+  // const [api, contextHolder] = notification.useNotification();
   const openNotificationEmptyServer = () => {
-    notification.info({
-      message: "Please enter a search query !!!",
-      description: "Please enter a search query to search",
-      placement: "bottomLeft",
+    notification.warning({
+      message: "Please Enter a Search Query !!!",
+      description: "Please enter a search query or select filter to search",
+      placement: "topRight",
     });
     // api.info({
-    //   message: 'Please enter a search query !!!',
-    //   description: 'Please enter a search query to search !!!',
-    //   placement: 'bottomLeft',
+    //   message: "Please enter a search query !!!",
+    //   description: "Please enter a search query to search !!!",
+    //   placement: "bottomLeft",
+    // });
+    // api["warning"]({
+    //   message: "Notification Title",
+    //   description:
+    //     "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
     // });
   };
 
@@ -197,15 +202,16 @@ const WelcomeScreen = (props) => {
   // Handle Search Submit
 
   function handleSearchSubmit(e) {
+    //  // "min_score": 0.5,
     e.preventDefault();
     addLoading();
     // TO-DO Fix Empty Request
-    // if (query.length === 0) {
-    //   // toast.error('Please enter a search Query .');
-    //   openNotificationEmptyServer();
-    //   removeLoading();
-    //   return;
-    // }
+    if (query.length === 0 && !showFilter) {
+      // toast.error('Please enter a search Query .');
+      openNotificationEmptyServer();
+      removeLoading();
+      return;
+    }
 
     let queryObject = addSearchQuery(query.trim(), debateQueryObj);
     // alert("you have searched for - " + query);

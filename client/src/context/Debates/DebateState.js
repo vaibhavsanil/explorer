@@ -358,6 +358,7 @@ const DebateState = (props) => {
       "sectionDateTo",
       "issfEng",
       "issfKan",
+      "dtf",
     ];
 
     for (const key in queryObject) {

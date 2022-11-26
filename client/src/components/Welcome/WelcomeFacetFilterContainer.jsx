@@ -49,6 +49,10 @@ function WelcomeFacetFilterContainer({ lang }) {
         value
       );
     }
+
+    console.info(
+      `[DEBUGGGGGGGG]The updated query is \n ${JSON.stringify(updatedQuery)}`
+    );
     queryObjectCheck(updatedQuery);
     // console.info(
     //   `[DEBUG][REMOVE] The facet filter remove is called for ${value} && type is ${queryObjectKey}!!! the value of query is \n ${JSON.stringify(

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "antd/dist/antd.css";
-import { disableBookId } from "../../constants/index";
+import { disableBookId, WelcomeQuestionerName } from "../../constants/index";
 
 // import {
 //   AppstoreOutlined,
@@ -77,6 +77,12 @@ function Sidebarmenu({ lang, customer }) {
           data={analysis.assemblyNumber_bucket}
           lang={lang}
         />
+        {/* <SingleSelect
+          name="assemblyNumber"
+          lang={lang}
+          holderName="Please Select Assembly Number"
+          data={analysis.assemblyNumber_bucket}
+        /> */}
       </Collapsible>
       <Collapsible
         lang={lang}
@@ -128,24 +134,27 @@ function Sidebarmenu({ lang, customer }) {
           lang={lang}
         />
       </Collapsible>
-      <Collapsible
-        lang={lang}
-        headerEng="Questioner's Name"
-        headerKan="ಚರ್ಚೆಯ ಶೀರ್ಷಕೆ"
-        icon="fa"
-        customer={customer}
-      >
-        <MultiSelect
-          name="debatePart"
-          holderName="Please Select Questioner's Name"
-          data={
-            lang === "ENG"
-              ? analysis.debateParticiapantsEng_bucket
-              : analysis.debateParticiapantsKan_bucket
-          }
+
+      {WelcomeQuestionerName && (
+        <Collapsible
           lang={lang}
-        />
-      </Collapsible>
+          headerEng="Questioner's Name"
+          headerKan="ಚರ್ಚೆಯ ಶೀರ್ಷಕೆ"
+          icon="fa"
+          customer={customer}
+        >
+          <MultiSelect
+            name="debatePart"
+            holderName="Please Select Questioner's Name"
+            data={
+              lang === "ENG"
+                ? analysis.debateParticiapantsEng_bucket
+                : analysis.debateParticiapantsKan_bucket
+            }
+            lang={lang}
+          />
+        </Collapsible>
+      )}
 
       {!disableBookId && (
         <Collapsible

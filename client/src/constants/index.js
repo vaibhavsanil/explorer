@@ -2,6 +2,10 @@
 
 // GLOBAL CONSTANTS
 export const CUSTOMER = "KLA";
+
+// Show Questioner's Name
+
+export const WelcomeQuestionerName = false;
 // Dont add / at the end
 export const FILESERVER_KLA = "http://103.138.196.55:9200";
 // export const FILESERVER_KLA = "http://localhost:9201";
@@ -19,6 +23,19 @@ export const placeholderWelcome_KAN = "Search For Debates, Review, Bills ....";
 // Ticker Value KLA
 export const ticker_KLA_ENG = "";
 export const ticker_KLA_KAN = "";
+
+// Debounce the function
+export function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const context = this;
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+      func.apply(context, args);
+    }, wait);
+  };
+}
 
 // Ticker Value KLC
 export const ticker_KLC_ENG = "";
@@ -389,14 +406,19 @@ export function getListeningSelectVarArray(queryObj, name, lang) {
   let varName = returnQueryVariableFilter(name);
   let objKey;
   if (varName[1] === "array") {
-    objKey = lang === "ENG" ? varName[0] : varName[1];
+    // Check if Debate Type is Debate Type since its an array
+    if (varName[0] === "dtf") {
+      objKey = varName[0];
+    } else {
+      objKey = lang === "ENG" ? varName[0] : varName[1];
+    }
   } else {
     objKey = varName[0];
   }
 
-  console.log(
-    `The default values from DEBUG MULTISELECT - getListeningSelectVarArray is ${queryObj[objKey]} `
-  );
+  // console.log(
+  //   `The default values from DEBUG MULTISELECT - getListeningSelectVarArray is ${queryObj[objKey]} `
+  // );
 
   return queryObj[objKey];
 }
@@ -515,7 +537,11 @@ export function returnObjRemoveQuery(eventKey, queryObject, value) {
   // This function is to remove the Query Key if its array or string
 
   let query = queryObject;
-
+  console.info(
+    `[DEBUG] the value from returnObjRemoveQuery ${
+      query[eventKey] instanceof Array
+    } --- value \n ${query[eventKey]} `
+  );
   if (query[eventKey] instanceof Array) {
     let filteredAry = query[eventKey].filter(function (item) {
       return item !== value;
@@ -633,6 +659,6 @@ export function queryObjectCheck(queryObject) {
       }
     }
   }
-  console.log(`The value of the check array ${checkArray}`);
+  // console.log(`The value of the check array ${checkArray}`);
   return checkArray.includes(true);
 }

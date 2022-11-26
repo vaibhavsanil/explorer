@@ -1,6 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import DebateContext from "../../../context/Debates/debateContext";
-import { returnQueryVariableFilter } from "../../../constants/index";
+import {
+  returnQueryVariableFilter,
+  getListeningSelectVarArray,
+} from "../../../constants/index";
 // Importing Debate Context
 // import DebateContext from '../../../context/Debates/debateContext';
 
@@ -11,6 +14,13 @@ const { Option } = Select;
 function SingleSelect({ data, lang, name }) {
   const { buckets } = data;
   const { debateQueryObj, manipulateQueryWelcome } = useContext(DebateContext);
+  const [defaultSelect, SetDefault] = useState("");
+
+  let useEffectVar = getListeningSelectVarArray(debateQueryObj, name, lang);
+
+  useEffect(() => {
+    SetDefault(useEffectVar);
+  }, [useEffectVar]);
 
   const removeNABucket = buckets.filter((bukValue) => {
     return bukValue.key !== "N/A";
@@ -18,7 +28,9 @@ function SingleSelect({ data, lang, name }) {
 
   async function handleChange(value) {
     // e.preventDefault();
-    console.info(`The value of select is ${typeof value}`);
+    // console.info(`The value of select is ${typeof value}`);
+    SetDefault(value);
+
     const itemCheckArray = await returnQueryVariableFilter(name);
 
     const querySideBar = manipulateQueryWelcome(
@@ -27,7 +39,7 @@ function SingleSelect({ data, lang, name }) {
       itemCheckArray,
       debateQueryObj
     );
-
+    SetDefault(value);
     console.info(
       `[DEBUG] from Welcome Screen Multi Select ${JSON.stringify(querySideBar)}`
     );
@@ -79,6 +91,7 @@ function SingleSelect({ data, lang, name }) {
         onChange={handleChange}
         style={{ width: 300 }}
         placeholder="Please Select Debate Type"
+        value={defaultSelect}
         allowClear
       >
         {debateTypeRenderOptions(removeNABucket, lang)}

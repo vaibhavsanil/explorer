@@ -10,15 +10,20 @@ import {
 const { Option } = Select;
 
 function MultiSelect({ holderName, data, name, lang }) {
+  // https://github.com/ant-design/ant-design/issues/4347
   const { buckets } = data;
   const { debateQueryObj, manipulateQueryWelcome } = useContext(DebateContext);
   const [defaultVar, SetDefault] = useState([]);
 
   let useEffectVar = getListeningSelectVarArray(debateQueryObj, name, lang);
   // SetDefault(useEffectVar);
-  console.log(`The default values from DEBUG MULTISELECT is ${useEffectVar} `);
+  // console.log(`The default values from DEBUG MULTISELECT is ${useEffectVar} `);
   useEffect(() => {
-    SetDefault(useEffectVar);
+    if (useEffectVar === "") {
+      SetDefault([]);
+    } else {
+      SetDefault(useEffectVar);
+    }
   }, [useEffectVar]);
 
   // useEffect(() => {

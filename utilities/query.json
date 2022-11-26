@@ -1,6 +1,6 @@
 {
   "size": 50,
-  "min_score": 0.5,
+
   "query": {
     "bool": {
       "must": [],
